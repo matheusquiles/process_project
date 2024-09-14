@@ -1,8 +1,9 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,23 +11,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "escritorio")
-public class Escritorio implements Serializable{
+@Table(name = "tipo_pedido")
+public class TipoPedido implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_tipo_pedido")
 	private int id;
-	private String nomeEscritorio;
 	
-	public Escritorio() {
+	public TipoPedido() {
 	}
-
-	public Escritorio(int id, String nomeEscritorio) {
+	
+	
+	public TipoPedido(int id, String descricao) {
 		super();
 		this.id = id;
-		this.nomeEscritorio = nomeEscritorio;
+		this.descricao = descricao;
 	}
+
+
+	private String descricao;
 
 	public int getId() {
 		return id;
@@ -36,18 +41,20 @@ public class Escritorio implements Serializable{
 		this.id = id;
 	}
 
-	public String getNomeEscritorio() {
-		return nomeEscritorio;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setNomeEscritorio(String nomeEscritorio) {
-		this.nomeEscritorio = nomeEscritorio;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
+
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -57,9 +64,8 @@ public class Escritorio implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Escritorio other = (Escritorio) obj;
+		TipoPedido other = (TipoPedido) obj;
 		return id == other.id;
 	}
-
 	
 }

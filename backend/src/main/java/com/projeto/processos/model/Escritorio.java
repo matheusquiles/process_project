@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,22 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tribunal")
-public class Tribunal implements Serializable{
+@Table(name = "escritorio")
+public class Escritorio implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String tribunalOrigem;
-
-	public Tribunal() {
+	private String nomeEscritorio;
+	
+	public Escritorio() {
 	}
 
-	public Tribunal(int id, String tribunalOrigem) {
+	public Escritorio(int id, String nomeEscritorio) {
 		super();
 		this.id = id;
-		this.tribunalOrigem = tribunalOrigem;
+		this.nomeEscritorio = nomeEscritorio;
 	}
 
 	public int getId() {
@@ -36,12 +36,12 @@ public class Tribunal implements Serializable{
 		this.id = id;
 	}
 
-	public String getTribunalOrigem() {
-		return tribunalOrigem;
+	public String getNomeEscritorio() {
+		return nomeEscritorio;
 	}
 
-	public void setTribunalOrigem(String tribunalOrigem) {
-		this.tribunalOrigem = tribunalOrigem;
+	public void setNomeEscritorio(String nomeEscritorio) {
+		this.nomeEscritorio = nomeEscritorio;
 	}
 
 	@Override
@@ -57,10 +57,9 @@ public class Tribunal implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tribunal other = (Tribunal) obj;
+		Escritorio other = (Escritorio) obj;
 		return id == other.id;
 	}
-	
-	
+
 	
 }

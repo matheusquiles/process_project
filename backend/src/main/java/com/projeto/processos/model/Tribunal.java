@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,22 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "funcao")
-public class Funcao implements Serializable{
+@Table(name = "tribunal")
+public class Tribunal implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String funcao;
-	
-	public Funcao() {
+	private String tribunalOrigem;
+
+	public Tribunal() {
 	}
 
-	public Funcao(int id, String funcao) {
+	public Tribunal(int id, String tribunalOrigem) {
 		super();
 		this.id = id;
-		this.funcao = funcao;
+		this.tribunalOrigem = tribunalOrigem;
 	}
 
 	public int getId() {
@@ -36,12 +36,12 @@ public class Funcao implements Serializable{
 		this.id = id;
 	}
 
-	public String getFuncao() {
-		return funcao;
+	public String getTribunalOrigem() {
+		return tribunalOrigem;
 	}
 
-	public void setFuncao(String funcao) {
-		this.funcao = funcao;
+	public void setTribunalOrigem(String tribunalOrigem) {
+		this.tribunalOrigem = tribunalOrigem;
 	}
 
 	@Override
@@ -57,10 +57,10 @@ public class Funcao implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Funcao other = (Funcao) obj;
+		Tribunal other = (Tribunal) obj;
 		return id == other.id;
 	}
-
+	
 	
 	
 }

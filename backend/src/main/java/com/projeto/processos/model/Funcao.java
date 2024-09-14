@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,28 +10,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "fase_processual")
-public class Vara implements Serializable{
+@Table(name = "funcao")
+public class Funcao implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String vara;
+	private String funcao;
 	
-	public Vara() {
-		// TODO Auto-generated constructor stub
+	public Funcao() {
 	}
 
-	
-	
-	public Vara(int id, String vara) {
+	public Funcao(int id, String funcao) {
 		super();
 		this.id = id;
-		this.vara = vara;
+		this.funcao = funcao;
 	}
-
-
 
 	public int getId() {
 		return id;
@@ -41,22 +36,18 @@ public class Vara implements Serializable{
 		this.id = id;
 	}
 
-	public String getVara() {
-		return vara;
+	public String getFuncao() {
+		return funcao;
 	}
 
-	public void setVara(String vara) {
-		this.vara = vara;
+	public void setFuncao(String funcao) {
+		this.funcao = funcao;
 	}
-
-
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -66,10 +57,10 @@ public class Vara implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Vara other = (Vara) obj;
+		Funcao other = (Funcao) obj;
 		return id == other.id;
 	}
-	
-	
 
+	
+	
 }

@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,22 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "natureza")
-public class Natureza implements Serializable{
+@Table(name = "tipo_acao")
+public class TipoAcao implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String natureza;
+	private String tipoAcao;
 	
-	public Natureza() {
+	public TipoAcao() {
 	}
 
-	public Natureza(int id, String natureza) {
+	public TipoAcao(int id, String tipoAcao) {
 		super();
 		this.id = id;
-		this.natureza = natureza;
+		this.tipoAcao = tipoAcao;
 	}
 
 	public int getId() {
@@ -36,12 +36,12 @@ public class Natureza implements Serializable{
 		this.id = id;
 	}
 
-	public String getNatureza() {
-		return natureza;
+	public String getTipoAcao() {
+		return tipoAcao;
 	}
 
-	public void setNatureza(String natureza) {
-		this.natureza = natureza;
+	public void setTipoAcao(String tipoAcao) {
+		this.tipoAcao = tipoAcao;
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class Natureza implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Natureza other = (Natureza) obj;
+		TipoAcao other = (TipoAcao) obj;
 		return id == other.id;
 	}
 	

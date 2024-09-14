@@ -1,4 +1,4 @@
-package com.projeto.processos.entities;
+package com.projeto.processos.model;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -10,26 +10,28 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tipo_pedido")
-public class TipoPedido implements Serializable{
+@Table(name = "fase_processual")
+public class Vara implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	private String vara;
 	
-	public TipoPedido() {
+	public Vara() {
+		// TODO Auto-generated constructor stub
 	}
+
 	
 	
-	public TipoPedido(int id, String descricao) {
+	public Vara(int id, String vara) {
 		super();
 		this.id = id;
-		this.descricao = descricao;
+		this.vara = vara;
 	}
 
 
-	private String descricao;
 
 	public int getId() {
 		return id;
@@ -39,19 +41,21 @@ public class TipoPedido implements Serializable{
 		this.id = id;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getVara() {
+		return vara;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setVara(String vara) {
+		this.vara = vara;
 	}
+
 
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 
 
 	@Override
@@ -62,8 +66,10 @@ public class TipoPedido implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TipoPedido other = (TipoPedido) obj;
+		Vara other = (Vara) obj;
 		return id == other.id;
 	}
 	
+	
+
 }

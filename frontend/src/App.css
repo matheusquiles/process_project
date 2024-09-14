@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.custom-combobox {
+  width: 30ch; /* Define a largura para caber 30 caracteres */
+  color: black; /* Define a cor do texto como preto */
+}
