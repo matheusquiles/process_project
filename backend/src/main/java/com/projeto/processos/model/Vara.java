@@ -10,35 +10,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "fase_processual")
+@Table(name = "vara")
 public class Vara implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idVara;
 	private String vara;
 	
 	public Vara() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
 	public Vara(int id, String vara) {
 		super();
-		this.id = id;
+		this.idVara = id;
 		this.vara = vara;
 	}
 
-
-
 	public int getId() {
-		return id;
+		return idVara;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idVara = id;
 	}
 
 	public String getVara() {
@@ -53,7 +49,7 @@ public class Vara implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idVara);
 	}
 
 
@@ -67,7 +63,7 @@ public class Vara implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Vara other = (Vara) obj;
-		return id == other.id;
+		return idVara == other.idVara;
 	}
 	
 	

@@ -3,7 +3,6 @@ package com.projeto.processos.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +16,7 @@ public class Escritorio implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_escritorio")
-	private int id;
+	private int idEscritorio;
 	private String nomeEscritorio;
 	
 	public Escritorio() {
@@ -26,16 +24,16 @@ public class Escritorio implements Serializable{
 
 	public Escritorio(int id, String nomeEscritorio) {
 		super();
-		this.id = id;
+		this.idEscritorio = id;
 		this.nomeEscritorio = nomeEscritorio;
 	}
 
 	public int getId() {
-		return id;
+		return idEscritorio;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idEscritorio = id;
 	}
 
 	public String getNomeEscritorio() {
@@ -48,7 +46,7 @@ public class Escritorio implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idEscritorio);
 	}
 
 	@Override
@@ -60,7 +58,7 @@ public class Escritorio implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Escritorio other = (Escritorio) obj;
-		return id == other.id;
+		return idEscritorio == other.idEscritorio;
 	}
 
 	

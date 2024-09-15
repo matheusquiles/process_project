@@ -3,7 +3,6 @@ package com.projeto.processos.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,16 +16,15 @@ public class TipoPedido implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_tipo_pedido")
-	private int id;
+	private int idTipoPedido;
 	
 	public TipoPedido() {
 	}
 	
 	
-	public TipoPedido(int id, String descricao) {
+	public TipoPedido(int idTipoPedido, String descricao) {
 		super();
-		this.id = id;
+		this.idTipoPedido = idTipoPedido;
 		this.descricao = descricao;
 	}
 
@@ -34,11 +32,11 @@ public class TipoPedido implements Serializable{
 	private String descricao;
 
 	public int getId() {
-		return id;
+		return idTipoPedido;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setId(int idTipoPedido) {
+		this.idTipoPedido = idTipoPedido;
 	}
 
 	public String getDescricao() {
@@ -52,7 +50,7 @@ public class TipoPedido implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idTipoPedido);
 	}
 
 
@@ -65,7 +63,7 @@ public class TipoPedido implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		TipoPedido other = (TipoPedido) obj;
-		return id == other.id;
+		return idTipoPedido == other.idTipoPedido;
 	}
 	
 }

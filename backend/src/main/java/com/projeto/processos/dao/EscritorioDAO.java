@@ -14,5 +14,6 @@ public interface EscritorioDAO {
 	
 	void delete(int id);
 	
+	Escritorio getByDescription(String escritorio);
 
 }

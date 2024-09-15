@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.projeto.processos.dto.DescricaoRequest;
 import com.projeto.processos.model.Escritorio;
 import com.projeto.processos.service.EscritorioService;
 
@@ -42,6 +43,10 @@ public class EscritorioController {
 		return escritorio;
 	}
 	
+	@PostMapping("/escritorio/buscar-por-descricao")
+	public boolean bescarPorDescricao(@RequestBody DescricaoRequest request) {
+		return service.getByDescription(request.getDescricao());
+	}
 	
 	
 }

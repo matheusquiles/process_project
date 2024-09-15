@@ -30,9 +30,26 @@ public class EscritorioServiceImpl implements EscritorioService {
 
 	@Transactional
 	@Override
-	public void save(Escritorio escritorio) {
-		dao.save(escritorio);
-		
+	public void save(Escritorio e) {
+		if(dao.getByDescription(e.getNomeEscritorio()) == null) {
+			dao.save(e);
+		} else {
+			throw new RuntimeException("O escritório "+e.getNomeEscritorio()+" já existe");
+		}
+
 	}
+
+	@Transactional
+	@Override
+	public Boolean getByDescription(String escritorio) {
+		Escritorio e = dao.getByDescription(escritorio);
+		if(e != null) {
+			return true;
+		}
+		return false;
+	
+	}
+	
+	
 
 }

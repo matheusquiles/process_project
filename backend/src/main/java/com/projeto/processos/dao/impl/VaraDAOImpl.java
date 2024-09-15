@@ -7,36 +7,35 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.projeto.processos.dao.EscritorioDAO;
-import com.projeto.processos.model.Escritorio;
+import com.projeto.processos.dao.VaraDAO;
+import com.projeto.processos.model.Vara;
 
 import jakarta.persistence.EntityManager;
 
 @Repository
-public class EscritorioDAOImpl implements EscritorioDAO{
-
+public class VaraDAOImpl implements VaraDAO {
+	
 	@Autowired
 	private EntityManager entityManager;
-
+	
 	@Override
-	public List<Escritorio> getAll() {
+	public List<Vara> getAll() {
 		Session currentSession = entityManager.unwrap(Session.class); 
-		
-		Query<Escritorio> list =  currentSession.createQuery("from Escritorio", Escritorio.class);
+		Query<Vara> list =  currentSession.createQuery("from Vara", Vara.class);
 		
 		return list.getResultList();
 	}
 
 	@Override
-	public Escritorio get(int id) {
+	public Vara get(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		return currentSession.get(Escritorio.class, id);
+		return currentSession.get(Vara.class, id);
 	}
 
 	@Override
-	public void save(Escritorio escritorio) {
+	public void save(Vara vara) {
 		Session currentSession = entityManager.unwrap(Session.class); 
-		currentSession.merge(escritorio);
+		currentSession.merge(vara);
 	}
 
 	@Override
@@ -46,15 +45,15 @@ public class EscritorioDAOImpl implements EscritorioDAO{
 	}
 
 	@Override
-	public Escritorio getByDescription(String escritorio) {
+	public Vara getByDescription(String vara) {
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		String hql = "FROM Escritorio e WHERE LOWER(e.nomeEscritorio) = LOWER(:escritorio)";
-	    return currentSession.createQuery(hql, Escritorio.class)
-	                         .setParameter("escritorio", escritorio)
+		String hql = "FROM Vara v WHERE LOWER(v.vara) = LOWER(:vara)";
+	    return currentSession.createQuery(hql, Vara.class)
+	                         .setParameter("vara", vara)
 	                         .uniqueResult();
 
-	
 	}
 
 }
