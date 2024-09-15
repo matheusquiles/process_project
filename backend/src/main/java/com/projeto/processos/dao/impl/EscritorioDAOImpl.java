@@ -41,7 +41,9 @@ public class EscritorioDAOImpl implements EscritorioDAO{
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		Escritorio e = currentSession.get(Escritorio.class, id);
+		currentSession.remove(e);
 
 	}
 

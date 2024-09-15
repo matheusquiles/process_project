@@ -49,6 +49,13 @@ public class EscritorioServiceImpl implements EscritorioService {
 		return false;
 	
 	}
+
+	@Transactional
+	@Override
+	public void delete(int id) {
+		dao.delete(id);
+		
+	}
 	
 	
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.projeto.processos.dao.VaraDAO;
+import com.projeto.processos.model.Escritorio;
 import com.projeto.processos.model.Vara;
 
 import jakarta.persistence.EntityManager;
@@ -40,7 +41,9 @@ public class VaraDAOImpl implements VaraDAO {
 
 	@Override
 	public void delete(int id) {
-		// TODO Auto-generated method stub
+		Session currentSession = entityManager.unwrap(Session.class);
+		Vara v = currentSession.get(Vara.class, id);
+		currentSession.remove(v);
 
 	}
 

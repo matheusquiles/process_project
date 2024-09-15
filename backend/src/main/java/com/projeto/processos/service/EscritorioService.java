@@ -10,6 +10,8 @@ public interface EscritorioService {
 	
 	Escritorio get(int id);
 	
+	void delete(int id);
+	
 	void save(Escritorio escritorio);
 	
 	Boolean getByDescription(String escritorio);
