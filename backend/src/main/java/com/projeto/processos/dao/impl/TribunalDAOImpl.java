@@ -7,55 +7,55 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.projeto.processos.dao.EscritorioDAO;
-import com.projeto.processos.model.Escritorio;
+import com.projeto.processos.dao.TribunalDAO;
+import com.projeto.processos.model.Tribunal;
 
 import jakarta.persistence.EntityManager;
 
 @Repository
-public class EscritorioDAOImpl implements EscritorioDAO{
+public class TribunalDAOImpl implements TribunalDAO {
 
 	@Autowired
 	private EntityManager entityManager;
 
+	
 	@Override
-	public List<Escritorio> getAll() {
+	public List<Tribunal> getAll() {
 		Session currentSession = entityManager.unwrap(Session.class); 
 		
-		Query<Escritorio> list =  currentSession.createQuery("from Escritorio", Escritorio.class);
+		Query<Tribunal> list =  currentSession.createQuery("from Tribunal", Tribunal.class);
 		
 		return list.getResultList();
 	}
 
 	@Override
-	public Escritorio get(int id) {
+	public Tribunal get(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		return currentSession.get(Escritorio.class, id);
+		return currentSession.get(Tribunal.class, id);
 	}
 
 	@Override
-	public void save(Escritorio escritorio) {
+	public void save(Tribunal tribunal) {
 		Session currentSession = entityManager.unwrap(Session.class); 
-		currentSession.merge(escritorio);
+		currentSession.merge(tribunal);
 	}
 
 	@Override
 	public void delete(int id) {
 		Session currentSession = entityManager.unwrap(Session.class);
-		Escritorio e = currentSession.get(Escritorio.class, id);
-		currentSession.remove(e);
-
+		Tribunal t = currentSession.get(Tribunal.class, id);
+		currentSession.remove(t);
 	}
 
 	@Override
-	public Escritorio getByDescription(String escritorio) {
+	public Tribunal getByDescription(String tribunal) {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		String hql = "FROM Escritorio e WHERE LOWER(e.nomeEscritorio) = LOWER(:escritorio)";
-	    return currentSession.createQuery(hql, Escritorio.class)
-	                         .setParameter("escritorio", escritorio)
+		String hql = "FROM Tribunal t WHERE LOWER(t.tribunalOrigem) = LOWER(:tribunal)";
+	    return currentSession.createQuery(hql, Tribunal.class)
+	                         .setParameter("tribunal", tribunal)
 	                         .uniqueResult();
-	
+
 	}
 
 }

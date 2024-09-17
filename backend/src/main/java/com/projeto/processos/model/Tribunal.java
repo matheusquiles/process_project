@@ -16,7 +16,7 @@ public class Tribunal implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idTribunal;
 	private String tribunalOrigem;
 
 	public Tribunal() {
@@ -24,16 +24,16 @@ public class Tribunal implements Serializable{
 
 	public Tribunal(int id, String tribunalOrigem) {
 		super();
-		this.id = id;
+		this.idTribunal = id;
 		this.tribunalOrigem = tribunalOrigem;
 	}
 
 	public int getId() {
-		return id;
+		return idTribunal;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idTribunal = id;
 	}
 
 	public String getTribunalOrigem() {
@@ -46,7 +46,7 @@ public class Tribunal implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idTribunal);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class Tribunal implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Tribunal other = (Tribunal) obj;
-		return id == other.id;
+		return idTribunal == other.idTribunal;
 	}
 	
 	
