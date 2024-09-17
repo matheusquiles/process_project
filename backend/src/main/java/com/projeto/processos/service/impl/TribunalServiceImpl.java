@@ -1,61 +1,38 @@
 package com.projeto.processos.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.projeto.processos.dao.TribunalDAO;
 import com.projeto.processos.model.Tribunal;
-import com.projeto.processos.service.BaseService;
+import com.projeto.processos.service.TribunalService;
+
+import jakarta.transaction.Transactional;
 
 @Service
-public class TribunalServiceImpl implements BaseService<Tribunal, Integer> {
+public class TribunalServiceImpl extends BaseServiceImpl<Tribunal, Integer> implements TribunalService {
 
 	@Autowired
 	private TribunalDAO dao;
-
-	@Override
-	public List<Tribunal> findAll() {
-		return dao.getAll();
-	}
-
-	@Override
-	public Optional<Tribunal> findById(Integer id) {
-		return dao.get(id);
-	}
-
-
-	@Override
-	public void deleteById(Integer id) {
-		dao.delete(0);		
-	}
-
-	@Override
-	public Tribunal update(Tribunal entity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
+	
+	@Transactional
 	@Override
 	public void save(Tribunal entity) {
-		if(dao.getByDescription(entity.getTribunalOrigem()).isEmpty()) {
+		if(dao.getByDescription(entity.getTribunalOrigem()).isEmpty()){
 			dao.save(entity);
-		} else {
-			throw new RuntimeException("Tribunal origem "+entity.getTribunalOrigem()+" já existe");
-		}
+		}  else {
+	        throw new RuntimeException("Tribunal origem " + entity.getTribunalOrigem() + " já existe");
+	    }
 	}
 
 	@Override
 	public Boolean findByDescription(String s) {
-		Optional<Tribunal> t = dao.getByDescription(s);
-		if(t.isEmpty()) {
-			return false;
-		}
-		return true;
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
+
+
 
 	
 }

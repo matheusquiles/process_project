@@ -44,6 +44,7 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
 
     @Override
     public T update(T entity) {
-        return service.update(entity);
+      service.update(entity);
+	return entity;
     }
 }

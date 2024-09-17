@@ -5,14 +5,13 @@ import java.util.Optional;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
-import com.projeto.processos.dao.GenericDAOImp;
+import com.projeto.processos.dao.BaseDAOImpl;
 import com.projeto.processos.dao.TribunalDAO;
 import com.projeto.processos.model.Tribunal;
 
 
-
 @Repository
-public class TribunalDAOImpl extends GenericDAOImp<Tribunal, Integer> implements TribunalDAO{
+public class TribunalDAOImpl extends BaseDAOImpl<Tribunal, Integer> implements TribunalDAO{
     
 	
 	public TribunalDAOImpl() {

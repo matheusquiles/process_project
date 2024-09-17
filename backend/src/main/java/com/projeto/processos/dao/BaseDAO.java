@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GenericDAO <T, ID> {
+public interface BaseDAO <T, ID> {
 	
 	List<T> getAll();
     Optional<T> get(ID id);

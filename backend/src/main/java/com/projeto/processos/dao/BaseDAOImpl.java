@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.EntityManager;
 
-public abstract class GenericDAOImp<T, ID> implements GenericDAO<T, ID> {
+public abstract class BaseDAOImpl<T, ID> implements BaseDAO<T, ID> {
 
 	 	@Autowired
 	    protected EntityManager entityManager;
@@ -16,7 +16,7 @@ public abstract class GenericDAOImp<T, ID> implements GenericDAO<T, ID> {
 	 	private final Class<T> entityClass;
 
 
-		public GenericDAOImp(Class<T> entityClass) {
+		public BaseDAOImpl(Class<T> entityClass) {
 	        this.entityClass = entityClass;
 	    }
 

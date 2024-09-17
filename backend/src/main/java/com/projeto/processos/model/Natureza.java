@@ -16,7 +16,7 @@ public class Natureza implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idNatureza;
 	private String natureza;
 	
 	public Natureza() {
@@ -24,16 +24,16 @@ public class Natureza implements Serializable{
 
 	public Natureza(int id, String natureza) {
 		super();
-		this.id = id;
+		this.idNatureza = id;
 		this.natureza = natureza;
 	}
 
 	public int getId() {
-		return id;
+		return idNatureza;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idNatureza = id;
 	}
 
 	public String getNatureza() {
@@ -46,7 +46,7 @@ public class Natureza implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idNatureza);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class Natureza implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Natureza other = (Natureza) obj;
-		return id == other.id;
+		return idNatureza == other.idNatureza;
 	}
 	
 	
