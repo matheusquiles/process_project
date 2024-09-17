@@ -33,7 +33,6 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
 
     @Override
     public boolean buscarPorDescricao(DescricaoRequest request) {
-    	System.out.println(request.getDescricao());
         return service.findByDescription(request.getDescricao());
     }
 

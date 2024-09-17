@@ -23,7 +23,7 @@ public class TribunalServiceImpl implements BaseService<Tribunal, Integer> {
 
 	@Override
 	public Optional<Tribunal> findById(Integer id) {
-		return Optional.ofNullable(dao.get(id));
+		return dao.get(id);
 	}
 
 
@@ -40,7 +40,7 @@ public class TribunalServiceImpl implements BaseService<Tribunal, Integer> {
 
 	@Override
 	public void save(Tribunal entity) {
-		if(dao.getByDescription(entity.getTribunalOrigem()) == null) {
+		if(dao.getByDescription(entity.getTribunalOrigem()).isEmpty()) {
 			dao.save(entity);
 		} else {
 			throw new RuntimeException("Tribunal origem "+entity.getTribunalOrigem()+" já existe");
@@ -49,11 +49,11 @@ public class TribunalServiceImpl implements BaseService<Tribunal, Integer> {
 
 	@Override
 	public Boolean findByDescription(String s) {
-		Tribunal t = dao.getByDescription(s);
-		if(t != null) {
-			return true;
+		Optional<Tribunal> t = dao.getByDescription(s);
+		if(t.isEmpty()) {
+			return false;
 		}
-		return false;
+		return true;
 	}
 	
 
