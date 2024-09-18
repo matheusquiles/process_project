@@ -16,7 +16,7 @@ public class TipoAcao implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idTipoAcao;
 	private String tipoAcao;
 	
 	public TipoAcao() {
@@ -24,16 +24,16 @@ public class TipoAcao implements Serializable{
 
 	public TipoAcao(int id, String tipoAcao) {
 		super();
-		this.id = id;
+		this.idTipoAcao = id;
 		this.tipoAcao = tipoAcao;
 	}
 
 	public int getId() {
-		return id;
+		return idTipoAcao;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idTipoAcao = id;
 	}
 
 	public String getTipoAcao() {
@@ -46,7 +46,7 @@ public class TipoAcao implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idTipoAcao);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class TipoAcao implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		TipoAcao other = (TipoAcao) obj;
-		return id == other.id;
+		return idTipoAcao == other.idTipoAcao;
 	}
 	
 	
