@@ -25,11 +25,6 @@ public class NaturezaServiceImpl extends BaseServiceImpl<Natureza, Integer> impl
 	    }		
 	}
 
-	@Override
-	public Boolean findByDescription(String s) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 }

@@ -39,5 +39,14 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID>{
 	    	dao.save(entity);
 	    }
 	    
+	    @Override
+	    @Transactional
+	    public Boolean findByDescription(String s) {
+	    	Optional<T> entity = dao.getByDescription(s);
+			if(entity.isEmpty()) {
+				return false;
+			}
+			return true;
+	    }
 	    
 }

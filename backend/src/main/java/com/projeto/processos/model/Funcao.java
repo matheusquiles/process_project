@@ -16,7 +16,7 @@ public class Funcao implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idFuncao;
 	private String funcao;
 	
 	public Funcao() {
@@ -24,16 +24,16 @@ public class Funcao implements Serializable{
 
 	public Funcao(int id, String funcao) {
 		super();
-		this.id = id;
+		this.idFuncao = id;
 		this.funcao = funcao;
 	}
 
 	public int getId() {
-		return id;
+		return idFuncao;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.idFuncao = id;
 	}
 
 	public String getFuncao() {
@@ -46,7 +46,7 @@ public class Funcao implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idFuncao);
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class Funcao implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Funcao other = (Funcao) obj;
-		return id == other.id;
+		return idFuncao == other.idFuncao;
 	}
 
 	
