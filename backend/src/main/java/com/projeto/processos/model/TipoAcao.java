@@ -27,6 +27,11 @@ public class TipoAcao implements Serializable{
 		this.idTipoAcao = id;
 		this.tipoAcao = tipoAcao;
 	}
+	
+	public TipoAcao(int id) {
+		this.idTipoAcao = id;
+	}
+	
 
 	public int getId() {
 		return idTipoAcao;

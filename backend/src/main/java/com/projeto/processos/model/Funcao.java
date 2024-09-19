@@ -28,6 +28,10 @@ public class Funcao implements Serializable{
 		this.funcao = funcao;
 	}
 
+	public Funcao(int id) {
+		this.idFuncao = id;
+	}
+	
 	public int getId() {
 		return idFuncao;
 	}

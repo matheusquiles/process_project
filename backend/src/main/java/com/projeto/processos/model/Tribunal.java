@@ -27,6 +27,11 @@ public class Tribunal implements Serializable{
 		this.idTribunal = id;
 		this.tribunalOrigem = tribunalOrigem;
 	}
+	
+
+	public Tribunal(int idTribunal) {
+		this.idTribunal = idTribunal;
+	}
 
 	public int getId() {
 		return idTribunal;

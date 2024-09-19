@@ -16,14 +16,19 @@ public class Vara implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idVara;
+	private Integer idVara;
 	private String vara;
 	
 	public Vara() {
-		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public Vara(Integer idVara) {
+		this.idVara = idVara;
 	}
 
-	public Vara(int id, String vara) {
+	public Vara(Integer id, String vara) {
 		super();
 		this.idVara = id;
 		this.vara = vara;
