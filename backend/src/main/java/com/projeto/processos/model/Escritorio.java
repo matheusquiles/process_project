@@ -14,52 +14,51 @@ import jakarta.persistence.Table;
 public class Escritorio implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idEscritorio;
-	private String nomeEscritorio;
-	
-	public Escritorio() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idEscritorio;
+    private String nomeEscritorio;
 
-	public Escritorio(int id, String nomeEscritorio) {
-		super();
-		this.idEscritorio = id;
-		this.nomeEscritorio = nomeEscritorio;
-	}
+    public Escritorio() {
+    }
 
-	public int getId() {
-		return idEscritorio;
-	}
+    public Escritorio(Integer id, String nomeEscritorio) {
+        this.idEscritorio = id;
+        this.nomeEscritorio = nomeEscritorio;
+    }
+    
+    public Escritorio(Integer id) {
+        this.idEscritorio = id;
+    }
+    
+    public Integer getIdEscritorio() {
+        return idEscritorio;
+    }
 
-	public void setId(int id) {
-		this.idEscritorio = id;
-	}
+    public void setIdEscritorio(Integer idEscritorio) {
+        this.idEscritorio = idEscritorio;
+    }
 
-	public String getNomeEscritorio() {
-		return nomeEscritorio;
-	}
+    public String getNomeEscritorio() {
+        return nomeEscritorio;
+    }
 
-	public void setNomeEscritorio(String nomeEscritorio) {
-		this.nomeEscritorio = nomeEscritorio;
-	}
+    public void setNomeEscritorio(String nomeEscritorio) {
+        this.nomeEscritorio = nomeEscritorio;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(idEscritorio);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(idEscritorio);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Escritorio other = (Escritorio) obj;
-		return idEscritorio == other.idEscritorio;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Escritorio other = (Escritorio) obj;
+        return Objects.equals(idEscritorio, other.idEscritorio);
+    }
 
 	
 }

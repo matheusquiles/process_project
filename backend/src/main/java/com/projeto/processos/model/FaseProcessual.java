@@ -22,6 +22,13 @@ public class FaseProcessual implements Serializable{
 	public FaseProcessual() {
 	}
 
+	
+	
+	public FaseProcessual(int idFaseProcessual) {
+		this.idFaseProcessual = idFaseProcessual;
+	}
+
+
 	public FaseProcessual(int id, String faseProcessual) {
 		super();
 		this.idFaseProcessual = id;

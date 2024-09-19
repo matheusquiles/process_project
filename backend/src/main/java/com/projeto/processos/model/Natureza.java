@@ -27,6 +27,11 @@ public class Natureza implements Serializable{
 		this.idNatureza = id;
 		this.natureza = natureza;
 	}
+	
+	public Natureza(int id) {
+		super();
+		this.idNatureza = id;
+	}
 
 	public int getId() {
 		return idNatureza;
