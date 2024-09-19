@@ -26,31 +26,31 @@ public class Processo implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idProcesso;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "escritorio")
 	private Escritorio escritorio;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "natureza")
 	private Natureza natureza;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "tipo_acao")
 	private TipoAcao tipoAcao;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "funcao")
 	private Funcao funcao;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "tribunal")
 	private Tribunal tribunal;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "fase_processual")
 	private FaseProcessual faseProcessual;
 	
-	@OneToOne()
+    @OneToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "vara")
 	private Vara vara;
 	
