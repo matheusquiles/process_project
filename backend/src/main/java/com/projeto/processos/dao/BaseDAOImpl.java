@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
+@Transactional
 public abstract class BaseDAOImpl<T, ID> implements BaseDAO<T, ID> {
 
 	 	@Autowired
