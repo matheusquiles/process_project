@@ -5,9 +5,11 @@ import './CadastroProcesso.css';
 const CadastroProcesso = () => {
   const [naturezaOptions, setNaturezaOptions] = useState([]);
   const [principalPedidoOptions, setPrincipalPedidoOptions] = useState([]);
-  const [tribunalOrigemOptions, setTribunalOrigemOptions] = useState([]);
+  const [tribunalOptions, setTribunalOptions] = useState([]);
   const [escritorioOptions, setEscritorioOptions] = useState([]); 
   const [funcaoOptions, setFuncaoOptions] = useState([]); 
+  const [faseProcessualOptions, setFaseProcessualOptions] = useState([]); 
+  const [tipoAcaoOptions, setTipoAcaoOptions] = useState([]); 
 
   const [estados, setEstados] = useState([]);
   const [cidades, setCidades] = useState([]);
@@ -23,7 +25,7 @@ const CadastroProcesso = () => {
     admissao: '',
     demissao: '',
     numero_processo: '',
-    tribunal_origem: '',
+    tribunal: '',
     estado: '',
     cidade_origem: '',
     data_ajuizamento: '',
@@ -49,10 +51,10 @@ const apiBaseUrl = 'http://localhost:8080/api/';
     // Fetch tribunalOrigem options from API
     axios.get(`${apiBaseUrl}tribunal`)
       .then(response => {
-        setTribunalOrigemOptions(response.data);
+        setTribunalOptions(response.data);
       })
       .catch(error => {
-        console.error('There was an error fetching the tribunalOrigem data!', error);
+        console.error('There was an error fetching the Tribunal data!', error);
       });
 
     // Fetch escritorio options from API
@@ -90,6 +92,22 @@ const apiBaseUrl = 'http://localhost:8080/api/';
         console.error('Erro ao buscar estados:', error);
       });
 
+      axios.get(`${apiBaseUrl}faseProcessual`)
+      .then(response => {
+        setFaseProcessualOptions(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the função data!', error);
+      });
+
+      axios.get(`${apiBaseUrl}tipoAcao`)
+      .then(response => {
+        setTipoAcaoOptions(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the tipo ação data!', error);
+      });
+
 
   }, []);
   
@@ -120,7 +138,7 @@ const apiBaseUrl = 'http://localhost:8080/api/';
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send form data to API
-    axios.post('http://localhost:8080/api/processo', formData)
+    axios.post(`${apiBaseUrl}processo/salvar`, formData)
       .then(response => {
         console.log('Form submitted successfully:', response.data);
       })
@@ -158,6 +176,16 @@ const apiBaseUrl = 'http://localhost:8080/api/';
         ))}
       </select>
 
+      <label htmlFor="tipoAcao">Tipo de Ação:</label>
+      <select id="tipoAcao" name="tipoAcao" maxLength="160" onChange={handleChange} >
+        <option value="">Selecione um tipo de Ação</option>
+            {tipoAcaoOptions.map(option => (
+            <option key={option.idTipoAcao} value={option.idTipoAcao}>
+                {option.tipoAcao}
+            </option>
+        ))}
+      </select>
+
       <label htmlFor="autor">Autor:</label>
       <input type="text" id="autor" name="autor" maxLength="160" onChange={handleChange} />
 
@@ -183,9 +211,9 @@ const apiBaseUrl = 'http://localhost:8080/api/';
       <label htmlFor="numero_processo">Nº do Processo:</label>
       <input type="text" id="numero_processo" name="numero_processo" maxLength="80" onChange={handleChange} />
 
-      <label htmlFor="tribunal_origem">Tribunal Origem:</label>
-      <select id="tribunal_origem" name="tribunal_origem" onChange={handleChange}>
-        {tribunalOrigemOptions.map(option => (
+      <label htmlFor="tribunal">Tribunal Origem:</label>
+      <select id="tribunal" name="tribunal" onChange={handleChange}>
+        {tribunalOptions.map(option => (
           <option key={option.idTribunal} value={option.idTribunal}>{option.tribunalOrigem}</option>
         ))}
       </select>
@@ -198,7 +226,7 @@ const apiBaseUrl = 'http://localhost:8080/api/';
         ))}
       </select>
 
-      <label htmlFor="cidade_origem">Cidade Origem:</label>
+     <label htmlFor="cidade_origem">Cidade Origem:</label>
       <select id="cidade_origem" name="cidade_origem" value={formData.cidade_origem} onChange={handleChange}>
         <option value="">Selecione uma cidade</option>
         {cidades.map(cidade => (
@@ -221,6 +249,9 @@ const apiBaseUrl = 'http://localhost:8080/api/';
 
       <label htmlFor="fase_processual">Fase Processual:</label>
       <select id="fase_processual" name="fase_processual" onChange={handleChange}>
+      {faseProcessualOptions.map(option => (
+          <option key={option.idTribunal} value={option.id}>{option.faseProcessual}</option>
+        ))}
       </select>
 
       <label htmlFor="valor_causa">Valor da Causa:</label>
