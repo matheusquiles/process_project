@@ -1,17 +1,8 @@
 package com.projeto.processos.dao;
 
-import java.util.List;
-
 import com.projeto.processos.model.TipoPedido;
 
-public interface TipoPedidoDAO {
+public interface TipoPedidoDAO extends BaseDAO<TipoPedido, Integer>{
 	
-	List<TipoPedido> getAll();
-	
-	TipoPedido get(int id);
-	
-	void save(TipoPedido user);
-	
-	void delete(int id);
 
 }

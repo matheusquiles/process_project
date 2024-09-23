@@ -1,13 +1,8 @@
 package com.projeto.processos.service;
 
-import java.util.List;
-
 import com.projeto.processos.model.TipoPedido;
 
-public interface TipoPedidoService {
+public interface TipoPedidoService extends BaseService<TipoPedido, Integer>{
 	
-	List<TipoPedido> getAll();
-	
-	TipoPedido get(int id);
 
 }

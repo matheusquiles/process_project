@@ -20,7 +20,7 @@ public class Pedido implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int idPedido;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "id_processo", nullable=false)
@@ -42,7 +42,7 @@ public class Pedido implements Serializable{
 	public Pedido(int id, Processo processo, TipoPedido tipoPedido, Boolean pedidoGanhoPrimeiraInstancia,
 			Boolean pedidoGanhoSegundaInstancia, Boolean pedidoGanhoTerceiraInstancia) {
 		super();
-		this.id = id;
+		this.idPedido = id;
 		this.processo = processo;
 		this.tipoPedido = tipoPedido;
 		this.pedidoGanhoPrimeiraInstancia = pedidoGanhoPrimeiraInstancia;
@@ -50,13 +50,15 @@ public class Pedido implements Serializable{
 		this.pedidoGanhoTerceiraInstancia = pedidoGanhoTerceiraInstancia;
 	}
 
+	
+	public int getIdPedido() {
+		return idPedido;
+	}
 
-	public int getId() {
-		return id;
+	public void setIdPedido(int idPedido) {
+		this.idPedido = idPedido;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public Processo getProcesso() {
 		return processo;
 	}
@@ -89,10 +91,25 @@ public class Pedido implements Serializable{
 	}
 
 
+
+	public Pedido(Processo processo, TipoPedido tipoPedido, Boolean pedidoGanhoPrimeiraInstancia,
+			Boolean pedidoGanhoSegundaInstancia, Boolean pedidoGanhoTerceiraInstancia) {
+		super();
+		this.processo = processo;
+		this.tipoPedido = tipoPedido;
+		this.pedidoGanhoPrimeiraInstancia = pedidoGanhoPrimeiraInstancia;
+		this.pedidoGanhoSegundaInstancia = pedidoGanhoSegundaInstancia;
+		this.pedidoGanhoTerceiraInstancia = pedidoGanhoTerceiraInstancia;
+	}
+
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(idPedido);
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -103,8 +120,9 @@ public class Pedido implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Pedido other = (Pedido) obj;
-		return id == other.id;
+		return idPedido == other.idPedido;
 	}
-	
+
+
 	
 }

@@ -1,19 +1,8 @@
 package com.projeto.processos.service;
 
-import java.util.List;
-
 import com.projeto.processos.model.Escritorio;
 
-public interface EscritorioService {
+public interface EscritorioService extends BaseService<Escritorio, Integer>{
 	
-	List<Escritorio> getAll();
-	
-	Escritorio get(int id);
-	
-	void delete(int id);
-	
-	void save(Escritorio escritorio);
-	
-	Boolean getByDescription(String escritorio);
 
 }

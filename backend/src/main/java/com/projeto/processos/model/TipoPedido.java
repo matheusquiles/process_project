@@ -31,11 +31,11 @@ public class TipoPedido implements Serializable{
 	}
 
 
-	public int getId() {
+	public int getIdTipoPedido() {
 		return idTipoPedido;
 	}
 
-	public void setId(int idTipoPedido) {
+	public void setIdTipoPedido(int idTipoPedido) {
 		this.idTipoPedido = idTipoPedido;
 	}
 

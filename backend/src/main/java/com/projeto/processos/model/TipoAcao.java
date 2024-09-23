@@ -33,11 +33,11 @@ public class TipoAcao implements Serializable{
 	}
 	
 
-	public int getId() {
+	public int getIdTipoAcao() {
 		return idTipoAcao;
 	}
 
-	public void setId(int id) {
+	public void setIdTipoAcao(int id) {
 		this.idTipoAcao = id;
 	}
 

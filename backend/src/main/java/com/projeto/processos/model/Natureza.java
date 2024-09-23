@@ -33,11 +33,11 @@ public class Natureza implements Serializable{
 		this.idNatureza = id;
 	}
 
-	public int getId() {
+	public int getIdNatureza() {
 		return idNatureza;
 	}
 
-	public void setId(int id) {
+	public void setIdNatureza(int id) {
 		this.idNatureza = id;
 	}
 

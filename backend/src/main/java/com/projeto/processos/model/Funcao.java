@@ -32,11 +32,11 @@ public class Funcao implements Serializable{
 		this.idFuncao = id;
 	}
 	
-	public int getId() {
+	public int getIdFuncao() {
 		return idFuncao;
 	}
 
-	public void setId(int id) {
+	public void setIdFuncao(int id) {
 		this.idFuncao = id;
 	}
 

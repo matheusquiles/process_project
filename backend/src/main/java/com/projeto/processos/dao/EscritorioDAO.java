@@ -1,19 +1,11 @@
 package com.projeto.processos.dao;
 
-import java.util.List;
+import java.util.Optional;
 
 import com.projeto.processos.model.Escritorio;
 
-public interface EscritorioDAO {
+public interface EscritorioDAO extends BaseDAO<Escritorio, Integer>{
+	Optional<Escritorio> getByDescription(String escritorio); 
 	
-	List<Escritorio> getAll();
-	
-	Escritorio get(int id);
-	
-	void save(Escritorio user);
-	
-	void delete(int id);
-	
-	Escritorio getByDescription(String escritorio);
 
 }

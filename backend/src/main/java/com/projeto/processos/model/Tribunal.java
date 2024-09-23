@@ -33,11 +33,11 @@ public class Tribunal implements Serializable{
 		this.idTribunal = idTribunal;
 	}
 
-	public int getId() {
+	public int getIdTribunal() {
 		return idTribunal;
 	}
 
-	public void setId(int id) {
+	public void setIdTribunal(int id) {
 		this.idTribunal = id;
 	}
 
