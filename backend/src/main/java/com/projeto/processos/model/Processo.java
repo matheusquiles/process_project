@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "processo")
@@ -77,7 +76,6 @@ public class Processo implements Serializable{
 	private Date dataBloqueioJudicial;
 
 
-	@Transient
 	@OneToMany(mappedBy = "processo", orphanRemoval = true, cascade = {jakarta.persistence.CascadeType.PERSIST}, fetch = FetchType.LAZY)
 	private List<Pedido> pedido;
 	
@@ -159,6 +157,52 @@ public class Processo implements Serializable{
 		this.dataDepositoJudicial = dataDepositoJudicial;
 		this.bloqueioJudicial = bloqueioJudicial;
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
+	}
+	
+	
+	
+
+
+
+	public Processo(int idProcesso, Escritorio escritorio, Natureza natureza, TipoAcao tipoAcao, Funcao funcao,
+			Tribunal tribunal, FaseProcessual faseProcessual, Vara vara, Date admissao, Date demissao,
+			String numeroProcesso, String estado, String cidadeOrigem, String reu, Date dataAjuizamento,
+			String ultimosAndamentosProcessuais, Double valorCausa, String autor, Double valorPerdaEstimado,
+			String reclamada, String classificacaoRisco, Double depositoRecursalOrdinario,
+			Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista, Date dataDepositoRecursalRevista,
+			Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial, Date dataBloqueioJudicial,
+			List<Pedido> pedido) {
+		super();
+		this.idProcesso = idProcesso;
+		this.escritorio = escritorio;
+		this.natureza = natureza;
+		this.tipoAcao = tipoAcao;
+		this.funcao = funcao;
+		this.tribunal = tribunal;
+		this.faseProcessual = faseProcessual;
+		this.vara = vara;
+		this.admissao = admissao;
+		this.demissao = demissao;
+		this.numeroProcesso = numeroProcesso;
+		this.estado = estado;
+		this.cidadeOrigem = cidadeOrigem;
+		this.reu = reu;
+		this.dataAjuizamento = dataAjuizamento;
+		this.ultimosAndamentosProcessuais = ultimosAndamentosProcessuais;
+		this.valorCausa = valorCausa;
+		this.autor = autor;
+		this.valorPerdaEstimado = valorPerdaEstimado;
+		this.reclamada = reclamada;
+		this.classificacaoRisco = classificacaoRisco;
+		this.depositoRecursalOrdinario = depositoRecursalOrdinario;
+		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
+		this.depositoRecursalRevista = depositoRecursalRevista;
+		this.dataDepositoRecursalRevista = dataDepositoRecursalRevista;
+		this.depositoJudicial = depositoJudicial;
+		this.dataDepositoJudicial = dataDepositoJudicial;
+		this.bloqueioJudicial = bloqueioJudicial;
+		this.dataBloqueioJudicial = dataBloqueioJudicial;
+		this.pedido = pedido;
 	}
 
 

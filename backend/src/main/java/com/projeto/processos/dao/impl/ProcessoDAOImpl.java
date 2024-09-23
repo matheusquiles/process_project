@@ -25,4 +25,8 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	}
 	
 	
+	
+	
+	
+	
 }

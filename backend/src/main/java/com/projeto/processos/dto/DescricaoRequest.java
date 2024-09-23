@@ -2,9 +2,9 @@ package com.projeto.processos.dto;
 
 public class DescricaoRequest {
 	  
-    private String descricao;
-    
-    public String getDescricao() {
+	private String descricao;
+	
+	public String getDescricao() {
         return descricao;
     }
 
