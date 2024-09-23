@@ -33,7 +33,7 @@ public class PedidoController extends BaseControllerImpl<Pedido, Integer> {
 	 }
 	 
 	 @GetMapping("/porProcesso")
-	 public PedidoDTO findByIdDTO(@RequestBody IdRequest id) {
+	 public List<PedidoDTO> findByIdDTO(@RequestBody IdRequest id) {
 		 return service.findDTO(id.getId());
 		 
 	 }

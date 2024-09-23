@@ -54,7 +54,7 @@ public class PedidoServiceImp extends BaseServiceImpl<Pedido, Integer> implement
 
 	@Override
 	@Transactional
-	public PedidoDTO findDTO(Integer idProcesso) {
+	public List<PedidoDTO> findDTO(Integer idProcesso) {
 		return pedidoDAO.getDTO(idProcesso);
 	}
 	

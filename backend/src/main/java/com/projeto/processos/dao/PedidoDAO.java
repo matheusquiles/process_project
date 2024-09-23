@@ -9,6 +9,6 @@ import com.projeto.processos.model.Pedido;
 public interface PedidoDAO extends BaseDAO<Pedido, Integer> {
 	Optional<Pedido> getByDescription(String pedido);
 	List<PedidoDTO> getAllDTO();
-	PedidoDTO getDTO(Integer idProcesso);
+	List<PedidoDTO> getDTO(Integer idProcesso);
 
 }

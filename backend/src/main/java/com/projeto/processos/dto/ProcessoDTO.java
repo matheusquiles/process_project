@@ -81,6 +81,48 @@ public class ProcessoDTO {
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
 		this.pedido = pedido;
 	}
+	
+	
+	
+
+	public ProcessoDTO(int idProcesso, String escritorio, String natureza, String tipoAcao, String funcao,
+			String tribunal, String faseProcessual, String vara, Date admissao, Date demissao, String numeroProcesso,
+			String estado, String cidadeOrigem, String reu, Date dataAjuizamento, String ultimosAndamentosProcessuais,
+			Double valorCausa, String autor, Double valorPerdaEstimado, String reclamada, String classificacaoRisco,
+			Double depositoRecursalOrdinario, Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista,
+			Date dataDepositoRecursalRevista, Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial,
+			Date dataBloqueioJudicial) {
+		super();
+		this.idProcesso = idProcesso;
+		this.escritorio = escritorio;
+		this.natureza = natureza;
+		this.tipoAcao = tipoAcao;
+		this.funcao = funcao;
+		this.tribunal = tribunal;
+		this.faseProcessual = faseProcessual;
+		this.vara = vara;
+		this.admissao = admissao;
+		this.demissao = demissao;
+		this.numeroProcesso = numeroProcesso;
+		this.estado = estado;
+		this.cidadeOrigem = cidadeOrigem;
+		this.reu = reu;
+		this.dataAjuizamento = dataAjuizamento;
+		this.ultimosAndamentosProcessuais = ultimosAndamentosProcessuais;
+		this.valorCausa = valorCausa;
+		this.autor = autor;
+		this.valorPerdaEstimado = valorPerdaEstimado;
+		this.reclamada = reclamada;
+		this.classificacaoRisco = classificacaoRisco;
+		this.depositoRecursalOrdinario = depositoRecursalOrdinario;
+		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
+		this.depositoRecursalRevista = depositoRecursalRevista;
+		this.dataDepositoRecursalRevista = dataDepositoRecursalRevista;
+		this.depositoJudicial = depositoJudicial;
+		this.dataDepositoJudicial = dataDepositoJudicial;
+		this.bloqueioJudicial = bloqueioJudicial;
+		this.dataBloqueioJudicial = dataBloqueioJudicial;
+	}
 
 	public int getIdProcesso() {
 		return idProcesso;

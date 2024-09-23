@@ -24,7 +24,7 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 	public List<PedidoDTO> getAllDTO() {
 		Session currentSession = entityManager.unwrap(Session.class);
 		
-		StringBuilder hql = searchDTO();
+		StringBuilder hql = searchPedidoDTO();
 		
 		Query<PedidoDTO> list =  currentSession.createQuery(hql.toString(), PedidoDTO.class);
 		List<PedidoDTO> results = list.getResultList();
@@ -33,11 +33,11 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 	}
 
 	@Override
-	public PedidoDTO getDTO(Integer idProcesso) {
+	public List<PedidoDTO> getDTO(Integer idProcesso) {
 		try {
 			Session currentSession = entityManager.unwrap(Session.class);
 			
-			StringBuilder hql = searchDTO();
+			StringBuilder hql = searchPedidoDTO();
 			hql.append("and pro.idProcesso = :idProcesso");
 			
 			Query<PedidoDTO> query =  currentSession.createQuery(hql.toString(), PedidoDTO.class);
@@ -45,7 +45,7 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 			
 			List<PedidoDTO> vehicleList = query.getResultList();
 			
-			return vehicleList.get(0);
+			return vehicleList;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +54,7 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 	}
 	
 	
-	private StringBuilder searchDTO() {
+	private StringBuilder searchPedidoDTO() {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select new com.projeto.processos.dto.PedidoDTO(");
 		hql.append(" ped.idPedido idPedido ");

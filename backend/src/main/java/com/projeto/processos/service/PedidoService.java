@@ -8,6 +8,6 @@ import com.projeto.processos.model.Pedido;
 public interface PedidoService extends BaseService<Pedido, Integer> {
 	
 	public List<PedidoDTO> findAllDTO();
-	public PedidoDTO findDTO(Integer idProcesso);
+	public List<PedidoDTO> findDTO(Integer idProcesso);
 
 }
