@@ -34,12 +34,12 @@ public class Vara implements Serializable{
 		this.vara = vara;
 	}
 
-	public int getId() {
+	public Integer getIdVara() {
 		return idVara;
 	}
 
-	public void setId(int id) {
-		this.idVara = id;
+	public void setIdVara(Integer idVara) {
+		this.idVara = idVara;
 	}
 
 	public String getVara() {
