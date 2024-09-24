@@ -105,25 +105,4 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	}
 	
 	
-	//Essa query também é usada na classe PedidoDAOImp, criar uma query unica.
-	private StringBuilder searchPedidoDTO() {  
-		StringBuilder hql = new StringBuilder();
-		hql.append("select new com.projeto.processos.dto.PedidoDTO(");
-		hql.append(" ped.idPedido idPedido ");
-		hql.append(", pro.numeroProcesso processo ");
-		hql.append(", tpe.descricao tipoPedido ");
-		hql.append(", ped.pedidoGanhoPrimeiraInstancia ");
-		hql.append(", ped.pedidoGanhoSegundaInstancia ");
-		hql.append(", ped.pedidoGanhoTerceiraInstancia) ");
-
-		hql.append(" from Pedido ped ");
-		hql.append(" inner join ped.processo pro ");
-		hql.append(" inner join ped.tipoPedido tpe ");
-		hql.append(" where 1=1 ");
-		
-		return hql;
-	}
-	
-	
-	
 }

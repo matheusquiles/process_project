@@ -11,6 +11,7 @@ const CadastroProcesso = () => {
   const [funcaoOptions, setFuncaoOptions] = useState([]);
   const [faseProcessualOptions, setFaseProcessualOptions] = useState([]);
   const [tipoAcaoOptions, setTipoAcaoOptions] = useState([]);
+  const [classificacaoRiscoOptions, setClassificacaoRiscoOptions] = useState([]);
   const [varaOptions, setVaraOptions] = useState([]);
   const [estados, setEstados] = useState([]);
   const [cidades, setCidades] = useState([]);
@@ -32,7 +33,7 @@ const CadastroProcesso = () => {
     data_ajuizamento: '',
     vara: '',
     principal_pedido: '',
-    ultimos_andamentos: '',
+    ultimos_andamentos_processuais: '',
     fase_processual: '',
     valor_causa: '',
     valor_perda_estimado: '',
@@ -67,6 +68,7 @@ const CadastroProcesso = () => {
     axios.get(`${apiBaseUrl}natureza`).then(response => setNaturezaOptions(response.data));
     axios.get(`${apiBaseUrl}funcao`).then(response => setFuncaoOptions(response.data));
     axios.get(`${apiBaseUrl}vara`).then(response => setVaraOptions(response.data));
+    axios.get(`${apiBaseUrl}classificacaoRisco`).then(response => setClassificacaoRiscoOptions(response.data));
     axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
       setEstados(response.data.sort((a, b) => a.nome.localeCompare(b.nome)));
     });
@@ -115,6 +117,7 @@ const CadastroProcesso = () => {
         estados={estados}
         cidades={cidades}
         estadoSelecionado={estadoSelecionado}
+        classificacaoRiscoOptions={classificacaoRiscoOptions}
         handleEstadoChange={handleEstadoChange}
       />
 

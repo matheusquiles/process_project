@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const ProcessoFormFields = ({ formData, handleChange, varaOptions, naturezaOptions, escritorioOptions, funcaoOptions, tribunalOptions, tipoAcaoOptions, faseProcessualOptions, estados, cidades, estadoSelecionado, handleEstadoChange }) => {
+const ProcessoFormFields = ({ formData, handleChange, varaOptions, naturezaOptions, classificacaoRiscoOptions, escritorioOptions, funcaoOptions, tribunalOptions, tipoAcaoOptions, faseProcessualOptions, estados, cidades, estadoSelecionado, handleEstadoChange }) => {
   return (
     <>
       <label htmlFor="escritorio">Escritório:</label>
@@ -103,8 +103,8 @@ const ProcessoFormFields = ({ formData, handleChange, varaOptions, naturezaOptio
       <select id="principal_pedido" name="principal_pedido" onChange={handleChange}>
       </select>
 
-      <label htmlFor="ultimos_andamentos">Últimos andamentos processuais:</label>
-      <input type="text" id="ultimos_andamentos" name="ultimos_andamentos" maxLength="320" onChange={handleChange} />
+      <label htmlFor="ultimos_andamentos_processuais">Últimos andamentos processuais:</label>
+      <input type="text" id="ultimos_andamentos_processuais" name="ultimos_andamentos_processuais" maxLength="320" onChange={handleChange} />
 
       <label htmlFor="fase_processual">Fase Processual:</label>
       <select id="fase_processual" name="fase_processual" onChange={handleChange}>
@@ -121,6 +121,9 @@ const ProcessoFormFields = ({ formData, handleChange, varaOptions, naturezaOptio
 
       <label htmlFor="classificacao_risco">Classificação de Risco:</label>
       <select id="classificacao_risco" name="classificacao_risco" onChange={handleChange}>
+      {classificacaoRiscoOptions.map(option => (
+          <option key={option.idClassificacaoRisco} value={option.idClassificacaoRisco}>{option.classificacaoRisco}</option>
+        ))}
       </select>
 
       <label htmlFor="deposito_recursal_ordinario">Depósito Recursal (Recurso Ordinário):</label>
