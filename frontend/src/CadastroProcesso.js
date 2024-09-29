@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './CadastroProcesso.css';
+import Input from './components/input.js'
+import SelectRest from './components/selectRest.js'
+import * as F from './styles/formulario.jsx'
 import ProcessoFormFields from './ProcessoFormFields';  // Importando o novo componente
 
 const CadastroProcesso = () => {
@@ -102,8 +104,126 @@ const CadastroProcesso = () => {
       .catch(error => console.error('Erro ao criar o processo:', error));
   };
 
+  useEffect(() => {
+    // Função para fechar o modal
+    const btnFechar = document.getElementById('btnFechar');
+    if (btnFechar) {
+      btnFechar.addEventListener('click', function () {
+        document.getElementById('modalPedidos').style.display = 'none';
+      });
+    }
+
+    // Função para carregar valores da API
+    function loadTipoPedidosFromAPI() {
+      axios.get(`${apiBaseUrl}tipoPedido`).then(response => {
+        const data = response.data;
+
+        const checkboxContainer = document.getElementById('checkbox-container');
+        checkboxContainer.innerHTML = '';
+
+        data.forEach(tipoPedido => {
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.value = tipoPedido.idTipoPedido;
+          checkbox.id = `tipoPedido-${tipoPedido.idTipoPedido}`;
+
+          const label = document.createElement('label');
+          label.htmlFor = `tipoPedido-${tipoPedido.idTipoPedido}`;
+          label.innerText = tipoPedido.descricao;
+
+          const div = document.createElement('div');
+          div.appendChild(checkbox);
+          div.appendChild(label);
+
+          checkboxContainer.appendChild(div);
+        });
+
+        // Reativar o botão de adicionar se um tipo de pedido for selecionado
+        const checkboxes = document.querySelectorAll('#checkbox-container input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', () => {
+            const adicionarBtn = document.getElementById('add-btn');
+            adicionarBtn.disabled = !Array.from(checkboxes).some(chk => chk.checked);
+          });
+        });
+      })
+        .catch(error => {
+          console.error('Erro ao carregar os tipos de pedido:', error);
+        });
+    }
+
+    // Função para abrir o modal
+    const btnAddPedido = document.getElementById('btnAddPedido');
+    if (btnAddPedido) {
+      btnAddPedido.addEventListener('click', function () {
+        document.getElementById('modalPedidos').style.display = 'block';
+        loadTipoPedidosFromAPI(); // Carrega os pedidos da API
+      });
+    }
+
+    // Função para adicionar pedidos selecionados
+    const btnAdicionar = document.getElementById('btnAdicionar');
+    if (btnAdicionar) {
+      btnAdicionar.addEventListener('click', function () {
+        const selectedPedidos = [];
+        const checkboxes = document.querySelectorAll('#pedidosList input[type="checkbox"]:checked');
+
+        checkboxes.forEach(checkbox => {
+          selectedPedidos.push(checkbox.value);
+        });
+
+        // Exibe os pedidos selecionados na página principal
+        const selectedPedidosDiv = document.getElementById('selectedPedidos');
+        selectedPedidosDiv.innerHTML = selectedPedidos.join(', ');
+
+        // Fecha o modal
+        document.getElementById('modalPedidos').style.display = 'none';
+      });
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit} className="cadastro-processo-form">
+      <F.LogoLine>
+        <F.InputLine column>
+          <F.InputLine>
+            <SelectRest
+              label="Escritório"
+              first route='escritorio'
+              id='idEscritorio'
+              name='nomeEscritorio'
+              onChange={ setFormData }
+            />
+            <Input label="Nº do Processo" value={ formData.escritorio } />
+          </F.InputLine>
+
+          <F.InputLine topless>
+            <Input label="Autor" first />
+            <Input label="Fase Processual" />
+          </F.InputLine>
+        </F.InputLine>
+
+        <F.Logo src='/images/logo.jpg' alt='Logo' />
+      </F.LogoLine>
+
+      <F.InputLine>
+        <Input label="Réu" first />
+        <Input label="Reclamada" />
+        <Input label="Classificação de Risco" imgW />
+      </F.InputLine>
+
+      <F.InputLine>
+        <F.SmallInputLine>
+          <Input label="Natureza" first small />
+          <Input label="Tipo de Ação" small />
+        </F.SmallInputLine>
+        <F.SmallInputLine>
+          <Input label="Tribunal de Origem" first small />
+          <Input label="Data de Ajuizamento" small />
+        </F.SmallInputLine>
+        <Input label="Valor da Causa" first imgW />
+      </F.InputLine>
+
       <ProcessoFormFields
         formData={formData}
         handleChange={handleChange}
