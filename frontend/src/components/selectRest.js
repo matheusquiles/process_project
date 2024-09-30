@@ -26,7 +26,10 @@ export default function SelectRest({ label, first, topless, imgW, small, route, 
   function handleSelect({ target: { value, innerText } }) {
     const newValue = Number(value);
     setSelected({ id: value, name: innerText });
-    onChange({ ...form, [route]: newValue })
+    onChange(prevForm => ({
+      ...prevForm,
+      [route]: Number(value)  
+    }));
   }
 
   useEffect(() => {

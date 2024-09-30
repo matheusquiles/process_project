@@ -9,27 +9,6 @@ function ProcessoFormFields({ formData, handleChange, varaOptions, naturezaOptio
   return (
     <>
      
-        <label htmlFor="vara">Vara:</label>
-        <select id="vara" name="vara" maxLength="160" onChange={handleChange} value={formData.vara}>
-          <option value="">Vara</option>
-          {varaOptions.map(option => (
-            <option key={option.idVara} value={option.idVara}>
-              {option.vara}
-            </option>
-          ))}
-        </select>
-
-
-        <label htmlFor="funcao">Função:</label>
-        <select id="funcao" name="funcao" onChange={handleChange} value={formData.funcao}>
-          <option value="">Selecione uma Função</option>
-          {funcaoOptions.map(option => (
-            <option key={option.idFuncao} value={option.idFuncao}>
-              {option.funcao}
-            </option>
-          ))}
-        </select>
-
         <label htmlFor="admissao">Admissão:</label>
         <input type="date" id="admissao" name="admissao" onChange={handleChange} value={formData.admissao} />
 
