@@ -16,31 +16,29 @@ public class FaseProcessual implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idFaseProcessual;
+	private Integer idFaseProcessual;
 	private String faseProcessual;
 	
 	public FaseProcessual() {
 	}
 
-	
-	
-	public FaseProcessual(int idFaseProcessual) {
+	public FaseProcessual(Integer idFaseProcessual) {
+		super();
 		this.idFaseProcessual = idFaseProcessual;
 	}
 
-
-	public FaseProcessual(int id, String faseProcessual) {
+	public FaseProcessual(Integer idFaseProcessual, String faseProcessual) {
 		super();
-		this.idFaseProcessual = id;
+		this.idFaseProcessual = idFaseProcessual;
 		this.faseProcessual = faseProcessual;
 	}
 
-	public int getId() {
+	public Integer getIdFaseProcessual() {
 		return idFaseProcessual;
 	}
 
-	public void setId(int id) {
-		this.idFaseProcessual = id;
+	public void setIdFaseProcessual(Integer idFaseProcessual) {
+		this.idFaseProcessual = idFaseProcessual;
 	}
 
 	public String getFaseProcessual() {
@@ -65,7 +63,12 @@ public class FaseProcessual implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		FaseProcessual other = (FaseProcessual) obj;
-		return idFaseProcessual == other.idFaseProcessual;
+		return Objects.equals(idFaseProcessual, other.idFaseProcessual);
+	}
+
+	@Override
+	public String toString() {
+		return "FaseProcessual [idFaseProcessual=" + idFaseProcessual + ", faseProcessual=" + faseProcessual + "]";
 	}
 	
 	

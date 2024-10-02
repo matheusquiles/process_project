@@ -12,7 +12,6 @@ public class FuncaoController extends BaseControllerImpl<Funcao, Integer> {
 
 	public FuncaoController(FuncaoServiceImpl service) {
 		super(service);
-		// TODO Auto-generated constructor stub
 	}
 
 }

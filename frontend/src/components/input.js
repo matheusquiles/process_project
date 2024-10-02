@@ -1,57 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { InputLabel, Input } from '../styles/formulario';
 import { GenericP } from '../styles/globalstyles';
-// import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
-// import { useEffect, useState } from 'react';
-// import { validateText } from '../../helpers/functions/formValidations';
-// import { validateEmail } from '../../helpers/functions/validations';
+import PropTypes from 'prop-types';
 
-
-
-export default function TextInput({ label, fieldName, first, topless, imgW, small, formData, setFormData }) {
+export default function TextInput({ label, fieldName, first, topless, imgW, small, formData, setFormData, invalidFields }) {
+  const [error, setError] = useState(false);
 
   const handleChange = ({ target: { value } }) => {
     setFormData(prevFormData => ({
       ...prevFormData,
       [fieldName]: value,
     }));
+    
+    if (value.trim() !== '') {
+      setError(false);
+    }
   };
 
+  const isInvalid = invalidFields.includes(fieldName);
+
   return (
-    <InputLabel first={first} topless={topless} imgW={imgW} small={small}>
+    <InputLabel first={first} topless={topless} imgW={imgW} small={small} style={{ borderColor: isInvalid ? 'red' : 'inherit' }}>
       <GenericP>{label}:</GenericP>
       <Input
         id={label}
         type="text"
         value={formData?.[fieldName] || ''} 
         onChange={handleChange}
+        style={{ borderColor: isInvalid ? 'red' : 'initial' }} 
       />
+      {isInvalid && <span style={{ color: 'red' }}>Este campo é obrigatório</span>} {/* Mensagem de erro */}
     </InputLabel>
   );
-
-
-  // const [text, setText] = useState('');
-
-  // function handleChange({ target: { value } }) {
-  //   setText(value);
-  //   setShowIcon(isEmail ? validateEmail(value) : validateText(value));
-  //   onChange({ target: { id, value } });
-  // }
-
-  // function handleFocus({ type }) {
-  //   const isEmpty = isEmail ? !validateEmail(text) : !validateText(text);
-  //   const onFocus = type === 'focus';
-
-  //   setFocus(onFocus);
-  //   setInvalid(isEmpty && !onFocus);
-  // }
-
-  // useEffect(() => {
-  //   if (defaultValue) {
-  //     setShowIcon(validateText(defaultValue));
-  //     setText(defaultValue);
-  //   }
-  // }, [defaultValue]);
-
-
 }
+
+TextInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  fieldName: PropTypes.string.isRequired,
+  first: PropTypes.bool,
+  topless: PropTypes.bool,
+  imgW: PropTypes.bool,
+  small: PropTypes.bool,
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
+  invalidFields: PropTypes.array.isRequired,
+};
+
+TextInput.defaultProps = {
+  first: false,
+  topless: false,
+  imgW: false,
+  small: false,
+  invalidFields: [],
+};

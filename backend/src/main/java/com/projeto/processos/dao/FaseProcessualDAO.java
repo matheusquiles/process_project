@@ -1,19 +1,12 @@
 package com.projeto.processos.dao;
 
-import java.util.List;
+import java.util.Optional;
 
 import com.projeto.processos.model.FaseProcessual;
 
-public interface FaseProcessualDAO {
+
+public interface FaseProcessualDAO extends BaseDAO<FaseProcessual, Integer>{
 	
-	List<FaseProcessual> getAll();
-	
-	FaseProcessual get(int id);
-	
-	void save(FaseProcessual user);
-	
-	void delete(int id);
-	
-	FaseProcessual getByDescription(String fase);
+	Optional<FaseProcessual> getByDescription(String fase);
 
 }

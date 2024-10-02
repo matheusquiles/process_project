@@ -57,7 +57,7 @@ public class Processo implements Serializable{
 	private Date demissao;
 	private String numeroProcesso;
 	private String estado;
-	private String cidadeOrigem;
+	private String cidade;
 	private String reu;
 	private Date dataAjuizamento;
 	private String ultimosAndamentosProcessuais;
@@ -86,7 +86,7 @@ public class Processo implements Serializable{
 
 	public Processo(Escritorio idEscritorio, String reclamada, Natureza idNatureza, String autor, String reu,
 			TipoAcao idTipoAcao, Funcao idFuncao, Date admissao, Date demissao, String numeroProcesso,
-			Tribunal idTribunal, String estado, String cidadeOrigem, Vara vara, Date dataAjuizamento,
+			Tribunal idTribunal, String estado, String cidade, Vara vara, Date dataAjuizamento,
 			String ultimosAndamentosProcessuais, FaseProcessual idFaseProcessual, Double valorCausa,
 			Double valorPerdaEstimado, String classificacaoRisco, Double depositoRecursoOrdinario,
 			Date dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, Date dataDepositoRecursoRevisao,
@@ -104,7 +104,7 @@ public class Processo implements Serializable{
 		this.numeroProcesso = numeroProcesso;
 		this.tribunal = idTribunal;
 		this.estado = estado;
-		this.cidadeOrigem = cidadeOrigem;
+		this.cidade = cidade;
 		this.vara = vara;
 		this.dataAjuizamento = dataAjuizamento;
 		this.ultimosAndamentosProcessuais = ultimosAndamentosProcessuais;
@@ -125,7 +125,7 @@ public class Processo implements Serializable{
 	//contrutor sem idProcesso
 	public Processo(String reclamada, Natureza idNatureza, String autor, String reu,
 			TipoAcao idTipoAcao, Funcao idFuncao, Date admissao, Date demissao, String numeroProcesso,
-			Tribunal idTribunal, String estado, String cidadeOrigem, Vara vara, Date dataAjuizamento,
+			Tribunal idTribunal, String estado, String cidade, Vara vara, Date dataAjuizamento,
 			String ultimosAndamentosProcessuais, FaseProcessual idFaseProcessual, Double valorCausa,
 			Double valorPerdaEstimado, String classificacaoRisco, Double depositoRecursoOrdinario,
 			Date dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, Date dataDepositoRecursoRevisao,
@@ -141,7 +141,7 @@ public class Processo implements Serializable{
 		this.numeroProcesso = numeroProcesso;
 		this.tribunal = idTribunal;
 		this.estado = estado;
-		this.cidadeOrigem = cidadeOrigem;
+		this.cidade = cidade;
 		this.vara = vara;
 		this.dataAjuizamento = dataAjuizamento;
 		this.ultimosAndamentosProcessuais = ultimosAndamentosProcessuais;
@@ -159,14 +159,10 @@ public class Processo implements Serializable{
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
 	}
 	
-	
-	
-
-
 
 	public Processo(int idProcesso, Escritorio escritorio, Natureza natureza, TipoAcao tipoAcao, Funcao funcao,
 			Tribunal tribunal, FaseProcessual faseProcessual, Vara vara, Date admissao, Date demissao,
-			String numeroProcesso, String estado, String cidadeOrigem, String reu, Date dataAjuizamento,
+			String numeroProcesso, String estado, String cidade, String reu, Date dataAjuizamento,
 			String ultimosAndamentosProcessuais, Double valorCausa, String autor, Double valorPerdaEstimado,
 			String reclamada, String classificacaoRisco, Double depositoRecursalOrdinario,
 			Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista, Date dataDepositoRecursalRevista,
@@ -185,7 +181,7 @@ public class Processo implements Serializable{
 		this.demissao = demissao;
 		this.numeroProcesso = numeroProcesso;
 		this.estado = estado;
-		this.cidadeOrigem = cidadeOrigem;
+		this.cidade = cidade;
 		this.reu = reu;
 		this.dataAjuizamento = dataAjuizamento;
 		this.ultimosAndamentosProcessuais = ultimosAndamentosProcessuais;
@@ -350,15 +346,13 @@ public class Processo implements Serializable{
 	}
 
 
-
-	public String getCidadeOrigem() {
-		return cidadeOrigem;
+	public String getCidade() {
+		return cidade;
 	}
 
 
-
-	public void setCidadeOrigem(String cidadeOrigem) {
-		this.cidadeOrigem = cidadeOrigem;
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 
 
@@ -593,7 +587,7 @@ public class Processo implements Serializable{
 		return "Processo [idProcesso=" + idProcesso + ", escritorio=" + escritorio + ", natureza=" + natureza
 				+ ", tipoAcao=" + tipoAcao + ", funcao=" + funcao + ", tribunal=" + tribunal + ", faseProcessual="
 				+ faseProcessual + ", vara=" + vara + ", admissao=" + admissao + ", demissao=" + demissao
-				+ ", numeroProcesso=" + numeroProcesso + ", estado=" + estado + ", cidadeOrigem=" + cidadeOrigem
+				+ ", numeroProcesso=" + numeroProcesso + ", estado=" + estado + ", cidade=" + cidade
 				+ ", reu=" + reu + ", dataAjuizamento=" + dataAjuizamento + ", ultimosAndamentosProcessuais="
 				+ ultimosAndamentosProcessuais + ", valorCausa=" + valorCausa + ", autor=" + autor
 				+ ", valorPerdaEstimado=" + valorPerdaEstimado + ", reclamada=" + reclamada + ", classificacaoRisco="

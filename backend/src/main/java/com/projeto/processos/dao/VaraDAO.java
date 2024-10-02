@@ -1,19 +1,10 @@
 package com.projeto.processos.dao;
 
-import java.util.List;
+import java.util.Optional;
 
 import com.projeto.processos.model.Vara;
 
-public interface VaraDAO {
-	
-	List<Vara> getAll();
-	
-	Vara get(int id);
-	
-	void save(Vara vara);
-	
-	void delete(int id);
-
-	Vara getByDescription(String vara);
+public interface VaraDAO extends BaseDAO<Vara, Integer>{
+	Optional<Vara> getByDescription(String vara);
 	
 }

@@ -5,23 +5,11 @@ import SelectRest from './components/selectRest.js'
 import DateImput from './components/date.js'
 import MoneyImput from './components/money.js'
 import * as F from './styles/formulario.jsx'
-import ProcessoFormFields from './ProcessoFormFields';
 import EstadoCidadeInput from './components/cidadeEstado.js';
 
 
 const CadastroProcesso = () => {
-  const [naturezaOptions] = useState([]);
-  const [principalPedidoOptions] = useState([]);
-  const [tribunalOptions] = useState([]);
-  const [escritorioOptions] = useState([]);
-  const [funcaoOptions, setFuncaoOptions] = useState([]);
-  const [faseProcessualOptions] = useState([]);
-  const [tipoAcaoOptions] = useState([]);
-  const [classificacaoRiscoOptions] = useState([]);
-  const [varaOptions, setVaraOptions] = useState([]);
-  const [estados, setEstados] = useState([]);
-  const [cidades, setCidades] = useState([]);
-  const [estadoSelecionado, setEstadoSelecionado] = useState('');
+  const [invalidFields, setInvalidFields] = useState([]);
 
   const [formData, setFormData] = useState({
     admissao: '',
@@ -37,8 +25,8 @@ const CadastroProcesso = () => {
     data_deposito_judicial: '',
     bloqueio_judicial: '',
     data_bloqueio_judicial: '',
-    estado: '', // Adiciona o campo estado
-    cidade: ''  // Adiciona o campo cidade
+    estado: '',
+    cidade: ''
   });
 
   const apiBaseUrl = 'http://localhost:8080/api/';
@@ -55,20 +43,6 @@ const CadastroProcesso = () => {
     }, {});
   };
 
-  // useEffect(() => {
-  //   //axios.get(`${apiBaseUrl}tribunal`).then(response => setTribunalOptions(response.data));
-  //   // axios.get(`${apiBaseUrl}escritorio`).then(response => setEscritorioOptions(response.data));
-  //   // axios.get(`${apiBaseUrl}natureza`).then(response => setNaturezaOptions(response.data));
-  //   // axios.get(`${apiBaseUrl}funcao`).then(response => setFuncaoOptions(response.data));
-  //   //axios.get(`${apiBaseUrl}vara`).then(response => setVaraOptions(response.data));
-  //   //axios.get(`${apiBaseUrl}classificacaoRisco`).then(response => setClassificacaoRiscoOptions(response.data));
-  //   axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(response => {
-  //     setEstados(response.data.sort((a, b) => a.nome.localeCompare(b.nome)));
-  //   });
-  //   //axios.get(`${apiBaseUrl}faseProcessual`).then(response => setFaseProcessualOptions(response.data));
-  //   //axios.get(`${apiBaseUrl}tipoAcao`).then(response => setTipoAcaoOptions(response.data));
-  // }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -77,87 +51,116 @@ const CadastroProcesso = () => {
     }));
   };
 
-  // const handleEstadoChange = (e) => {
-  //   const estadoId = e.target.value;
-  //   setEstadoSelecionado(estadoId);
-  //   setFormData({ ...formData, estado: estadoId });
 
-  //   axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`).then(response => {
-  //     setCidades(response.data);
-  //   });
-  // };
+  const validateFields = () => {
+    const requiredFields = ['numeroProcesso', 'autor', 'reu', 'reclamada', 'escritorio', 'faseProcessual', 'classificacaoRisco',
+      'natureza', 'tipoAcao', 'tribunal', 'vara', 'funcao']; // Campos que são obrigatórios
+    const invalids = requiredFields.filter(field => !formData[field] || formData[field] === '');
+    setInvalidFields(invalids);
+    return invalids.length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const camelCaseFormData = convertKeysToCamelCase(formData);
-    axios.post(`${apiBaseUrl}processo/salvar`, camelCaseFormData)
-      .then(response => console.log('Processo criado com sucesso!', response.data))
-      .catch(error => console.error('Erro ao criar o processo:', error));
+
+    if (validateFields()) {
+      const camelCaseFormData = convertKeysToCamelCase(formData);
+      axios.post(`${apiBaseUrl}processo/salvar`, camelCaseFormData)
+        .then(response => console.log('Processo criado com sucesso!', response.data))
+        .catch(error => console.error('Erro ao criar o processo:', error));
+    } else {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+    }
   };
 
 
   return (
     <form onSubmit={handleSubmit} className="cadastro-processo-form">
-      <F.LogoLine>
-        <F.InputLine column>
-          <F.InputLine>
-            <SelectRest
-              label="Escritório"
-              first route='escritorio'
-              id='idEscritorio'
-              name='nomeEscritorio'
-              onChange={setFormData}
-              form={formData}
-            />
-            <Input
-              label="Nº do Processo"
-              fieldName="numeroProcesso"
-              formData={formData}
-              setFormData={setFormData}
-            />
-          </F.InputLine>
-
-          <F.InputLine topless>
-            <Input
-              label="Autor" first
-              fieldName="autor"
-              formData={formData}
-              setFormData={setFormData}
-            />
-            <SelectRest
-              label="Fase Processual"
-              route='faseProcessual'
-              id='idFaseProcessual'
-              name='faseProcessual'
-              onChange={setFormData}
-              form={formData}
-            />
-          </F.InputLine>
+      <F.InputLine column>
+        <F.InputLine>
+          <SelectRest
+            label="Escritório"
+            first route='escritorio'
+            id='idEscritorio'
+            name='nomeEscritorio'
+            onChange={setFormData}
+            form={formData}
+            defaultValue=""
+            invalidFields={invalidFields}
+          />
+          <Input
+            label="Nº do Processo"
+            fieldName="numeroProcesso"
+            formData={formData}
+            setFormData={setFormData}
+            invalidFields={invalidFields}
+          />
+          <SelectRest
+            label="Fase Processual"
+            route='faseProcessual'
+            id='idFaseProcessual'
+            name='faseProcessual'
+            onChange={setFormData}
+            defaultValue=""
+            form={formData}
+            invalidFields={invalidFields}
+          />
         </F.InputLine>
 
-        <F.Logo src='/images/logo.jpg' alt='Logo' />
-      </F.LogoLine>
+        <F.InputLine topless>
+          <Input
+            label="Autor" first imgW
+            fieldName="autor"
+            formData={formData}
+            setFormData={setFormData}
+            invalidFields={invalidFields}
+          />
+          <Input
+            label="Réu"
+            fieldName="reu"
+            formData={formData}
+            setFormData={setFormData}
+          />
+          <Input
+            label="Reclamada"
+            fieldName="reclamada"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </F.InputLine>
+      </F.InputLine>
+
 
       <F.InputLine>
-        <Input
-          label="Réu" first
-          fieldName="reu"
-          formData={formData}
-          setFormData={setFormData}
-        />
-        <Input
-          label="Reclamada"
-          fieldName="reclamada"
-          formData={formData}
-          setFormData={setFormData}
+        <SelectRest
+          label="Vara" 
+          first small route='vara'
+          id='idVara'
+          name='vara'
+          onChange={setFormData}
+          form={formData}
+          defaultValue=""
+          invalidFields={invalidFields}
         />
         <SelectRest
           label="Classificação de Risco"
-          imgW route='classificacaoRisco'
+          route='classificacaoRisco'
           id='idClassificacaoRisco'
           name='classificacaoRisco'
           onChange={setFormData}
           form={formData}
+          defaultValue=""
+          invalidFields={invalidFields}
+        />
+        <SelectRest
+          label="Função"
+          route='funcao'
+          id='idFuncao'
+          name='funcao'
+          onChange={setFormData}
+          form={formData}
+          defaultValue=""
+          invalidFields={invalidFields}
         />
       </F.InputLine>
 
@@ -170,6 +173,8 @@ const CadastroProcesso = () => {
             name='natureza'
             onChange={setFormData}
             form={formData}
+            defaultValue=""
+            invalidFields={invalidFields}
           />
           <SelectRest
             label="Tipo de Ação"
@@ -178,6 +183,8 @@ const CadastroProcesso = () => {
             name='tipoAcao'
             onChange={setFormData}
             form={formData}
+            defaultValue=""
+            invalidFields={invalidFields}
           />
         </F.SmallInputLine>
         <F.SmallInputLine>
@@ -188,6 +195,8 @@ const CadastroProcesso = () => {
             name='tribunalOrigem'
             onChange={setFormData}
             form={formData}
+            defaultValue=""
+            invalidFields={invalidFields}
           />
           <DateImput
             label="Data de Ajuizamento"
@@ -204,44 +213,15 @@ const CadastroProcesso = () => {
       </F.InputLine>
 
       <F.InputLine>
-        <SelectRest
-          label="Vara" first
-          route='vara'
-          id='idVara'
-          name='vara'
-          onChange={setFormData}
-          form={formData}
-        />
-        <SelectRest
-          label="Função"
-          route='funcao'
-          id='idFuncao'
-          name='funcao'
-          onChange={setFormData}
-          form={formData}
-        />
-      </F.InputLine>
-
-      <F.InputLine>
         <F.InputLine>
           <EstadoCidadeInput
             label="Estado"
             first
-            formData={formData}  
-            setFormData={setFormData} 
+            formData={formData}
+            setFormData={setFormData}
           />
         </F.InputLine>
       </F.InputLine>
-
-
-      <ProcessoFormFields
-        formData={formData}
-        handleChange={handleChange}
-        estados={estados}
-        cidades={cidades}
-        estadoSelecionado={estadoSelecionado}
-      // handleEstadoChange={handleEstadoChange}
-      />
 
       <button type="submit">Cadastrar Processo</button>
     </form>

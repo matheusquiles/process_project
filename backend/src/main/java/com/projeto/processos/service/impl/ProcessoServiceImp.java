@@ -7,18 +7,22 @@ import org.springframework.stereotype.Service;
 
 import com.projeto.processos.dao.BaseDAO;
 import com.projeto.processos.dao.EscritorioDAO;
+import com.projeto.processos.dao.FaseProcessualDAO;
 import com.projeto.processos.dao.FuncaoDAO;
 import com.projeto.processos.dao.NaturezaDAO;
 import com.projeto.processos.dao.ProcessoDAO;
 import com.projeto.processos.dao.TipoAcaoDAO;
 import com.projeto.processos.dao.TribunalDAO;
+import com.projeto.processos.dao.VaraDAO;
 import com.projeto.processos.dto.ProcessoDTO;
 import com.projeto.processos.model.Escritorio;
+import com.projeto.processos.model.FaseProcessual;
 import com.projeto.processos.model.Funcao;
 import com.projeto.processos.model.Natureza;
 import com.projeto.processos.model.Processo;
 import com.projeto.processos.model.TipoAcao;
 import com.projeto.processos.model.Tribunal;
+import com.projeto.processos.model.Vara;
 import com.projeto.processos.service.ProcessoService;
 
 import jakarta.transaction.Transactional;
@@ -44,6 +48,12 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	@Autowired
 	private TribunalDAO tribunalDAO;
 	
+	@Autowired
+	private FaseProcessualDAO faseDAO;
+	
+	@Autowired
+	private VaraDAO varaDAO;
+	
 
 	@Transactional
 	@Override
@@ -55,6 +65,8 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
         TipoAcao tipoAcao = getEntity(tipoAcaoDAO, entity.getTipoAcao().getIdTipoAcao(), "TipoAcao not found");
         Funcao funcao = getEntity(funcaoDAO, entity.getFuncao().getIdFuncao(), "Funcao not found");
         Tribunal tribunal = getEntity(tribunalDAO, entity.getTribunal().getIdTribunal(), "Tribunal not found");
+        FaseProcessual fase = getEntity(faseDAO, entity.getFaseProcessual().getIdFaseProcessual(), "Fase Processual not foud");
+        Vara vara = getEntity(varaDAO, entity.getVara().getIdVara(), "Vara Processual not foud");
 
         // Associar as entidades carregadas ao Processo
         entity.setEscritorio(escritorio);
@@ -62,8 +74,9 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
         entity.setTipoAcao(tipoAcao);
         entity.setFuncao(funcao);
         entity.setTribunal(tribunal);
+        entity.setFaseProcessual(fase);
+        entity.setVara(vara);
 
-				
 		dao.save(entity);
 
 	}
