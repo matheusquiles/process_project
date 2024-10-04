@@ -78,6 +78,8 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
         entity.setVara(vara);
 
 		dao.save(entity);
+		
+		System.out.println(entity.toString());
 
 	}
 	

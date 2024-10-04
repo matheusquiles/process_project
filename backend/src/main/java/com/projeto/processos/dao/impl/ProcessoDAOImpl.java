@@ -70,7 +70,7 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		hql.append(", pro.demissao ");
 		hql.append(", pro.numeroProcesso ");
 		hql.append(", pro.estado ");
-		hql.append(", pro.cidadeOrigem ");
+		hql.append(", pro.cidade ");
 		hql.append(", pro.reu ");
 		hql.append(", pro.dataAjuizamento ");
 		hql.append(", pro.ultimosAndamentosProcessuais ");

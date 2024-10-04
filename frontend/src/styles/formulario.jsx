@@ -15,7 +15,6 @@ export const Input = styled.input`
   outline: none;
 `;
 
-
 export const selectInput = styled.input`
   background-color: ${WHITE};
   border: solid ${TEXT_SECUNDARY} .1px;
@@ -144,6 +143,32 @@ export const InputWrapper = styled.div`
   margin-bottom: 15px; 
 `;
 
+export const SelectedItem = styled.span`
+  margin: 5px;
+  display: inline-flex;
+  align-items: center;
+  background: #eee;
+  padding: 5px 10px;
+  border-radius: 5px;
+  position: relative;
+  max-width: 100%;
+  white-space: nowrap;  /* Garante que o texto não seja quebrado */
+  overflow: hidden;     /* Evita estouro de conteúdo */
+  text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
+`;
+
+export const RemoveButton = styled.button`
+  background: none;
+  color: black;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 8px;
+  display: inline-block;
+  padding: 0;
+  line-height: 1;
+`;
 
 ;
 

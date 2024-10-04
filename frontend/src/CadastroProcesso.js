@@ -6,27 +6,13 @@ import DateImput from './components/date.js'
 import MoneyImput from './components/money.js'
 import * as F from './styles/formulario.jsx'
 import EstadoCidadeInput from './components/cidadeEstado.js';
+import MultiSelectRest from './components/multiSelectRest.js';
 
 
 const CadastroProcesso = () => {
   const [invalidFields, setInvalidFields] = useState([]);
 
   const [formData, setFormData] = useState({
-    admissao: '',
-    demissao: '',
-    principal_pedido: '',
-    ultimos_andamentos_processuais: '',
-    valor_perda_estimado: '',
-    deposito_recursal_ordinario: '',
-    data_deposito_recursal_ordinario: '',
-    deposito_recursal_revista: '',
-    data_deposito_recursal_revista: '',
-    deposito_judicial: '',
-    data_deposito_judicial: '',
-    bloqueio_judicial: '',
-    data_bloqueio_judicial: '',
-    estado: '',
-    cidade: ''
   });
 
   const apiBaseUrl = 'http://localhost:8080/api/';
@@ -212,7 +198,6 @@ const CadastroProcesso = () => {
           setFormData={setFormData} />
       </F.InputLine>
 
-      <F.InputLine>
         <F.InputLine>
           <EstadoCidadeInput
             label="Estado"
@@ -221,7 +206,18 @@ const CadastroProcesso = () => {
             setFormData={setFormData}
           />
         </F.InputLine>
-      </F.InputLine>
+        <F.InputLine>
+          <MultiSelectRest
+            label="Pedidos do Processo"
+            first route='tipoPedido'
+            id='idTipoPedido'
+            name='descricao'
+            onChange={setFormData}
+            form={formData}
+            defaultValue=""
+            invalidFields={invalidFields}
+          />
+        </F.InputLine>
 
       <button type="submit">Cadastrar Processo</button>
     </form>
