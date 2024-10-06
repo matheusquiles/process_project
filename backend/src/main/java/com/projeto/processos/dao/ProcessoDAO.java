@@ -9,8 +9,7 @@ import com.projeto.processos.model.Processo;
 public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	Optional<Processo> getByDescription(String processo);
 	List<ProcessoDTO> getAllDTO();
-	ProcessoDTO getDTO(Integer idProcesso);	
-	
-	
+	ProcessoDTO getDTO(Integer idProcesso);
+	Processo getByProcesso(String processo);
 
 }

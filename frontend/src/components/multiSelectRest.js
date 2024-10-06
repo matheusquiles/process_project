@@ -3,50 +3,59 @@ import axios from 'axios';
 import { InputLabel, StyledSelect, SelectedItem, RemoveButton } from '../styles/formulario'; // Importa os estilos
 import { GenericP } from '../styles/globalstyles';
 import { API_BASE_URL } from '../helpers/constants';
-import PropTypes from 'prop-types';
 
 export default function MultiSelectRest({ label, first, topless, imgW, small, route, id, name, onChange, form, defaultValue, invalidFields }) {
   const [isLoading, setIsLoading] = useState(true);
   const [options, setOptions] = useState([]);
-  const [selectedItems, setSelectedItems] = useState(defaultValue || []);
+  const [selectedItems, setSelectedItems] = useState([]);
 
   const getData = useCallback(async () => {
     try {
-      const thisOptions = [];
       const { data } = await axios.get(`${API_BASE_URL}/${route}`);
-
-      data.map((obj) => thisOptions.push({ id: obj[id], name: obj[name] }));
-      
+      const thisOptions = data.map((obj) => ({ id: obj[id], name: obj[name] }));
       setOptions(thisOptions);
       setIsLoading(false);
-    } catch (error) { console.log('Erro na requisição:', error); }
+    } catch (error) {
+      console.log('Erro na requisição:', error);
+    }
   }, [route, id, name]);
+
+  useEffect(() => {
+    getData();
+
+    if (defaultValue && defaultValue.length > 0) {
+      setSelectedItems(defaultValue);
+       onChange(defaultValue.map(item => ({ idTipoPedido: item.id })));
+    }
+  }, [getData, defaultValue, onChange]);
+
 
   const handleSelect = ({ target: { value } }) => {
     const selectedItem = options.find(option => option.id === Number(value));
 
+    console.log("Valor selecionado:", value); // Log
+    console.log("Item selecionado encontrado:", selectedItem); // Log
+
     if (selectedItem && !selectedItems.some(item => item.id === selectedItem.id)) {
-      const newSelectedItems = [...selectedItems, selectedItem];
-      setSelectedItems(newSelectedItems);
-      onChange(prevForm => ({
-        ...prevForm,
-        [route]: newSelectedItems.map(item => item.id)
-      }));
+        const newSelectedItems = [...selectedItems, selectedItem];
+        setSelectedItems(newSelectedItems);
+
+        console.log("Itens selecionados após adicionar:", newSelectedItems); // Log
+
+        // Aqui, você precisa passar os novos itens selecionados
+        onChange(newSelectedItems); // Passando os itens selecionados
     }
-  };
+};
+
 
   const removeItem = (itemId) => {
     const newSelectedItems = selectedItems.filter(item => item.id !== itemId);
     setSelectedItems(newSelectedItems);
-    onChange(prevForm => ({
-      ...prevForm,
-      [route]: newSelectedItems.map(item => item.id)
-    }));
-  };
 
-  useEffect(() => {
-    if (!options.length) getData();
-  }, [getData, options.length]);
+    onChange(newSelectedItems.map(item => ({
+      idTipoPedido: item.id // Aqui também deve ser o id do item
+    })));
+  };
 
   const isInvalid = invalidFields.includes(route);
 

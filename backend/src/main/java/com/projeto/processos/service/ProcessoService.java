@@ -9,5 +9,6 @@ public interface ProcessoService extends BaseService<Processo, Integer> {
 	
 	public List<ProcessoDTO> findAllDTO();
 	public ProcessoDTO findDTO(Integer idProcesso);
+	public void salvarPedido(Processo entity);
 
 }

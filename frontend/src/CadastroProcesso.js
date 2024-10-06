@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Input from './components/input.js'
-import SelectRest from './components/selectRest.js'
-import DateImput from './components/date.js'
-import MoneyImput from './components/money.js'
-import * as F from './styles/formulario.jsx'
+import Input from './components/input.js';
+import SelectRest from './components/selectRest.js';
+import DateImput from './components/date.js';
+import MoneyImput from './components/money.js';
+import * as F from './styles/formulario.jsx';
 import EstadoCidadeInput from './components/cidadeEstado.js';
 import MultiSelectRest from './components/multiSelectRest.js';
 
-
 const CadastroProcesso = () => {
   const [invalidFields, setInvalidFields] = useState([]);
-
-  const [formData, setFormData] = useState({
-  });
+  const [formData, setFormData] = useState({});
+  const [selectedPedidos, setSelectedPedidos] = useState([]); // Estado para armazenar os pedidos selecionados
 
   const apiBaseUrl = 'http://localhost:8080/api/';
 
@@ -38,6 +36,21 @@ const CadastroProcesso = () => {
   };
 
 
+const handleMultiSelectChange = (selectedItems) => {
+  console.log("Selected items recebidos:", selectedItems);
+
+  if (!Array.isArray(selectedItems)) {
+      selectedItems = [];
+  }
+
+  const mappedItems = selectedItems.map(item => ({
+      tipoPedido: item.id // Usando a prop id para mapear o campo idTipoPedido
+  }));
+  
+  setSelectedPedidos(mappedItems);
+};
+
+
   const validateFields = () => {
     const requiredFields = ['numeroProcesso', 'autor', 'reu', 'reclamada', 'escritorio', 'faseProcessual', 'classificacaoRisco',
       'natureza', 'tipoAcao', 'tribunal', 'vara', 'funcao']; // Campos que são obrigatórios
@@ -46,18 +59,26 @@ const CadastroProcesso = () => {
     return invalids.length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (validateFields()) {
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (validateFields()) {
       const camelCaseFormData = convertKeysToCamelCase(formData);
-      axios.post(`${apiBaseUrl}processo/salvar`, camelCaseFormData)
-        .then(response => console.log('Processo criado com sucesso!', response.data))
-        .catch(error => console.error('Erro ao criar o processo:', error));
-    } else {
+      const dataToSend = {
+          ...camelCaseFormData,
+          pedido: selectedPedidos // Incluindo os pedidos selecionados no campo pedido
+      };
+
+      console.log("Dados a serem enviados:", JSON.stringify(dataToSend, null, 2));
+
+      axios.post(`${apiBaseUrl}processo/salvar`, dataToSend)
+          .then(response => console.log('Processo criado com sucesso!', response.data))
+          .catch(error => console.error('Erro ao criar o processo:', error));
+  } else {
       alert('Por favor, preencha todos os campos obrigatórios.');
-    }
-  };
+  }
+};
 
 
   return (
@@ -115,7 +136,6 @@ const CadastroProcesso = () => {
           />
         </F.InputLine>
       </F.InputLine>
-
 
       <F.InputLine>
         <SelectRest
@@ -198,26 +218,27 @@ const CadastroProcesso = () => {
           setFormData={setFormData} />
       </F.InputLine>
 
-        <F.InputLine>
-          <EstadoCidadeInput
-            label="Estado"
-            first
-            formData={formData}
-            setFormData={setFormData}
-          />
-        </F.InputLine>
-        <F.InputLine>
-          <MultiSelectRest
-            label="Pedidos do Processo"
-            first route='tipoPedido'
-            id='idTipoPedido'
-            name='descricao'
-            onChange={setFormData}
-            form={formData}
-            defaultValue=""
-            invalidFields={invalidFields}
-          />
-        </F.InputLine>
+      <F.InputLine>
+        <EstadoCidadeInput
+          label="Estado"
+          first
+          formData={formData}
+          setFormData={setFormData}
+        />
+      </F.InputLine>
+
+      <F.InputLine>
+        <MultiSelectRest
+          label="Pedidos do Processo"
+          first route='tipoPedido'
+          id='idTipoPedido'
+          name='descricao'
+          onChange={handleMultiSelectChange} // Usando handleMultiSelectChange para atualizar selectedPedidos
+          form={formData}
+          defaultValue={[]}
+          invalidFields={invalidFields}
+        />
+      </F.InputLine>
 
       <button type="submit">Cadastrar Processo</button>
     </form>

@@ -103,6 +103,20 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		
 		return hql;
 	}
+
+	@Override
+	public Processo getByProcesso(String processo) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuilder hql = new StringBuilder();
+		hql.append("from Processo p ");
+		hql.append("where LOWER(p.numeroProcesso) = LOWER(:processo)");
+		
+		Query<Processo> query =  currentSession.createQuery(hql.toString(), Processo.class);
+		query.setParameter("processo", processo);
+		Processo p = query.uniqueResult();
+		
+		return p;
+	}
 	
 	
 }

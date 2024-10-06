@@ -38,16 +38,10 @@ public class Pedido implements Serializable{
 	}
 	
 	
-	
-	
-	
 	public Pedido(TipoPedido tipoPedido) {
 		super();
 		this.tipoPedido = tipoPedido;
 	}
-
-
-
 
 
 	public Pedido(int id, Processo processo, TipoPedido tipoPedido, Boolean pedidoGanhoPrimeiraInstancia,

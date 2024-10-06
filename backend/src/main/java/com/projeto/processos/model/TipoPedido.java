@@ -30,6 +30,11 @@ public class TipoPedido implements Serializable{
 		this.descricao = descricao;
 	}
 
+	public TipoPedido(int idTipoPedido) {
+		super();
+		this.idTipoPedido = idTipoPedido;
+	}
+
 
 	public int getIdTipoPedido() {
 		return idTipoPedido;

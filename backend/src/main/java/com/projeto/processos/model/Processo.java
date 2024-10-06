@@ -7,14 +7,13 @@ import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "processo")
@@ -76,7 +75,7 @@ public class Processo implements Serializable{
 	private Date dataBloqueioJudicial;
 
 
-	@OneToMany(mappedBy = "processo", orphanRemoval = true, cascade = {jakarta.persistence.CascadeType.PERSIST}, fetch = FetchType.LAZY)
+	@Transient
 	private List<Pedido> pedido;
 	
 	public Processo() {

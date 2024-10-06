@@ -29,6 +29,26 @@ public class ProcessoController extends BaseControllerImpl<Processo, Integer> {
 	 public List<ProcessoDTO> getAllDTO(){
 		 return service.findAllDTO();
 	 }
+	
+	@Override
+	public String save(Processo entity) {
+		try {
+			service.save(entity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Erro ao salvar processo";
+		}
+		try {
+			service.salvarPedido(entity);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Erro ao salvar pedidos";
+		}		
+		
+		
+		return "Saved";
+	}
 	 
 //	 @GetMapping("/porProcesso")
 //	 public PedidoDTO findByIdDTO(@RequestBody IdRequest id) {

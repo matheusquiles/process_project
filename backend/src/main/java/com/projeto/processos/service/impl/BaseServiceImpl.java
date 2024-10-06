@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.projeto.processos.dao.BaseDAO;
+import com.projeto.processos.model.Processo;
 import com.projeto.processos.service.BaseService;
 
 import jakarta.transaction.Transactional;
@@ -48,5 +49,6 @@ public abstract class BaseServiceImpl<T, ID> implements BaseService<T, ID>{
 			}
 			return true;
 	    }
+
 	    
 }

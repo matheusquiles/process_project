@@ -10,6 +10,7 @@ import com.projeto.processos.dao.EscritorioDAO;
 import com.projeto.processos.dao.FaseProcessualDAO;
 import com.projeto.processos.dao.FuncaoDAO;
 import com.projeto.processos.dao.NaturezaDAO;
+import com.projeto.processos.dao.PedidoDAO;
 import com.projeto.processos.dao.ProcessoDAO;
 import com.projeto.processos.dao.TipoAcaoDAO;
 import com.projeto.processos.dao.TribunalDAO;
@@ -19,6 +20,7 @@ import com.projeto.processos.model.Escritorio;
 import com.projeto.processos.model.FaseProcessual;
 import com.projeto.processos.model.Funcao;
 import com.projeto.processos.model.Natureza;
+import com.projeto.processos.model.Pedido;
 import com.projeto.processos.model.Processo;
 import com.projeto.processos.model.TipoAcao;
 import com.projeto.processos.model.Tribunal;
@@ -54,12 +56,14 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	@Autowired
 	private VaraDAO varaDAO;
 	
+	@Autowired
+	private PedidoDAO pedidoDAO;
+	
 
 	@Transactional
 	@Override
 	public void save(Processo entity) {
 
-		 // Carregar as entidades relacionadas do banco de dados
 		Escritorio escritorio = getEntity(escritorioDAO, entity.getEscritorio().getIdEscritorio(), "Natureza not found");
         Natureza natureza = getEntity(naturezaDAO, entity.getNatureza().getIdNatureza(), "Natureza not found");
         TipoAcao tipoAcao = getEntity(tipoAcaoDAO, entity.getTipoAcao().getIdTipoAcao(), "TipoAcao not found");
@@ -68,7 +72,6 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
         FaseProcessual fase = getEntity(faseDAO, entity.getFaseProcessual().getIdFaseProcessual(), "Fase Processual not foud");
         Vara vara = getEntity(varaDAO, entity.getVara().getIdVara(), "Vara Processual not foud");
 
-        // Associar as entidades carregadas ao Processo
         entity.setEscritorio(escritorio);
         entity.setNatureza(natureza);
         entity.setTipoAcao(tipoAcao);
@@ -77,10 +80,33 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
         entity.setFaseProcessual(fase);
         entity.setVara(vara);
 
-		dao.save(entity);
-		
-		System.out.println(entity.toString());
 
+        try {
+        	dao.save(entity);
+        	System.out.println(entity.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+	}
+
+
+	@Transactional
+	public void salvarPedido(Processo entity) {
+        Processo processo = dao.getByProcesso(entity.getNumeroProcesso());
+		
+        if(!entity.getPedido().isEmpty()) {
+        	for (Pedido pedido : entity.getPedido()) {
+        		pedido.setProcesso(processo);
+        		
+        		try {
+        			pedidoDAO.save(pedido);
+        			
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+        	}
+        }
 	}
 	
 
