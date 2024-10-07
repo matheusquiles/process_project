@@ -7,7 +7,6 @@ import './CadastroProcesso.css';
 function App() {
   return (
     <Frame>
-      <CadastroProcesso />
     </Frame>
   );
 }

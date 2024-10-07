@@ -1,65 +1,84 @@
-import React from 'react';
-import styled from 'styled-components';
-
-const FrameWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
-
-const Header = styled.header`
-  background-color: #f5f5f5;
-  padding: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Menu = styled.nav`
-  ul {
-    list-style: none;
-    display: flex;
-    gap: 1rem;
-    margin-right: auto; /* Menu alinhado à esquerda */
-  }
-`;
-
-const Logo = styled.img`
-  height: 60px;
-  margin-left: auto; /* Logo alinhado à direita */
-`;
-
-const Content = styled.main`
-  flex: 1;
-  padding: 2rem;
-`;
-
-const Footer = styled.footer`
-  background-color: #f5f5f5;
-  padding: 1rem;
-  text-align: center;
-`;
+import React, { useState } from 'react';
+import * as F from '../styles/frame.jsx';
+import CadastroProcesso from '../CadastroProcesso';
 
 const Frame = ({ children }) => {
+  const [openSubMenu, setOpenSubMenu] = useState('');
+  const [activeComponent, setActiveComponent] = useState(null);
+
+  const toggleSubMenu = (menu) => {
+    setOpenSubMenu(openSubMenu === menu ? '' : menu);
+  };
+
+  const handleMenuClick = (component) => {
+    setActiveComponent(component);
+  };
+
   return (
-    <FrameWrapper>
-      <Header>
-        <Menu>
-          <ul>
-            <li>Home</li>
-            <li>About</li>
-            <li>Contact</li>
-          </ul>
-        </Menu>
-        <Logo src="/images/logo.png" alt="Logo" />
-      </Header>
-      <Content>
-        {children}
-      </Content>
-      <Footer>
-        <p>© 2024 Shopia Softwares</p>
-      </Footer>
-    </FrameWrapper>
+    <F.FrameWrapper>
+      <F.Sidebar>
+        <F.Logo src="/images/logo.png" alt="Logo" />
+        <F.MenuItem onClick={() => toggleSubMenu('processos')}>
+          Processos
+          <F.SubMenu isOpen={openSubMenu === 'processos'}>
+          <F.SubMenuItem onClick={() => handleMenuClick(<CadastroProcesso />)}>Novo</F.SubMenuItem>
+          <F.SubMenuItem onClick={() => handleMenuClick(null)}>Consultar</F.SubMenuItem>
+          </F.SubMenu>
+        </F.MenuItem>
+        <F.MenuItem onClick={() => toggleSubMenu('manutencao')}>
+          Manutenção
+          <F.SubMenu isOpen={openSubMenu === 'manutencao'}>
+            <F.SubMenuItem>
+              <div onClick={() => toggleSubMenu('escritorio')}>Escritório</div>
+              <F.SubMenu isOpen={openSubMenu === 'escritorio'}>
+                <F.SubMenuItem>Novo</F.SubMenuItem>
+                <F.SubMenuItem>Consultar</F.SubMenuItem>
+              </F.SubMenu>
+            </F.SubMenuItem>
+            <F.SubMenuItem>
+              <div onClick={() => toggleSubMenu('reu')}>Réu</div>
+              <F.SubMenu isOpen={openSubMenu === 'reu'}>
+                <F.SubMenuItem>Novo</F.SubMenuItem>
+                <F.SubMenuItem>Consultar</F.SubMenuItem>
+              </F.SubMenu>
+            </F.SubMenuItem>
+            <F.SubMenuItem>
+              <div onClick={() => toggleSubMenu('funcao')}>Função</div>
+              <F.SubMenu isOpen={openSubMenu === 'funcao'}>
+                <F.SubMenuItem>Novo</F.SubMenuItem>
+                <F.SubMenuItem>Consultar</F.SubMenuItem>
+              </F.SubMenu>
+            </F.SubMenuItem>
+            <F.SubMenuItem>
+              <div onClick={() => toggleSubMenu('tribunal')}>Tribunal</div>
+              <F.SubMenu isOpen={openSubMenu === 'tribunal'}>
+                <F.SubMenuItem>Novo</F.SubMenuItem>
+                <F.SubMenuItem>Consultar</F.SubMenuItem>
+              </F.SubMenu>
+            </F.SubMenuItem>
+            <F.SubMenuItem>
+              <div onClick={() => toggleSubMenu('vara')}>Vara</div>
+              <F.SubMenu isOpen={openSubMenu === 'vara'}>
+                <F.SubMenuItem>Novo</F.SubMenuItem>
+                <F.SubMenuItem>Consultar</F.SubMenuItem>
+              </F.SubMenu>
+            </F.SubMenuItem>
+          </F.SubMenu>
+        </F.MenuItem>
+        <F.MenuItem onClick={() => toggleSubMenu('sobre')}>
+          Sobre
+        </F.MenuItem>
+      </F.Sidebar>
+      <div style={{ flex: 1 }}>
+        <F.Header />
+        <F.Content>
+          {activeComponent || children}
+        </F.Content>
+        <F.Footer>
+          <p>© 2024 Shopia Softwares</p>
+        </F.Footer>
+      </div>
+    </F.FrameWrapper>
   );
 };
 
