@@ -46,6 +46,7 @@ export const InputLabel = styled.label`
   margin-left: ${({ first, small }) => first ? 0 : small ? '.5rem' : '1rem'};
   margin-right: ${({ first, small }) => first && small ? '.5rem' : '0'};
   width: ${({ imgW }) => imgW ? '27%' : 'auto'};
+  width: ${({ first, medium }) => first && medium ? '20%' : 'auto'};
   flex-grow: ${({ imgW, small }) => imgW || small ? 0 : 1};
   /* color: ${TEXT_SECUNDARY}; */
 

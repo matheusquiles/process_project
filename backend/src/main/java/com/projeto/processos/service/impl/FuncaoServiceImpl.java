@@ -23,7 +23,7 @@ public class FuncaoServiceImpl extends BaseServiceImpl<Funcao, Integer> implemen
 			dao.save(entity);
 		}  else {
 	        throw new RuntimeException("Função " + entity.getFuncao() + " já existe");
-	    }				
+	    }
 	}
 
 

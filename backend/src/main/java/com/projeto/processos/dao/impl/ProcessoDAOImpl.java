@@ -21,30 +21,29 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	public ProcessoDAOImpl() {
 		super(Processo.class);
 	}
-	
+
 	@Autowired
 	private PedidoDAOImp pedidoDAO;
-	
+
 	@Override
 	public void save(Processo entity) {
-	    Session session = entityManager.unwrap(Session.class);
-        ((EntityManager) session).merge(entity);
+		Session session = entityManager.unwrap(Session.class);
+		((EntityManager) session).merge(entity);
 	}
 
 	@Override
 	public List<ProcessoDTO> getAllDTO() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		StringBuilder hql = searchDTO();
-		Query<ProcessoDTO> list =  currentSession.createQuery(hql.toString(), ProcessoDTO.class);
-		
+		Query<ProcessoDTO> list = currentSession.createQuery(hql.toString(), ProcessoDTO.class);
+
 		List<ProcessoDTO> processos = list.getResultList();
-		
+
 		for (ProcessoDTO processoDTO : processos) {
 			processoDTO.setPedido(pedidoDAO.getDTO(processoDTO.getIdProcesso()));
 		}
-		
-		
+
 		return processos;
 	}
 
@@ -53,8 +52,7 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	
+
 	private StringBuilder searchDTO() {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select new com.projeto.processos.dto.ProcessoDTO(");
@@ -97,10 +95,10 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		hql.append(" left join pro.tribunal tri ");
 		hql.append(" left join pro.faseProcessual fas ");
 		hql.append(" left join pro.vara var ");
-		
+
 		hql.append(" where 1=1 ");
 		hql.append(" order by pro.idProcesso desc ");
-		
+
 		return hql;
 	}
 
@@ -110,13 +108,26 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		StringBuilder hql = new StringBuilder();
 		hql.append("from Processo p ");
 		hql.append("where LOWER(p.numeroProcesso) = LOWER(:processo)");
-		
-		Query<Processo> query =  currentSession.createQuery(hql.toString(), Processo.class);
+
+		Query<Processo> query = currentSession.createQuery(hql.toString(), Processo.class);
 		query.setParameter("processo", processo);
 		Processo p = query.uniqueResult();
-		
+
 		return p;
 	}
-	
-	
+
+	@Override
+	public Boolean validaProcessoExistente(String processo) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuilder hql = new StringBuilder();
+		hql.append("from Processo p ");
+		hql.append("where LOWER(p.numeroProcesso) = LOWER(:processo)");
+
+		Query<Processo> query = currentSession.createQuery(hql.toString(), Processo.class);
+		query.setParameter("processo", processo);
+		Processo p = query.uniqueResult();
+
+		return p != null;
+	}
+
 }

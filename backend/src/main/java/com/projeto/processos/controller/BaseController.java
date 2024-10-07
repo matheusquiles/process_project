@@ -20,7 +20,7 @@ public interface BaseController<T, ID> {
     T get(@PathVariable ID id);
 
     @PostMapping("/salvar")
-    String save(@RequestBody T entity);
+    Boolean save(@RequestBody T entity);
 
     @PostMapping("/buscar-por-descricao")
     boolean buscarPorDescricao(@RequestBody DescricaoRequest request);

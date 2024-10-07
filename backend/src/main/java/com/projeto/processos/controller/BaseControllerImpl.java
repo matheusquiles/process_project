@@ -26,9 +26,9 @@ public abstract class BaseControllerImpl<T, ID> implements BaseController<T, ID>
     }
 
     @Override
-    public String save(T entity) {
+    public Boolean save(T entity) {
     	service.save(entity);
-    	return "Saved";
+    	return true;
     }
 
     @Override

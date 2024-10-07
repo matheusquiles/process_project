@@ -64,30 +64,6 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	@Override
 	public void save(Processo entity) {
 
-		Escritorio escritorio = getEntity(escritorioDAO, entity.getEscritorio().getIdEscritorio(), "Natureza not found");
-        Natureza natureza = getEntity(naturezaDAO, entity.getNatureza().getIdNatureza(), "Natureza not found");
-        TipoAcao tipoAcao = getEntity(tipoAcaoDAO, entity.getTipoAcao().getIdTipoAcao(), "TipoAcao not found");
-        Funcao funcao = getEntity(funcaoDAO, entity.getFuncao().getIdFuncao(), "Funcao not found");
-        Tribunal tribunal = getEntity(tribunalDAO, entity.getTribunal().getIdTribunal(), "Tribunal not found");
-        FaseProcessual fase = getEntity(faseDAO, entity.getFaseProcessual().getIdFaseProcessual(), "Fase Processual not foud");
-        Vara vara = getEntity(varaDAO, entity.getVara().getIdVara(), "Vara Processual not foud");
-
-        entity.setEscritorio(escritorio);
-        entity.setNatureza(natureza);
-        entity.setTipoAcao(tipoAcao);
-        entity.setFuncao(funcao);
-        entity.setTribunal(tribunal);
-        entity.setFaseProcessual(fase);
-        entity.setVara(vara);
-
-
-        try {
-        	dao.save(entity);
-        	System.out.println(entity.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-        
 	}
 
 
@@ -124,5 +100,42 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	private <T> T getEntity(BaseDAO<T, Integer> dao, Integer id, String errorMessage) {
 		return dao.get(id).orElseThrow(() -> new RuntimeException(errorMessage));
 	}
+
+
+	@Override
+	public Boolean salvarProcesso(Processo entity) {
+		
+		Escritorio escritorio = getEntity(escritorioDAO, entity.getEscritorio().getIdEscritorio(), "Natureza not found");
+		Natureza natureza = getEntity(naturezaDAO, entity.getNatureza().getIdNatureza(), "Natureza not found");
+		TipoAcao tipoAcao = getEntity(tipoAcaoDAO, entity.getTipoAcao().getIdTipoAcao(), "TipoAcao not found");
+		Funcao funcao = getEntity(funcaoDAO, entity.getFuncao().getIdFuncao(), "Funcao not found");
+		Tribunal tribunal = getEntity(tribunalDAO, entity.getTribunal().getIdTribunal(), "Tribunal not found");
+		FaseProcessual fase = getEntity(faseDAO, entity.getFaseProcessual().getIdFaseProcessual(), "Fase Processual not foud");
+		Vara vara = getEntity(varaDAO, entity.getVara().getIdVara(), "Vara Processual not foud");
+		
+		entity.setEscritorio(escritorio);
+		entity.setNatureza(natureza);
+		entity.setTipoAcao(tipoAcao);
+		entity.setFuncao(funcao);
+		entity.setTribunal(tribunal);
+		entity.setFaseProcessual(fase);
+		entity.setVara(vara);
+		
+		
+		try {
+			dao.save(entity);
+			System.out.println(entity.toString());
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public Boolean validaProcessoExistente (String processo) {
+		return dao.validaProcessoExistente(processo);
+	}
+	
 
 }

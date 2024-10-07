@@ -3,8 +3,6 @@ package com.projeto.processos.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.projeto.processos.model.Processo;
-
 
 public interface BaseService<T, ID> {
 	

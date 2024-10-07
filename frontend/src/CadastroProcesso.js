@@ -11,8 +11,8 @@ import MultiSelectRest from './components/multiSelectRest.js';
 const CadastroProcesso = () => {
   const [invalidFields, setInvalidFields] = useState([]);
   const [formData, setFormData] = useState({});
-  const [selectedPedidos, setSelectedPedidos] = useState([]); // Estado para armazenar os pedidos selecionados
-
+  const [selectedPedidos, setSelectedPedidos] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
   const apiBaseUrl = 'http://localhost:8080/api/';
 
   const toCamelCase = (str) => {
@@ -36,19 +36,19 @@ const CadastroProcesso = () => {
   };
 
 
-const handleMultiSelectChange = (selectedItems) => {
-  console.log("Selected items recebidos:", selectedItems);
+  const handleMultiSelectChange = (selectedItems) => {
+    console.log("Selected items recebidos:", selectedItems);
 
-  if (!Array.isArray(selectedItems)) {
+    if (!Array.isArray(selectedItems)) {
       selectedItems = [];
-  }
+    }
 
-  const mappedItems = selectedItems.map(item => ({
+    const mappedItems = selectedItems.map(item => ({
       tipoPedido: item.id // Usando a prop id para mapear o campo idTipoPedido
-  }));
-  
-  setSelectedPedidos(mappedItems);
-};
+    }));
+
+    setSelectedPedidos(mappedItems);
+  };
 
 
   const validateFields = () => {
@@ -60,23 +60,40 @@ const handleMultiSelectChange = (selectedItems) => {
   };
 
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   if (validateFields()) {
+    try {
       const camelCaseFormData = convertKeysToCamelCase(formData);
       const dataToSend = {
-          ...camelCaseFormData,
-          pedido: selectedPedidos // Incluindo os pedidos selecionados no campo pedido
+        ...camelCaseFormData,
+        pedido: selectedPedidos
       };
 
       console.log("Dados a serem enviados:", JSON.stringify(dataToSend, null, 2));
 
-      axios.post(`${apiBaseUrl}processo/salvar`, dataToSend)
-          .then(response => console.log('Processo criado com sucesso!', response.data))
-          .catch(error => console.error('Erro ao criar o processo:', error));
+      const response = await axios.post(`${apiBaseUrl}processo/salvar`, dataToSend);
+
+      if (response.data === true) {
+        alert('Processo criado com sucesso!');
+      } else {
+        alert('Já existe um processo com esse número.');
+      }
+
+    } catch (error) {
+      console.error('Erro ao criar o processo:', error);
+      
+      if (error.response) {
+        alert(`Erro ao criar o processo: ${error.response.data.message || 'Erro desconhecido'}`);
+      } else if (error.request) {
+        alert('Erro: Nenhuma resposta recebida do servidor.');
+      } else {
+        alert(`Erro ao configurar a requisição: ${error.message}`);
+      }
+    }
   } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+    alert('Por favor, preencha todos os campos obrigatórios.');
   }
 };
 
@@ -139,7 +156,7 @@ const handleSubmit = (e) => {
 
       <F.InputLine>
         <SelectRest
-          label="Vara" 
+          label="Vara"
           first small route='vara'
           id='idVara'
           name='vara'
@@ -228,17 +245,97 @@ const handleSubmit = (e) => {
       </F.InputLine>
 
       <F.InputLine>
+        <Input
+          label="Últimos andamentos processuais"
+          first fieldName="ultimosAndamentosProcessuais"
+          formData={formData}
+          setFormData={setFormData}
+          invalidFields={invalidFields}
+        />
+      </F.InputLine>
+      <F.InputLine>
         <MultiSelectRest
           label="Pedidos do Processo"
           first route='tipoPedido'
           id='idTipoPedido'
           name='descricao'
-          onChange={handleMultiSelectChange} // Usando handleMultiSelectChange para atualizar selectedPedidos
+          onChange={handleMultiSelectChange}
           form={formData}
           defaultValue={[]}
           invalidFields={invalidFields}
         />
       </F.InputLine>
+
+      <F.InputLine>
+        <F.SmallInputLine>
+          <DateImput
+            label="Data Admissão"
+            fieldName="admissao"
+            first medium formData={formData}
+            setFormData={setFormData}
+          />
+          <DateImput
+            label="Data Demissão"
+            fieldName="demissao"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </F.SmallInputLine>
+      </F.InputLine>
+
+
+      <F.InputLine>
+        <F.SmallInputLine>
+          <MoneyImput
+            label="Depósito Recursal (Recurso Ordinário)"
+            first fieldName="depositoRecursalOrdinario"
+            formData={formData}
+            setFormData={setFormData}
+          />
+          <DateImput
+            label="Data do Depósito Recursal (Recurso Ordinário)"
+            fieldName="dataDepositoRecursalOrdinario"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </F.SmallInputLine>
+      </F.InputLine>
+
+      <F.InputLine>
+        <F.SmallInputLine>
+          <MoneyImput
+            label="Depósito Recursal (Recurso Revista)"
+            first fieldName="depositoRecursalRevista"
+            formData={formData}
+            setFormData={setFormData}
+          />
+          <DateImput
+            label="Data do Depósito Recursal (Recurso Revista)"
+            fieldName="dataDepositoRecursalRevista"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </F.SmallInputLine>
+      </F.InputLine>
+
+      <F.InputLine>
+        <F.SmallInputLine>
+          <MoneyImput
+            label="Depósito Judicial"
+            first small fieldName="depositoJudicial"
+            formData={formData}
+            setFormData={setFormData}
+          />
+          <DateImput
+            label="Data do Depósito Judicial"
+            fieldName="dataDepositoJudicial"
+            formData={formData}
+            setFormData={setFormData}
+          />
+        </F.SmallInputLine>
+      </F.InputLine>
+
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Exibir mensagem de erro */}
 
       <button type="submit">Cadastrar Processo</button>
     </form>

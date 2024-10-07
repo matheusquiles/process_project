@@ -11,5 +11,6 @@ public interface ProcessoDAO extends BaseDAO<Processo, Integer> {
 	List<ProcessoDTO> getAllDTO();
 	ProcessoDTO getDTO(Integer idProcesso);
 	Processo getByProcesso(String processo);
+	Boolean validaProcessoExistente(String processo);
 
 }
