@@ -58,21 +58,43 @@ export const InputLabel = styled.label`
   } */
 `;
 
+
+export const LookupLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  margin-left: ${({ first, small }) => first ? 0 : small ? '.5rem' : '1rem'};
+  margin-right: ${({ first, small }) => first && small ? '.5rem' : '0'};
+  width: ${({ small }) => small ? '40%' : 'auto'};
+  
+  /* color: ${TEXT_SECUNDARY}; */
+
+  /* @media(min-width: 1280px) {
+    margin-left: ${({ gap }) => gap ? '1rem' : '0'};
+    width: ${({ items }) => !items || items < 2 ? '100%' : `calc(100% / ${items})`};
+    max-width: ${({ maxWidth }) => maxWidth && maxWidth};
+    padding: ${({ pad, maxWidth }) => pad && `0 calc((100% - ${maxWidth}) / 2)`};
+  } */
+`;
+
 export const LogoLine = styled.div`
   width: 95%;
   height: 230px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
 `
 
 export const Logo = styled.img`
-  /* height: 100%; */
-  width: 25%;
+  width: auto;         
+  height: auto;         
+  max-height: 100%;    
   margin-left: 1rem;
-  /* border-radius: 50%; */
   cursor: pointer;
-`;
+  object-fit: contain;  
+  max-width: 100%;      
+`
 
 export const StyledSelect = styled.select`
   color: black; 
@@ -171,7 +193,21 @@ export const RemoveButton = styled.button`
   line-height: 1;
 `;
 
-;
+export const LookupButton = styled.button`
+  width: 10%;
+  height: 100%;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  margin-left: 0px;
+  display: flex;
+  padding: 0;
+  &:hover {
+    color: inherit;
+  }
 
-
-;
+  &:focus {
+    outline: none; 
+  }
+`;

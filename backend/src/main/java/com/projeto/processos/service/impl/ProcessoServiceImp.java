@@ -92,9 +92,8 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	}
 
 	@Override
-	public ProcessoDTO findDTO(Integer idProcesso) {
-		// TODO Auto-generated method stub
-		return null;
+	public ProcessoDTO findDTO(String processo) {
+		return dao.getDTO(processo);
 	}
 	
 	private <T> T getEntity(BaseDAO<T, Integer> dao, Integer id, String errorMessage) {
@@ -135,6 +134,13 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	
 	public Boolean validaProcessoExistente (String processo) {
 		return dao.validaProcessoExistente(processo);
+	}
+
+
+	@Override
+	@Transactional
+	public Processo getByProcesso(String processo) {
+		return dao.getByProcesso(processo);
 	}
 	
 

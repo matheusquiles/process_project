@@ -37,7 +37,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 
 		StringBuilder hql = searchDTO();
 		Query<ProcessoDTO> list = currentSession.createQuery(hql.toString(), ProcessoDTO.class);
-
 		List<ProcessoDTO> processos = list.getResultList();
 
 		for (ProcessoDTO processoDTO : processos) {
@@ -48,9 +47,19 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 	}
 
 	@Override
-	public ProcessoDTO getDTO(Integer idProcesso) {
-		// TODO Auto-generated method stub
-		return null;
+	public ProcessoDTO getDTO(String processo) {
+		Session currentSession = entityManager.unwrap(Session.class);
+		StringBuilder hql = searchDTO();
+		
+		hql.append(" and pro.numeroProcesso = :processo ");
+		
+		ProcessoDTO dto = currentSession.createQuery(hql.toString(), ProcessoDTO.class)
+					.setParameter("processo", processo)
+					.uniqueResult();
+
+		dto.setPedido(pedidoDAO.getDTO(dto.getIdProcesso()));
+
+		return dto;
 	}
 
 	private StringBuilder searchDTO() {
@@ -97,7 +106,6 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		hql.append(" left join pro.vara var ");
 
 		hql.append(" where 1=1 ");
-		hql.append(" order by pro.idProcesso desc ");
 
 		return hql;
 	}

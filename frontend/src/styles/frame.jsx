@@ -11,13 +11,11 @@ export const Sidebar = styled.nav`
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centraliza o conteúdo horizontalmente */
 `;
 
 export const MenuItem = styled.div`
   margin-bottom: 1rem;
   cursor: pointer;
-  width: 100%; /* Garante que o item ocupe toda a largura do menu */
 
   &:hover {
     background-color: #e0e0e0; /* Cor de fundo ao passar o mouse */
@@ -50,7 +48,6 @@ export const Header = styled.header`
 
 export const Logo = styled.img`
   height: 60px;
-  margin-bottom: 1rem; /* Espaço abaixo do logo */
 `;
 
 export const Content = styled.main`

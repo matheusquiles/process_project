@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as F from '../styles/frame.jsx';
 import CadastroProcesso from '../CadastroProcesso';
+import ConsultarProcesso from '../Processos';
 
 const Frame = ({ children }) => {
   const [openSubMenu, setOpenSubMenu] = useState('');
@@ -22,7 +23,7 @@ const Frame = ({ children }) => {
           Processos
           <F.SubMenu isOpen={openSubMenu === 'processos'}>
           <F.SubMenuItem onClick={() => handleMenuClick(<CadastroProcesso />)}>Novo</F.SubMenuItem>
-          <F.SubMenuItem onClick={() => handleMenuClick(null)}>Consultar</F.SubMenuItem>
+          <F.SubMenuItem onClick={() => handleMenuClick(<ConsultarProcesso/>)}>Consultar</F.SubMenuItem>
           </F.SubMenu>
         </F.MenuItem>
         <F.MenuItem onClick={() => toggleSubMenu('manutencao')}>
