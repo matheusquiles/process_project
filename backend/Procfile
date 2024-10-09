@@ -1,0 +1,1 @@
+web: java -jar target/processos-0.0.1-SNAPSHOT.jar
