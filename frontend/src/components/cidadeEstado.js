@@ -4,7 +4,7 @@ import { InputLabel, StyledSelect, InputWrapper } from '../styles/formulario';
 import { GenericP } from '../styles/globalstyles';
 import PropTypes from 'prop-types';
 
-export default function EstadoCidadeInput({ label, first, topless, imgW, small, formData, setFormData, required, invalidFields = [] }) {
+export default function EstadoCidadeInput({ label, first, topless, imgW, small, formData, setFormData, required, invalidFields = [], onChange }) {
     const [estados, setEstados] = useState([]);
     const [cidades, setCidades] = useState([]);
     const [estadoSelecionado, setEstadoSelecionado] = useState(formData.estado || '');
@@ -27,9 +27,14 @@ export default function EstadoCidadeInput({ label, first, topless, imgW, small, 
     const handleEstadoChange = (e) => {
         const estadoId = e.target.value;
         const estadoNome = e.target.options[e.target.selectedIndex].text; 
-        setEstadoSelecionado(estadoId); // Atualiza com o ID do estado
-        setCidadeSelecionada(''); // Reset cidade quando o estado mudar
+        setEstadoSelecionado(estadoId); 
+        setCidadeSelecionada(''); 
         setFormData({ ...formData, estado: estadoNome, cidade: '' }); 
+
+        // Chama a função onChange passada como prop
+        if (onChange) {
+            onChange({ target: { name: 'estado', value: estadoNome } });
+        }
 
         setIsLoadingCidades(true);
         axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoId}/municipios`)
@@ -47,6 +52,11 @@ export default function EstadoCidadeInput({ label, first, topless, imgW, small, 
         const cidadeNome = e.target.options[e.target.selectedIndex].text; 
         setCidadeSelecionada(cidadeNome);
         setFormData({ ...formData, cidade: cidadeNome }); 
+
+        // Chama a função onChange passada como prop
+        if (onChange) {
+            onChange({ target: { name: 'cidade', value: cidadeNome } });
+        }
     };
 
     const isInvalid = (field) => invalidFields.includes(field);
@@ -57,7 +67,7 @@ export default function EstadoCidadeInput({ label, first, topless, imgW, small, 
                 <GenericP>{label} Estado:</GenericP>
                 <StyledSelect 
                     onChange={handleEstadoChange} 
-                    value={estadoSelecionado} // Vincula ao ID do estado
+                    value={estadoSelecionado} 
                     style={{ width: '100%', height: '45px' }}
                     required={required}
                 >
@@ -101,6 +111,7 @@ EstadoCidadeInput.propTypes = {
     setFormData: PropTypes.func.isRequired,
     required: PropTypes.bool,
     invalidFields: PropTypes.array,
+    onChange: PropTypes.func,
 };
 
 EstadoCidadeInput.defaultProps = {
@@ -110,4 +121,5 @@ EstadoCidadeInput.defaultProps = {
     small: false,
     required: false,
     invalidFields: [],
+    onChange: () => {},
 };

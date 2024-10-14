@@ -1,12 +1,11 @@
 import styled from 'styled-components';
-// import { PRIMARY, SECUNDARY, SECUNDARY_DISABLED, WHITE } from './colors';
 import { WHITE, TEXT_SECUNDARY, BOX_SHADOW, BACKGROUND, HR } from './colors';
 
 const MARGIN = '0.5em';
 
 export const Input = styled.input`
   background-color: ${WHITE};
-  border: solid ${TEXT_SECUNDARY} .1px;
+  border: solid #CDD7E1 .1px !important;
   border-radius: 5px;
   /* margin: ${MARGIN} 0; */
   font-size: 1em;
@@ -17,7 +16,7 @@ export const Input = styled.input`
 
 export const selectInput = styled.input`
   background-color: ${WHITE};
-  border: solid ${TEXT_SECUNDARY} .1px;
+  border: solid #CDD7E1 .1px;
   border-radius: 5px;
   /* margin: ${MARGIN} 0; */
   /* font-size: 0.7em; */
@@ -38,6 +37,11 @@ export const SmallInputLine = styled(InputLine)`
   max-width: calc(37.5% - 1rem);
 `
 
+export const MediumInputLine = styled(InputLine)`
+  margin-right: 1rem;
+  max-width: calc(50% - 1rem);
+`
+
 export const InputLabel = styled.label`
   display: flex;
   flex-direction: column;
@@ -45,8 +49,10 @@ export const InputLabel = styled.label`
   justify-content: space-around;
   margin-left: ${({ first, small }) => first ? 0 : small ? '.5rem' : '1rem'};
   margin-right: ${({ first, small }) => first && small ? '.5rem' : '0'};
-  width: ${({ imgW }) => imgW ? '27%' : 'auto'};
-  width: ${({ first, medium }) => first && medium ? '20%' : 'auto'};
+  margin-right: ${({ first, medium }) => first && medium ? '.5rem' : '0'};
+  width: ${({ small }) => small ? '30%' : '20%'};
+  width: ${({ medium }) => medium ? '8%' : '20%'};
+  width: ${({ first, medium }) => first && medium ? '5%' : 'auto'};
   flex-grow: ${({ imgW, small }) => imgW || small ? 0 : 1};
   /* color: ${TEXT_SECUNDARY}; */
 
@@ -78,29 +84,12 @@ export const LookupLabel = styled.label`
   } */
 `;
 
-export const LogoLine = styled.div`
-  width: 95%;
-  height: 230px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-export const Logo = styled.img`
-  width: auto;         
-  height: auto;         
-  max-height: 100%;    
-  margin-left: 1rem;
-  cursor: pointer;
-  object-fit: contain;  
-  max-width: 100%;      
-`
 
 export const StyledSelect = styled.select`
   color: black; 
   box-shadow: ${BOX_SHADOW};
   background-color: ${WHITE};
-  border: solid ${TEXT_SECUNDARY} .1px;
+  border: solid #CDD7E1 .1px !important;
   border-radius: 5px;
   margin: ${MARGIN} 1; 
   font-size: 1em;
@@ -118,7 +107,6 @@ export const StyledSelect = styled.select`
   font-size: 1rem;
   padding: 0.5rem 0;
   height: 100%;
-  border: ${({ $styled }) => $styled ? `solid ${HR} 1px` : `solid ${TEXT_SECUNDARY} .1px`};
   overflow-y: scroll;
 
   :focus {
@@ -138,20 +126,17 @@ export const StyledSelect = styled.select`
 `
 
 export const InputDate = styled.input`
-  color: black;  
-  background-color: ${WHITE};
-  border: solid ${TEXT_SECUNDARY} .1px;
+  border: solid #CDD7E1 .1px;
   border-radius: 5px;
-  /* margin: ${MARGIN} 0; */
-  font-size: 1.2em;
-  padding: 1m;
+  font-size: 1em;
+  padding: 0.5em;
   box-shadow: ${BOX_SHADOW};
   outline: none;
 `
 
 export const InputMoney = styled.input`
   background-color: ${WHITE};
-  border: solid ${TEXT_SECUNDARY} .1px;
+  border: solid #CDD7E1 .1px;
   border-radius: 5px;
   font-size: 1em;
   padding: 0.5em;
