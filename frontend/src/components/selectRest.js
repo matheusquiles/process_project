@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFormData, setOptions, setLoading} from '../redux/reducers/formSlice';
+import { setFormData, setOptions, setLoading } from '../redux/reducers/formSlice';
 import { InputLabel, StyledSelect } from '../styles/formulario';
 import { GenericP } from '../styles/globalstyles';
 import { API_BASE_URL } from '../helpers/constants';
-import PropTypes from 'prop-types';
-import LoadingSpinner from './LoaderComponent';
 
-export default function SelectRest({ label, first, medium, topless, small, route, id, name, onChange, defaultValue, invalidFields }) {
+export default function SelectRest({ label, first, medium, topless, small, route, id, name, onChange, defaultValue, invalidFields, disabled = false }) {
   const dispatch = useDispatch();
   const selected = useSelector((state) => state.form.formData[route] || defaultValue);
   const options = useSelector((state) => state.form.options[route] || []);
   const isInvalid = invalidFields.includes(route);
   const [loadingDelay, setLoadingDelay] = useState(false);
-  
+
   const handleSelect = (event) => {
     const { value } = event.target;
     dispatch(setFormData({ [route]: value }));
@@ -25,7 +23,7 @@ export default function SelectRest({ label, first, medium, topless, small, route
   };
 
   const getData = useCallback(async () => {
-    dispatch(setLoading(true)); 
+    dispatch(setLoading(true));
     setLoadingDelay(true);
     try {
       const thisOptions = [];
@@ -36,15 +34,14 @@ export default function SelectRest({ label, first, medium, topless, small, route
       });
 
       dispatch(setOptions({ route, options: thisOptions }));
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulando atraso
     } catch (error) {
       console.log('Erro na requisição:', error);
     } finally {
-      dispatch(setLoading(false)); 
+      dispatch(setLoading(false));
       setLoadingDelay(false);
     }
   }, [route, id, name, dispatch]);
-
 
   useEffect(() => {
     if (!options.length) getData();
@@ -54,20 +51,16 @@ export default function SelectRest({ label, first, medium, topless, small, route
   const isLoadingDelayed = loadingDelay || isLoading;
 
   return (
-    isLoadingDelayed ? (
-      <div className="loading-spinner"> {
-        <LoadingSpinner />
-      }
-      </div>
-    ) : (
-      <InputLabel first={first} medium={medium} topless={topless} small={small} style={{ borderColor: isInvalid ? 'red' : 'inherit' }}>
-        <GenericP>{label}:</GenericP>
-        <StyledSelect onChange={handleSelect} value={selected} style={{ borderColor: isInvalid ? 'red' : 'inherit' }}>
-          <option value="">{`Selecione`}</option>
-          {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
-        </StyledSelect>
-        {isInvalid && <span style={{ color: 'red' }}>Este campo é obrigatório.</span>}
-      </InputLabel>
-   )
+    <InputLabel first={first} medium={medium} topless={topless} small={small} style={{ borderColor: isInvalid ? 'red' : 'inherit' }}>
+      <GenericP>{label}:</GenericP>
+      <StyledSelect onChange={handleSelect}
+        value={isLoadingDelayed ? 'Carregando...' : (selected || '')}
+        style={{ borderColor: isInvalid ? 'red' : 'inherit' }}
+        disabled={disabled || isLoadingDelayed}>
+        <option value="">{isLoadingDelayed ? 'Carregando...' : 'Selecione'}</option>
+        {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+      </StyledSelect>
+      {isInvalid && <span style={{ color: 'red' }}>Este campo é obrigatório.</span>}
+    </InputLabel>
   );
 }

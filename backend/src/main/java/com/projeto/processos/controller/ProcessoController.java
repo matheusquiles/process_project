@@ -13,6 +13,7 @@ import com.projeto.processos.model.Processo;
 import com.projeto.processos.service.ProcessoService;
 import com.projeto.processos.service.impl.ProcessoServiceImp;
 
+
 @RestController
 @RequestMapping("api/processo")
 public class ProcessoController extends BaseControllerImpl<Processo, Integer> {
@@ -51,10 +52,10 @@ public class ProcessoController extends BaseControllerImpl<Processo, Integer> {
 	}
 
 	@GetMapping("/buscarProcesso/{processo}")
-	public Processo getByProcesso(@PathVariable String processo) {
-		Processo p = new Processo();
+	public ProcessoDTO getByProcesso(@PathVariable String processo) {
+		ProcessoDTO p = new ProcessoDTO();
 		try {
-			p = service.getByProcesso(processo);
+			p = service.findDTO(processo);
 			return p;
 
 		} catch (Exception e) {

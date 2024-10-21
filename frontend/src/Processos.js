@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { setErrorMessage, setFormData, setIsValidResponse, setSelectedPedidos } from './redux/reducers/formSlice';
+import { setErrorMessage, setFormData, setIsValidResponse, setSelectedPedidos, resetForm, setEditing, setLoading } from './redux/reducers/formSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Input from './components/input.js';
 import SelectRest from './components/selectRest.js';
@@ -11,7 +11,7 @@ import EstadoCidadeInput from './components/cidadeEstado.js';
 import MultiSelectRest from './components/multiSelectRest.js';
 import LookupRest from './components/lookupRest.js';
 import { Divider } from '@mui/material';
-import { API_BASE_URL } from './helpers/constants.js'; 
+import { API_BASE_URL } from './helpers/constants.js';
 
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -19,6 +19,8 @@ import Box from '@mui/joy/Box';
 import Breadcrumbs from '@mui/joy/Breadcrumbs';
 import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
+import Button from '@mui/joy/Button';
+import CircularProgress from '@mui/joy/CircularProgress';
 
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -28,89 +30,104 @@ const ConsultarProcesso = () => {
     const loading = useSelector((state) => state.form.loading);
     const formData = useSelector((state) => state.form.formData);
     const invalidFields = useSelector((state) => state.form.invalidFields);
+    const isEditing = useSelector((state) => state.form.isEditing);
+    const isLoading = useSelector((state) => state.form.isLoading);
 
-
-    // const handleChange = (e) => {
-    //     if (e.target && e.target.name && e.target.value !== undefined) {
-    //         const { name, value } = e.target;
-    //         dispatch(setFormData({ [name]: value }));
-    //     } else {
-    //         console.error('Event target is missing name or value:', e.target);
-    //     }
-    // };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log("Resposta HandleChange:", e);
-        dispatch(setFormData({ [name]: value })); // Atualiza o formData no Redux
+        dispatch(setFormData({ [name]: value }));
     };
 
     const handleMultiSelectChange = (selectedItems) => {
-        console.log("Selected items recebidos:", selectedItems);
-
         if (!Array.isArray(selectedItems)) {
             selectedItems = [];
         }
         const mappedItems = selectedItems.map(item => ({
-            tipoPedido: item.id
+            tipoPedido: item.id,
+            descricao: item.descricao
         }));
 
         setSelectedPedidos(mappedItems);
     };
 
+    useEffect(() => {
+        dispatch(resetForm());
+    }, [dispatch]);
 
-    // const handleLookupResponse = (response) => {
-    //     if (response && response.numeroProcesso) {
-    //         dispatch(setLookupResponse(response));
-    //         dispatch(setIsValidResponse(true));
-    //     } else {
-    //         dispatch(setErrorMessage("Processo não encontrado ou dados inválidos."));
-    //         dispatch(setIsValidResponse(false));
-    //     }
-    // };
+    const [searchValue, setSearchValue] = useState('');
 
-    const handleLookupResponse = (response) => {
-        console.log("Resposta da API:", response);
-
-        if (response && response.numeroProcesso) {
-            setFormData((prevData) => ({
-                ...prevData,
-                numeroProcesso: response.numeroProcesso,
-                autor: response.autor || '',
-                nomeEscritorio: response.nomeEscritorio || '',
-            }));
-
-            dispatch(setIsValidResponse(true));
-        } else {
-            dispatch(setErrorMessage("Processo não encontrado ou dados inválidos."));
-            dispatch(setIsValidResponse(false));
-        }
+    const handleEditClick = () => {
+        dispatch(setEditing(true));
+        dispatch(setFormData({ ...formData }));
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/processo/${formData.numeroProcesso}`);
-                handleLookupResponse(response.data); 
-            } catch (error) {
-                console.error("Erro ao buscar dados:", error);
-                dispatch(setErrorMessage("Erro ao buscar dados.")); // Dispatch error message if needed
+    const handleSaveClick = () => {
+        dispatch(setEditing(false));
+    };
+
+    const handleCancelClick = () => {
+        dispatch(resetForm());
+        dispatch(setEditing(false));
+    };
+
+
+    const handleSearch = async () => {
+        dispatch(resetForm());
+        dispatch(setLoading(true));
+        try {
+            const { data } = await axios.get(`${API_BASE_URL}/processo/buscarProcesso/${searchValue}`);
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+
+            if (data && data.numeroProcesso) {
+                const pedidos = data.pedido || [];
+                dispatch(setFormData({
+                    numeroProcesso: data.numeroProcesso,
+                    autor: data.autor || '',
+                    escritorio: data.escritorio || '',
+                    reu: data.reu || '',
+                    reclamada: data.reclamada || '',
+                    vara: data.vara || '',
+                    faseProcessual: data.faseProcessual || '',
+                    classificacaoRisco: data.classificacaoRisco || '',
+                    funcao: data.funcao || '',
+                    natureza: data.natureza || '',
+                    tipoAcao: data.tipoAcao || '',
+                    tribunal: data.tribunal || '',
+                    valorCausa: data.valorCausa || '',
+                    dataAjuizamento: data.dataAjuizamento || '',
+                    estado: data.estado || '',
+                    cidade: data.cidade || '',
+                    ultimosAndamentosProcessuais: data.ultimosAndamentosProcessuais || '',
+                    admissao: data.admissao || '',
+                    demissao: data.demissao || '',
+                    depositoRecursalOrdinario: data.depositoRecursalOrdinario || '',
+                    dataDepositoRecursalOrdinario: data.dataDepositoRecursalOrdinario || '',
+                    depositoRecursalRevista: data.depositoRecursalRevista || '',
+                    dataDepositoRecursalRevista: data.dataDepositoRecursalRevista || '',
+                    depositoJudicial: data.depositoJudicial || '',
+                    dataDepositoJudicial: data.dataDepositoJudicial || '',
+                    pedidos: pedidos.map(pedido => ({
+                        idTipoPedido: pedido.idTipoPedido,
+                        descricao: pedido.descricao
+                    })),
+                }));
+                dispatch(setIsValidResponse(true));
+            } else {
+                dispatch(setErrorMessage('Processo não encontrado ou dados inválidos.'));
+                dispatch(setIsValidResponse(false));
             }
-        };
-
-        if (formData.numeroProcesso) {
-            fetchData();
+        } catch (error) {
+            console.error('Erro ao buscar dados:', error);
+            dispatch(setErrorMessage('Erro ao buscar dados.'));
+        } finally {
+            dispatch(setLoading(false));
         }
-    }, [formData.numeroProcesso]);
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Dados do formulário:", formData);
     };
 
 
     return (
-        <form onSubmit={handleSubmit} className="cadastro-processo-form">
+        <form onSubmit={(e) => e.preventDefault()}>
 
             <CssVarsProvider disableTransitionOnChange>
                 <CssBaseline />
@@ -175,19 +192,29 @@ const ConsultarProcesso = () => {
                                 Buscar Processo
                             </Typography>
                         </Box>
-                        <Box>
-                            <LookupRest
-                                route='processo/buscarProcesso'
-                                name='nrProcesso'
-                                onChange={setFormData}
-                                first small form={formData}
-                                invalidFields={invalidFields}
-                                onResponse={handleLookupResponse}
-                                blocked={false}
-                            />
-                        </Box>
+                        <F.InputLine>
+                            <Box>
+                                <LookupRest
+                                    value={searchValue}
+                                    first
+                                    onChange={setSearchValue}
+                                    onSearch={handleSearch}
+                                />
+                            </Box>
 
-                        <Divider />
+                            {isLoading && <CircularProgress sx={{
+                                size: 'sm',
+                                gap: 2,
+                                mt: 2,
+                                mb: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-end'
+                            }} />}
+
+                        </F.InputLine>
+
+                        <Divider sx={{mt: 3}} />
 
                         <F.InputLine column>
                             <F.InputLine>
@@ -196,22 +223,21 @@ const ConsultarProcesso = () => {
                                     first route='escritorio'
                                     id='idEscritorio'
                                     name='nomeEscritorio'
-                                    value={formData.numeroProcesso || ""}
-                                    onChange={(e) => setFormData((prev) => ({
-                                        ...prev,
-                                        numeroProcesso: e.target.value,
-                                    }))}
+                                    onChange={setFormData}
+                                    defaultValue=""
                                     form={formData}
                                     invalidFields={invalidFields}
                                     loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <Input
                                     label="Nº do Processo"
                                     fieldName="numeroProcesso"
                                     formData={formData}
                                     setFormData={setFormData}
-                                    onChange={handleChange}
+                                    value={formData.numeroProcesso || ''}
                                     invalidFields={invalidFields}
+                                    disabled={!isEditing}
                                 />
                                 <Input
                                     label="Réu"
@@ -219,6 +245,7 @@ const ConsultarProcesso = () => {
                                     formData={formData}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.InputLine>
 
@@ -233,6 +260,7 @@ const ConsultarProcesso = () => {
                                     form={formData}
                                     invalidFields={invalidFields}
                                     loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <Input
                                     label="Autor"
@@ -241,6 +269,7 @@ const ConsultarProcesso = () => {
                                     setFormData={setFormData}
                                     onChange={handleChange}
                                     invalidFields={invalidFields}
+                                    disabled={!isEditing}
                                 />
                                 <Input
                                     label="Reclamada"
@@ -248,6 +277,7 @@ const ConsultarProcesso = () => {
                                     formData={formData}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.InputLine>
 
@@ -261,7 +291,8 @@ const ConsultarProcesso = () => {
                                     form={formData}
                                     defaultValue=""
                                     invalidFields={invalidFields}
-                                    loading={loading} // Passando o estado de loading para o component
+                                    loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <SelectRest
                                     label="Classificação de Risco"
@@ -272,7 +303,8 @@ const ConsultarProcesso = () => {
                                     form={formData}
                                     defaultValue=""
                                     invalidFields={invalidFields}
-                                    loading={loading} // Passando o estado de loading para o component
+                                    loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <SelectRest
                                     label="Função"
@@ -283,7 +315,8 @@ const ConsultarProcesso = () => {
                                     form={formData}
                                     defaultValue=""
                                     invalidFields={invalidFields}
-                                    loading={loading} // Passando o estado de loading para o component
+                                    loading={loading}
+                                    disabled={!isEditing}
                                 />
                             </F.InputLine>
 
@@ -297,7 +330,8 @@ const ConsultarProcesso = () => {
                                     form={formData}
                                     defaultValue=""
                                     invalidFields={invalidFields}
-                                    loading={loading} // Passando o estado de loading para o component
+                                    loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <SelectRest
                                     label="Tipo de Ação"
@@ -309,6 +343,7 @@ const ConsultarProcesso = () => {
                                     defaultValue=""
                                     invalidFields={invalidFields}
                                     loading={loading}
+                                    disabled={!isEditing}
                                 />
                             </F.MediumInputLine>
 
@@ -323,20 +358,24 @@ const ConsultarProcesso = () => {
                                     defaultValue=""
                                     invalidFields={invalidFields}
                                     loading={loading}
+                                    disabled={!isEditing}
                                 />
                                 <DateImput
                                     label="Data de Ajuizamento"
-                                    small fieldName="dataAjuizamento"
-                                    formData={formData}
+                                    small
+                                    fieldName="dataAjuizamento"
+                                    value={formData.dataAjuizamento || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                                 <MoneyImput
                                     label="Valor da Causa"
                                     imgW fieldName="valorCausa"
-                                    formData={formData}
+                                    value={formData.valorCausa || ''}
                                     setFormData={setFormData}
-                                    onChange={handleChange} />
+                                    onChange={handleChange}
+                                    disabled={!isEditing} />
                             </F.MediumInputLine>
 
                             <F.MediumInputLine>
@@ -346,6 +385,7 @@ const ConsultarProcesso = () => {
                                     formData={formData}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.MediumInputLine>
 
@@ -357,6 +397,7 @@ const ConsultarProcesso = () => {
                                     setFormData={setFormData}
                                     onChange={handleChange}
                                     invalidFields={invalidFields}
+                                    disabled={!isEditing}
                                 />
                             </F.InputLine>
 
@@ -368,9 +409,10 @@ const ConsultarProcesso = () => {
                                     name='descricao'
                                     onChange={handleMultiSelectChange}
                                     form={formData}
-                                    defaultValue={[]}
+                                    defaultValue={formData.pedidos ? formData.pedidos.map(pedido => ({ id: pedido.idTipoPedido, name: pedido.descricao })) : []}
                                     invalidFields={invalidFields}
                                     loading={loading}
+                                    disabled={!isEditing}
                                 />
                             </F.MediumInputLine>
 
@@ -379,15 +421,18 @@ const ConsultarProcesso = () => {
                                     label="Data Admissão"
                                     fieldName="admissao"
                                     first formData={formData}
+                                    value={formData.admissao || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                                 <DateImput
                                     label="Data Demissão"
                                     fieldName="demissao"
-                                    formData={formData}
+                                    value={formData.demissao || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.SmallInputLine>
 
@@ -396,15 +441,18 @@ const ConsultarProcesso = () => {
                                     label="Depósito Recurso Ordinário"
                                     first fieldName="depositoRecursalOrdinario"
                                     formData={formData}
+                                    value={formData.depositoRecursalOrdinario || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                                 <DateImput
                                     label="Data Recurso Ordinário"
                                     fieldName="dataDepositoRecursalOrdinario"
-                                    formData={formData}
+                                    value={formData.dataDepositoRecursalOrdinario || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.SmallInputLine>
 
@@ -413,15 +461,18 @@ const ConsultarProcesso = () => {
                                     label="Depósito Recurso Revista"
                                     first fieldName="depositoRecursalRevista"
                                     formData={formData}
+                                    value={formData.depositoRecursalRevista || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                                 <DateImput
                                     label="Data Recurso Revista"
                                     fieldName="dataDepositoRecursalRevista"
-                                    formData={formData}
+                                    value={formData.dataDepositoRecursalRevista || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.SmallInputLine>
 
@@ -430,18 +481,38 @@ const ConsultarProcesso = () => {
                                     label="Depósito Judicial"
                                     first fieldName="depositoJudicial"
                                     formData={formData}
+                                    value={formData.depositoJudicial || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                                 <DateImput
                                     label="Data do Depósito Judicial"
                                     fieldName="dataDepositoJudicial"
-                                    formData={formData}
+                                    value={formData.dataDepositoRecursalRevista || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
+                                    disabled={!isEditing}
                                 />
                             </F.SmallInputLine>
+                        </F.InputLine>
 
+                        <F.InputLine>
+                            <Box sx={{
+                                display: 'flex',
+                                flexWrap: 'nowrap',
+                                gap: 2,
+                                mt: 3,
+                                mb: 1,
+                                width: '100%',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                                justifyContent: 'flex-end'
+                            }}>
+                                <Button type="button" variant='outlined' onClick={handleCancelClick}>Cancelar</Button>
+                                <Button type="reset" variant='soft' onClick={handleEditClick}>Editar</Button>
+                                <Button type="submit" disabled={!isEditing}   >Atualizar</Button>
+                            </Box>
                         </F.InputLine>
                     </Box>
                 </Box>
