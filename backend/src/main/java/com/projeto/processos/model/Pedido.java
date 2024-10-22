@@ -20,7 +20,7 @@ public class Pedido implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idPedido;
+	private Integer idPedido;
 	
 	@ManyToOne(cascade = {CascadeType.PERSIST})
 	@JoinColumn(name = "id_processo", nullable=false)
@@ -44,7 +44,7 @@ public class Pedido implements Serializable{
 	}
 
 
-	public Pedido(int id, Processo processo, TipoPedido tipoPedido, Boolean pedidoGanhoPrimeiraInstancia,
+	public Pedido(Integer id, Processo processo, TipoPedido tipoPedido, Boolean pedidoGanhoPrimeiraInstancia,
 			Boolean pedidoGanhoSegundaInstancia, Boolean pedidoGanhoTerceiraInstancia) {
 		super();
 		this.idPedido = id;
@@ -56,11 +56,11 @@ public class Pedido implements Serializable{
 	}
 
 	
-	public int getIdPedido() {
+	public Integer getIdPedido() {
 		return idPedido;
 	}
 
-	public void setIdPedido(int idPedido) {
+	public void setIdPedido(Integer idPedido) {
 		this.idPedido = idPedido;
 	}
 

@@ -1,11 +1,11 @@
 package com.projeto.processos.model;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,33 +22,33 @@ public class Processo implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idProcesso;
+	private Integer idProcesso;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "escritorio")
 	private Escritorio escritorio;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "natureza")
 	private Natureza natureza;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "tipo_acao")
 	private TipoAcao tipoAcao;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "funcao")
 	private Funcao funcao;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "tribunal")
 	private Tribunal tribunal;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "fase_processual")
 	private FaseProcessual faseProcessual;
 	
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne()
 	@JoinColumn(name = "vara")
 	private Vara vara;
 	
@@ -159,7 +159,7 @@ public class Processo implements Serializable{
 	}
 	
 
-	public Processo(int idProcesso, Escritorio escritorio, Natureza natureza, TipoAcao tipoAcao, Funcao funcao,
+	public Processo(Integer idProcesso, Escritorio escritorio, Natureza natureza, TipoAcao tipoAcao, Funcao funcao,
 			Tribunal tribunal, FaseProcessual faseProcessual, Vara vara, Date admissao, Date demissao,
 			String numeroProcesso, String estado, String cidade, String reu, Date dataAjuizamento,
 			String ultimosAndamentosProcessuais, Double valorCausa, String autor, Double valorPerdaEstimado,
@@ -202,13 +202,13 @@ public class Processo implements Serializable{
 
 
 
-	public int getIdProcesso() {
+	public Integer getIdProcesso() {
 		return idProcesso;
 	}
 
 
 
-	public void setIdProcesso(int idProcesso) {
+	public void setIdProcesso(Integer idProcesso) {
 		this.idProcesso = idProcesso;
 	}
 
@@ -549,7 +549,7 @@ public class Processo implements Serializable{
 
 
 	public List<Pedido> getPedido() {
-		return pedido;
+		return pedido == null ? Collections.emptyList() : pedido ;
 	}
 
 

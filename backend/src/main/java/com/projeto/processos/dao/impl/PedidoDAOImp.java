@@ -1,5 +1,6 @@
 package com.projeto.processos.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -23,12 +24,12 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 	@Override
 	public List<PedidoDTO> getAllDTO() {
 		Session currentSession = entityManager.unwrap(Session.class);
-		
+
 		StringBuilder hql = searchPedidoDTO();
-		
-		Query<PedidoDTO> list =  currentSession.createQuery(hql.toString(), PedidoDTO.class);
+
+		Query<PedidoDTO> list = currentSession.createQuery(hql.toString(), PedidoDTO.class);
 		List<PedidoDTO> results = list.getResultList();
-		
+
 		return results;
 	}
 
@@ -36,24 +37,23 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 	public List<PedidoDTO> getDTO(Integer idProcesso) {
 		try {
 			Session currentSession = entityManager.unwrap(Session.class);
-			
+
 			StringBuilder hql = searchPedidoDTO();
 			hql.append("and pro.idProcesso = :idProcesso");
-			
-			Query<PedidoDTO> query =  currentSession.createQuery(hql.toString(), PedidoDTO.class);
+
+			Query<PedidoDTO> query = currentSession.createQuery(hql.toString(), PedidoDTO.class);
 			query.setParameter("idProcesso", idProcesso);
-			
+
 			List<PedidoDTO> vehicleList = query.getResultList();
-			
+
 			return vehicleList;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		    throw new RuntimeException("Erro ao obter os dados", e);
+			throw new RuntimeException("Erro ao obter os dados", e);
 		}
 	}
-	
-	
+
 	private StringBuilder searchPedidoDTO() {
 		StringBuilder hql = new StringBuilder();
 		hql.append("select new com.projeto.processos.dto.PedidoDTO(");
@@ -69,10 +69,25 @@ public class PedidoDAOImp extends BaseDAOImpl<Pedido, Integer> implements Pedido
 		hql.append(" inner join ped.processo pro ");
 		hql.append(" inner join ped.tipoPedido tpe ");
 		hql.append(" where 1=1 ");
-		
+
 		return hql;
 	}
-	
 
+	@Override
+	public List<Pedido> getPedidoByProcesso(Integer idProcesso) {
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		StringBuilder hql = new StringBuilder();
+		hql.append("from Pedido p ");
+		hql.append("inner join p.processo pro ");
+		hql.append("where pro.idProcesso = :idProcesso");
+
+		Query<Pedido> query = currentSession.createQuery(hql.toString(), Pedido.class);
+		query.setParameter("idProcesso", idProcesso);
+		
+		List<Pedido> list = query.getResultList();
+
+		return !list.isEmpty() ? list : new ArrayList<>();
+	}
 
 }

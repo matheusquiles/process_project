@@ -122,6 +122,10 @@ public class ProcessoDAOImpl extends BaseDAOImpl<Processo, Integer> implements P
 		Query<Processo> query = currentSession.createQuery(hql.toString(), Processo.class);
 		query.setParameter("processo", processo);
 		Processo p = query.uniqueResult();
+		
+		if(p != null) {
+			p.setPedido(pedidoDAO.getPedidoByProcesso(p.getIdProcesso()));
+		}
 
 		return p;
 	}

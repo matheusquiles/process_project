@@ -16,7 +16,7 @@ public class TipoPedido implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idTipoPedido;
+	private Integer idTipoPedido;
 	private String descricao;
 	
 	
@@ -24,13 +24,13 @@ public class TipoPedido implements Serializable{
 	}
 	
 	
-	public TipoPedido(int idTipoPedido, String descricao) {
+	public TipoPedido(Integer idTipoPedido, String descricao) {
 		super();
 		this.idTipoPedido = idTipoPedido;
 		this.descricao = descricao;
 	}
 
-	public TipoPedido(int idTipoPedido) {
+	public TipoPedido(Integer idTipoPedido) {
 		super();
 		this.idTipoPedido = idTipoPedido;
 	}
@@ -40,7 +40,7 @@ public class TipoPedido implements Serializable{
 		return idTipoPedido;
 	}
 
-	public void setIdTipoPedido(int idTipoPedido) {
+	public void setIdTipoPedido(Integer idTipoPedido) {
 		this.idTipoPedido = idTipoPedido;
 	}
 

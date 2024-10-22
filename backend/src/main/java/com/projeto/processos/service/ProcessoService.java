@@ -13,5 +13,6 @@ public interface ProcessoService extends BaseService<Processo, Integer> {
 	public Boolean salvarProcesso(Processo entity);
 	public Boolean validaProcessoExistente (String processo);
 	public Processo getByProcesso(String processo);
+	public Boolean editarProcesso(String nrProcesso, Processo processo);
 
 }
