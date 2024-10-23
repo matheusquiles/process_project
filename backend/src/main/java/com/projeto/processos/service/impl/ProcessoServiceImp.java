@@ -1,5 +1,6 @@
 package com.projeto.processos.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -229,6 +230,7 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	    existente.setDataDepositoJudicial(novo.getDataDepositoJudicial());
 	    existente.setBloqueioJudicial(novo.getBloqueioJudicial());
 	    existente.setDataBloqueioJudicial(novo.getDataBloqueioJudicial());
+	    existente.setLastModificationDate(LocalDateTime.now());
 		
 	}
 

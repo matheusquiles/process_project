@@ -1,10 +1,13 @@
 package com.projeto.processos.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,13 +55,16 @@ public class Processo implements Serializable{
 	@JoinColumn(name = "vara")
 	private Vara vara;
 	
-	private Date admissao;
-	private Date demissao;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate admissao;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate demissao;
 	private String numeroProcesso;
 	private String estado;
 	private String cidade;
 	private String reu;
-	private Date dataAjuizamento;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataAjuizamento;
 	private String ultimosAndamentosProcessuais;
 	private Double valorCausa;
 	private String autor;
@@ -66,30 +72,38 @@ public class Processo implements Serializable{
 	private String reclamada;
 	private String classificacaoRisco;
 	private Double depositoRecursalOrdinario;
-	private Date dataDepositoRecursalOrdinario;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoRecursalOrdinario;
 	private Double depositoRecursalRevista;
-	private Date dataDepositoRecursalRevista;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoRecursalRevista;
 	private Double depositoJudicial;
-	private Date dataDepositoJudicial;
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoJudicial;
 	private int bloqueioJudicial;
-	private Date dataBloqueioJudicial;
-
+	 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataBloqueioJudicial;
+	 
+	private LocalDateTime creationDate;
+	private LocalDateTime lastModificationDate;
 
 	@Transient
 	private List<Pedido> pedido;
 	
 	public Processo() {
+		this.creationDate = LocalDateTime.now();
+		this.lastModificationDate = LocalDateTime.now();
 	}
 	
 	
 
 	public Processo(Escritorio idEscritorio, String reclamada, Natureza idNatureza, String autor, String reu,
-			TipoAcao idTipoAcao, Funcao idFuncao, Date admissao, Date demissao, String numeroProcesso,
-			Tribunal idTribunal, String estado, String cidade, Vara vara, Date dataAjuizamento,
+			TipoAcao idTipoAcao, Funcao idFuncao, LocalDate admissao, LocalDate demissao, String numeroProcesso,
+			Tribunal idTribunal, String estado, String cidade, Vara vara, LocalDate dataAjuizamento,
 			String ultimosAndamentosProcessuais, FaseProcessual idFaseProcessual, Double valorCausa,
 			Double valorPerdaEstimado, String classificacaoRisco, Double depositoRecursoOrdinario,
-			Date dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, Date dataDepositoRecursoRevisao,
-			Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial, Date dataBloqueioJudicial) {
+			LocalDate dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, LocalDate dataDepositoRecursoRevisao,
+			Double depositoJudicial, LocalDate dataDepositoJudicial, int bloqueioJudicial, LocalDate dataBloqueioJudicial) {
 		super();
 		this.escritorio = idEscritorio;
 		this.reclamada = reclamada;
@@ -119,16 +133,18 @@ public class Processo implements Serializable{
 		this.dataDepositoJudicial = dataDepositoJudicial;
 		this.bloqueioJudicial = bloqueioJudicial;
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
+		this.creationDate = LocalDateTime.now();
+		this.lastModificationDate = LocalDateTime.now();
 	}
 	
 	//contrutor sem idProcesso
 	public Processo(String reclamada, Natureza idNatureza, String autor, String reu,
-			TipoAcao idTipoAcao, Funcao idFuncao, Date admissao, Date demissao, String numeroProcesso,
-			Tribunal idTribunal, String estado, String cidade, Vara vara, Date dataAjuizamento,
+			TipoAcao idTipoAcao, Funcao idFuncao, LocalDate admissao, LocalDate demissao, String numeroProcesso,
+			Tribunal idTribunal, String estado, String cidade, Vara vara, LocalDate dataAjuizamento,
 			String ultimosAndamentosProcessuais, FaseProcessual idFaseProcessual, Double valorCausa,
 			Double valorPerdaEstimado, String classificacaoRisco, Double depositoRecursoOrdinario,
-			Date dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, Date dataDepositoRecursoRevisao,
-			Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial, Date dataBloqueioJudicial) {
+			LocalDate dataDepositoRecursoOrdinario, Double depositoRecursoRevisao, LocalDate dataDepositoRecursoRevisao,
+			Double depositoJudicial, LocalDate dataDepositoJudicial, int bloqueioJudicial, LocalDate dataBloqueioJudicial) {
 		this.reclamada = reclamada;
 		this.natureza = idNatureza;
 		this.autor = autor;
@@ -156,16 +172,18 @@ public class Processo implements Serializable{
 		this.dataDepositoJudicial = dataDepositoJudicial;
 		this.bloqueioJudicial = bloqueioJudicial;
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
+		this.creationDate = LocalDateTime.now();
+		this.lastModificationDate = LocalDateTime.now();
 	}
 	
 
 	public Processo(Integer idProcesso, Escritorio escritorio, Natureza natureza, TipoAcao tipoAcao, Funcao funcao,
-			Tribunal tribunal, FaseProcessual faseProcessual, Vara vara, Date admissao, Date demissao,
-			String numeroProcesso, String estado, String cidade, String reu, Date dataAjuizamento,
+			Tribunal tribunal, FaseProcessual faseProcessual, Vara vara, LocalDate admissao, LocalDate demissao,
+			String numeroProcesso, String estado, String cidade, String reu, LocalDate dataAjuizamento,
 			String ultimosAndamentosProcessuais, Double valorCausa, String autor, Double valorPerdaEstimado,
 			String reclamada, String classificacaoRisco, Double depositoRecursalOrdinario,
-			Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista, Date dataDepositoRecursalRevista,
-			Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial, Date dataBloqueioJudicial,
+			LocalDate dataDepositoRecursalOrdinario, Double depositoRecursalRevista, LocalDate dataDepositoRecursalRevista,
+			Double depositoJudicial, LocalDate dataDepositoJudicial, int bloqueioJudicial, LocalDate dataBloqueioJudicial,
 			List<Pedido> pedido) {
 		super();
 		this.idProcesso = idProcesso;
@@ -198,6 +216,8 @@ public class Processo implements Serializable{
 		this.bloqueioJudicial = bloqueioJudicial;
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
 		this.pedido = pedido;
+		this.creationDate = LocalDateTime.now();
+		this.lastModificationDate = LocalDateTime.now();
 	}
 
 
@@ -298,30 +318,6 @@ public class Processo implements Serializable{
 
 
 
-	public Date getAdmissao() {
-		return admissao;
-	}
-
-
-
-	public void setAdmissao(Date admissao) {
-		this.admissao = admissao;
-	}
-
-
-
-	public Date getDemissao() {
-		return demissao;
-	}
-
-
-
-	public void setDemissao(Date demissao) {
-		this.demissao = demissao;
-	}
-
-
-
 	public String getNumeroProcesso() {
 		return numeroProcesso;
 	}
@@ -364,18 +360,6 @@ public class Processo implements Serializable{
 
 	public void setReu(String reu) {
 		this.reu = reu;
-	}
-
-
-
-	public Date getDataAjuizamento() {
-		return dataAjuizamento;
-	}
-
-
-
-	public void setDataAjuizamento(Date dataAjuizamento) {
-		this.dataAjuizamento = dataAjuizamento;
 	}
 
 
@@ -464,16 +448,6 @@ public class Processo implements Serializable{
 
 
 
-	public Date getDataDepositoRecursalOrdinario() {
-		return dataDepositoRecursalOrdinario;
-	}
-
-
-
-	public void setDataDepositoRecursalOrdinario(Date dataDepositoRecursalOrdinario) {
-		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
-	}
-
 
 
 	public Double getDepositoRecursalRevista() {
@@ -486,17 +460,6 @@ public class Processo implements Serializable{
 		this.depositoRecursalRevista = depositoRecursalRevista;
 	}
 
-
-
-	public Date getDataDepositoRecursalRevista() {
-		return dataDepositoRecursalRevista;
-	}
-
-
-
-	public void setDataDepositoRecursalRevista(Date dataDepositoRecursalRevista) {
-		this.dataDepositoRecursalRevista = dataDepositoRecursalRevista;
-	}
 
 
 
@@ -512,16 +475,6 @@ public class Processo implements Serializable{
 
 
 
-	public Date getDataDepositoJudicial() {
-		return dataDepositoJudicial;
-	}
-
-
-
-	public void setDataDepositoJudicial(Date dataDepositoJudicial) {
-		this.dataDepositoJudicial = dataDepositoJudicial;
-	}
-
 
 
 	public int getBloqueioJudicial() {
@@ -536,26 +489,125 @@ public class Processo implements Serializable{
 
 
 
-	public Date getDataBloqueioJudicial() {
+
+	public List<Pedido> getPedido() {
+		return pedido == null ? Collections.emptyList() : pedido ;
+	}
+
+	
+	public LocalDate getAdmissao() {
+		return admissao;
+	}
+
+
+
+	public void setAdmissao(LocalDate admissao) {
+		this.admissao = admissao;
+	}
+
+
+
+	public LocalDate getDemissao() {
+		return demissao;
+	}
+
+
+
+	public void setDemissao(LocalDate demissao) {
+		this.demissao = demissao;
+	}
+
+
+
+	public LocalDate getDataAjuizamento() {
+		return dataAjuizamento;
+	}
+
+
+
+	public void setDataAjuizamento(LocalDate dataAjuizamento) {
+		this.dataAjuizamento = dataAjuizamento;
+	}
+
+
+
+	public LocalDate getDataDepositoRecursalOrdinario() {
+		return dataDepositoRecursalOrdinario;
+	}
+
+
+
+	public void setDataDepositoRecursalOrdinario(LocalDate dataDepositoRecursalOrdinario) {
+		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
+	}
+
+
+
+	public LocalDate getDataDepositoRecursalRevista() {
+		return dataDepositoRecursalRevista;
+	}
+
+
+
+	public void setDataDepositoRecursalRevista(LocalDate dataDepositoRecursalRevista) {
+		this.dataDepositoRecursalRevista = dataDepositoRecursalRevista;
+	}
+
+
+
+	public LocalDate getDataDepositoJudicial() {
+		return dataDepositoJudicial;
+	}
+
+
+
+	public void setDataDepositoJudicial(LocalDate dataDepositoJudicial) {
+		this.dataDepositoJudicial = dataDepositoJudicial;
+	}
+
+
+
+	public LocalDate getDataBloqueioJudicial() {
 		return dataBloqueioJudicial;
 	}
 
 
 
-	public void setDataBloqueioJudicial(Date dataBloqueioJudicial) {
+	public void setDataBloqueioJudicial(LocalDate dataBloqueioJudicial) {
 		this.dataBloqueioJudicial = dataBloqueioJudicial;
-	}
-
-
-
-	public List<Pedido> getPedido() {
-		return pedido == null ? Collections.emptyList() : pedido ;
 	}
 
 
 
 	public void setPedido(List<Pedido> pedido) {
 		this.pedido = pedido;
+	}
+
+
+
+
+
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+
+
+
+	public LocalDateTime getLastModificationDate() {
+		return lastModificationDate;
+	}
+
+
+
+	public void setLastModificationDate(LocalDateTime lastModificationDate) {
+		this.lastModificationDate = lastModificationDate;
 	}
 
 

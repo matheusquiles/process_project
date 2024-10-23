@@ -12,6 +12,8 @@ import MultiSelectRest from './components/multiSelectRest.js';
 import LookupRest from './components/lookupRest.js';
 import { Divider } from '@mui/material';
 import { API_BASE_URL } from './helpers/constants.js';
+import { API_SEARCH_URL } from './helpers/constants.js';
+import { API_UPDATE_URL } from './helpers/constants.js';
 import camelCase from './helpers/camelCase.js';
 
 import { CssVarsProvider } from '@mui/joy/styles';
@@ -55,8 +57,8 @@ const ConsultarProcesso = () => {
             selectedItems = [];
         }
         const pedidos = selectedItems.map(item => ({
-            idPedido: item.idPedido || null,  // Se não houver, define como null
-            tipoPedido: item.id || item.idTipoPedido, // Adapta para tipoPedido
+            idPedido: item.idPedido || null,  
+            tipoPedido: item.id || item.idTipoPedido, 
             descricao: item.name || item.descricao,
         }));
 
@@ -67,7 +69,7 @@ const ConsultarProcesso = () => {
                 p.tipoPedido === item.tipoPedido && p.descricao === item.descricao
             );
             if (!exists) {
-                updatedPedidos.push(item); // Adiciona apenas itens novos
+                updatedPedidos.push(item); 
             }
         });
 
@@ -104,7 +106,7 @@ const ConsultarProcesso = () => {
                                  };
                 */
                 console.log("Dados a serem enviados:", JSON.stringify(dataToSend, null, 2));
-                const response = await axios.put(`${API_BASE_URL}/processo/editarProcesso/${searchValue}`, dataToSend);
+                const response = await axios.put(`${API_UPDATE_URL}${searchValue}`, dataToSend);
                 await new Promise((resolve) => setTimeout(resolve, 3000));
 
                 if (response.data === true) {
@@ -140,8 +142,8 @@ const ConsultarProcesso = () => {
         dispatch(resetForm());
         dispatch(setLoading(true));
         try {
-            const { data } = await axios.get(`${API_BASE_URL}/processo/buscarProcesso/${searchValue}`);
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            const { data } = await axios.get(`${API_SEARCH_URL}${searchValue}`);
+            await new Promise((resolve) => setTimeout(resolve, 2000));
 
             if (data && data.numeroProcesso) {
                 const pedidos = Array.isArray(data.pedido) ? data.pedido : [];
@@ -329,7 +331,7 @@ const ConsultarProcesso = () => {
                                 />
                                 <Input
                                     label="Autor"
-                                    fieldName="autor"
+                                    medium fieldName="autor"
                                     formData={formData}
                                     setFormData={setFormData}
                                     onChange={handleChange}
@@ -388,7 +390,7 @@ const ConsultarProcesso = () => {
                             <F.MediumInputLine>
                                 <SelectRest
                                     label="Natureza"
-                                    first route='natureza'
+                                    first imgW route='natureza'
                                     id='idNatureza'
                                     name='natureza'
                                     onChange={setFormData}
@@ -400,7 +402,7 @@ const ConsultarProcesso = () => {
                                 />
                                 <SelectRest
                                     label="Tipo de Ação"
-                                    small route='tipoAcao'
+                                    route='tipoAcao'
                                     id='idTipoAcao'
                                     name='tipoAcao'
                                     onChange={setFormData}
@@ -454,7 +456,7 @@ const ConsultarProcesso = () => {
                                 />
                             </F.MediumInputLine>
 
-                            <F.InputLine>
+                            <F.MediumInputLine>
                                 <Input
                                     label="Últimos andamentos processuais"
                                     first fieldName="ultimosAndamentosProcessuais"
@@ -464,7 +466,7 @@ const ConsultarProcesso = () => {
                                     invalidFields={invalidFields}
                                     disabled={!isEditing}
                                 />
-                            </F.InputLine>
+                            </F.MediumInputLine>
 
                             <F.MediumInputLine>
                                 <MultiSelectRest
@@ -504,7 +506,7 @@ const ConsultarProcesso = () => {
                             <F.SmallInputLine>
                                 <MoneyImput
                                     label="Depósito Recurso Ordinário"
-                                    first fieldName="depositoRecursalOrdinario"
+                                    first  fieldName="depositoRecursalOrdinario"
                                     formData={formData}
                                     value={formData.depositoRecursalOrdinario || ''}
                                     setFormData={setFormData}
@@ -554,7 +556,7 @@ const ConsultarProcesso = () => {
                                 <DateImput
                                     label="Data do Depósito Judicial"
                                     fieldName="dataDepositoJudicial"
-                                    value={formData.dataDepositoRecursalRevista || ''}
+                                    value={formData.dataDepositoJudicial || ''}
                                     setFormData={setFormData}
                                     onChange={handleChange}
                                     disabled={!isEditing}

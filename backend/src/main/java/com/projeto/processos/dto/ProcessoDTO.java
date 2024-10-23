@@ -1,7 +1,9 @@
 package com.projeto.processos.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ProcessoDTO {
 	
@@ -14,13 +16,24 @@ public class ProcessoDTO {
 	private Integer faseProcessual;
 	private Integer vara;
 	
-	private Date admissao;
-	private Date demissao;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate admissao;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate demissao;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataAjuizamento;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoRecursalOrdinario;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoRecursalRevista;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataDepositoJudicial;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate dataBloqueioJudicial;
 	private String numeroProcesso;
 	private String estado;
 	private String cidade;
 	private String reu;
-	private Date dataAjuizamento;
 	private String ultimosAndamentosProcessuais;
 	private Double valorCausa;
 	private String autor;
@@ -28,13 +41,9 @@ public class ProcessoDTO {
 	private String reclamada;
 	private String classificacaoRisco;
 	private Double depositoRecursalOrdinario;
-	private Date dataDepositoRecursalOrdinario;
 	private Double depositoRecursalRevista;
-	private Date dataDepositoRecursalRevista;
 	private Double depositoJudicial;
-	private Date dataDepositoJudicial;
 	private int bloqueioJudicial;
-	private Date dataBloqueioJudicial;
 
 
 	private List<PedidoDTO> pedido;
@@ -46,12 +55,12 @@ public class ProcessoDTO {
 	
 
 	public ProcessoDTO(int idProcesso, Integer escritorio, Integer natureza, Integer tipoAcao, Integer funcao,
-			Integer tribunal, Integer faseProcessual, Integer vara, Date admissao, Date demissao, String numeroProcesso,
-			String estado, String cidadeOrigem, String reu, Date dataAjuizamento, String ultimosAndamentosProcessuais,
+			Integer tribunal, Integer faseProcessual, Integer vara, LocalDate admissao, LocalDate demissao, String numeroProcesso,
+			String estado, String cidadeOrigem, String reu, LocalDate dataAjuizamento, String ultimosAndamentosProcessuais,
 			Double valorCausa, String autor, Double valorPerdaEstimado, String reclamada, String classificacaoRisco,
-			Double depositoRecursalOrdinario, Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista,
-			Date dataDepositoRecursalRevista, Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial,
-			Date dataBloqueioJudicial, List<PedidoDTO> pedido) {
+			Double depositoRecursalOrdinario, LocalDate dataDepositoRecursalOrdinario, Double depositoRecursalRevista,
+			LocalDate dataDepositoRecursalRevista, Double depositoJudicial, LocalDate dataDepositoJudicial, int bloqueioJudicial,
+			LocalDate dataBloqueioJudicial, List<PedidoDTO> pedido) {
 		super();
 		this.idProcesso = idProcesso;
 		this.escritorio = escritorio;
@@ -89,12 +98,12 @@ public class ProcessoDTO {
 
 
 	public ProcessoDTO(int idProcesso, Integer escritorio, Integer natureza, Integer tipoAcao, Integer funcao,
-			Integer tribunal, Integer faseProcessual, Integer vara, Date admissao, Date demissao, String numeroProcesso,
-			String estado, String cidadeOrigem, String reu, Date dataAjuizamento, String ultimosAndamentosProcessuais,
+			Integer tribunal, Integer faseProcessual, Integer vara, LocalDate admissao, LocalDate demissao, String numeroProcesso,
+			String estado, String cidadeOrigem, String reu, LocalDate dataAjuizamento, String ultimosAndamentosProcessuais,
 			Double valorCausa, String autor, Double valorPerdaEstimado, String reclamada, String classificacaoRisco,
-			Double depositoRecursalOrdinario, Date dataDepositoRecursalOrdinario, Double depositoRecursalRevista,
-			Date dataDepositoRecursalRevista, Double depositoJudicial, Date dataDepositoJudicial, int bloqueioJudicial,
-			Date dataBloqueioJudicial) {
+			Double depositoRecursalOrdinario, LocalDate dataDepositoRecursalOrdinario, Double depositoRecursalRevista,
+			LocalDate dataDepositoRecursalRevista, Double depositoJudicial, LocalDate dataDepositoJudicial, int bloqueioJudicial,
+			LocalDate dataBloqueioJudicial) {
 		super();
 		this.idProcesso = idProcesso;
 		this.escritorio = escritorio;
@@ -213,13 +222,9 @@ public class ProcessoDTO {
 	}
 
 
-
-
 	public void setFaseProcessual(Integer faseProcessual) {
 		this.faseProcessual = faseProcessual;
 	}
-
-
 
 
 	public Integer getVara() {
@@ -227,70 +232,10 @@ public class ProcessoDTO {
 	}
 
 
-
-
 	public void setVara(Integer vara) {
 		this.vara = vara;
 	}
 
-
-
-
-	public Date getAdmissao() {
-		return admissao;
-	}
-
-	public void setAdmissao(Date admissao) {
-		this.admissao = admissao;
-	}
-
-	public Date getDemissao() {
-		return demissao;
-	}
-
-	public void setDemissao(Date demissao) {
-		this.demissao = demissao;
-	}
-
-	public String getNumeroProcesso() {
-		return numeroProcesso;
-	}
-
-	public void setNumeroProcesso(String numeroProcesso) {
-		this.numeroProcesso = numeroProcesso;
-	}
-
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public String getCidade() {
-		return cidade;
-	}
-
-	public void setCidade(String cidadeOrigem) {
-		this.cidade = cidadeOrigem;
-	}
-
-	public String getReu() {
-		return reu;
-	}
-
-	public void setReu(String reu) {
-		this.reu = reu;
-	}
-
-	public Date getDataAjuizamento() {
-		return dataAjuizamento;
-	}
-
-	public void setDataAjuizamento(Date dataAjuizamento) {
-		this.dataAjuizamento = dataAjuizamento;
-	}
 
 	public String getUltimosAndamentosProcessuais() {
 		return ultimosAndamentosProcessuais;
@@ -348,13 +293,6 @@ public class ProcessoDTO {
 		this.depositoRecursalOrdinario = depositoRecursalOrdinario;
 	}
 
-	public Date getDataDepositoRecursalOrdinario() {
-		return dataDepositoRecursalOrdinario;
-	}
-
-	public void setDataDepositoRecursalOrdinario(Date dataDepositoRecursalOrdinario) {
-		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
-	}
 
 	public Double getDepositoRecursalRevista() {
 		return depositoRecursalRevista;
@@ -364,45 +302,190 @@ public class ProcessoDTO {
 		this.depositoRecursalRevista = depositoRecursalRevista;
 	}
 
-	public Date getDataDepositoRecursalRevista() {
+
+	
+	
+	public LocalDate getAdmissao() {
+		return admissao;
+	}
+
+
+
+
+	public void setAdmissao(LocalDate admissao) {
+		this.admissao = admissao;
+	}
+
+
+
+
+	public LocalDate getDemissao() {
+		return demissao;
+	}
+
+
+
+
+	public void setDemissao(LocalDate demissao) {
+		this.demissao = demissao;
+	}
+
+
+
+
+	public LocalDate getDataAjuizamento() {
+		return dataAjuizamento;
+	}
+
+
+
+
+	public void setDataAjuizamento(LocalDate dataAjuizamento) {
+		this.dataAjuizamento = dataAjuizamento;
+	}
+
+
+
+
+	public LocalDate getDataDepositoRecursalOrdinario() {
+		return dataDepositoRecursalOrdinario;
+	}
+
+
+
+
+	public void setDataDepositoRecursalOrdinario(LocalDate dataDepositoRecursalOrdinario) {
+		this.dataDepositoRecursalOrdinario = dataDepositoRecursalOrdinario;
+	}
+
+
+
+
+	public LocalDate getDataDepositoRecursalRevista() {
 		return dataDepositoRecursalRevista;
 	}
 
-	public void setDataDepositoRecursalRevista(Date dataDepositoRecursalRevista) {
+
+
+
+	public void setDataDepositoRecursalRevista(LocalDate dataDepositoRecursalRevista) {
 		this.dataDepositoRecursalRevista = dataDepositoRecursalRevista;
 	}
+
+
+
+
+	public LocalDate getDataDepositoJudicial() {
+		return dataDepositoJudicial;
+	}
+
+
+
+
+	public void setDataDepositoJudicial(LocalDate dataDepositoJudicial) {
+		this.dataDepositoJudicial = dataDepositoJudicial;
+	}
+
+
+
+
+	public LocalDate getDataBloqueioJudicial() {
+		return dataBloqueioJudicial;
+	}
+
+
+
+
+	public void setDataBloqueioJudicial(LocalDate dataBloqueioJudicial) {
+		this.dataBloqueioJudicial = dataBloqueioJudicial;
+	}
+
+
+
+
+	public String getNumeroProcesso() {
+		return numeroProcesso;
+	}
+
+
+
+
+	public void setNumeroProcesso(String numeroProcesso) {
+		this.numeroProcesso = numeroProcesso;
+	}
+
+
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+
+
+	public String getCidade() {
+		return cidade;
+	}
+
+
+
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+
+
+
+	public String getReu() {
+		return reu;
+	}
+
+
+
+
+	public void setReu(String reu) {
+		this.reu = reu;
+	}
+
+
+
 
 	public Double getDepositoJudicial() {
 		return depositoJudicial;
 	}
 
+
+
+
 	public void setDepositoJudicial(Double depositoJudicial) {
 		this.depositoJudicial = depositoJudicial;
 	}
 
-	public Date getDataDepositoJudicial() {
-		return dataDepositoJudicial;
-	}
 
-	public void setDataDepositoJudicial(Date dataDepositoJudicial) {
-		this.dataDepositoJudicial = dataDepositoJudicial;
-	}
+
 
 	public int getBloqueioJudicial() {
 		return bloqueioJudicial;
 	}
 
+
+
+
 	public void setBloqueioJudicial(int bloqueioJudicial) {
 		this.bloqueioJudicial = bloqueioJudicial;
 	}
 
-	public Date getDataBloqueioJudicial() {
-		return dataBloqueioJudicial;
-	}
 
-	public void setDataBloqueioJudicial(Date dataBloqueioJudicial) {
-		this.dataBloqueioJudicial = dataBloqueioJudicial;
-	}
+
 
 	public List<PedidoDTO> getPedido() {
 		return pedido;
