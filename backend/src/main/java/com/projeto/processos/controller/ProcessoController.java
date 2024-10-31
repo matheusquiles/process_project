@@ -67,7 +67,7 @@ public class ProcessoController extends BaseControllerImpl<Processo, Integer> {
 		ProcessoDTO p = new ProcessoDTO();
 		try {
 			p = service.findDTO(processo);
-			return p;
+			return p != null ? p : null;
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { setLoading, setFormData, setInvalidFields, setSelectedPedidos, resetForm, setUpdating } from './redux/reducers/formSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -451,11 +452,13 @@ const CadastroProcesso = () => {
               display: 'flex',
               flexWrap: 'nowrap',
               gap: 2,
-              mt: 3,
+              mt: 15,
               mb: 1,
               width: '100%',
+              paddingBottom: '30px',
+              overflow: 'visible', 
               flexDirection: 'row',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               justifyContent: 'flex-end'
             }}>
               <Button type="button" variant='outlined' onClick={handleCancelClick}>Cancelar</Button>

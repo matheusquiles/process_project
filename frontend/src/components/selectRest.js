@@ -6,7 +6,7 @@ import { InputLabel, StyledSelect } from '../styles/formulario';
 import { GenericP } from '../styles/globalstyles';
 import { API_BASE_URL } from '../helpers/constants';
 
-export default function SelectRest({ label, first, medium, topless, small, route, id, name, onChange, defaultValue, invalidFields, disabled = false }) {
+export default function SelectRest({ label, first, medium, topless, small, route, id, name, defaultValue, invalidFields, disabled = false }) {
   const dispatch = useDispatch();
   const selected = useSelector((state) => state.form.formData[route] || defaultValue);
   const options = useSelector((state) => state.form.options[route] || []);
@@ -16,12 +16,8 @@ export default function SelectRest({ label, first, medium, topless, small, route
   const handleSelect = (event) => {
     const { value } = event.target;
     dispatch(setFormData({ [route]: value }));
-    onChange(prevForm => ({
-      ...prevForm,
-      [name]: value
-    }));
   };
-
+  
   const getData = useCallback(async () => {
     dispatch(setLoading(true));
     setLoadingDelay(true);
@@ -34,7 +30,7 @@ export default function SelectRest({ label, first, medium, topless, small, route
       });
 
       dispatch(setOptions({ route, options: thisOptions }));
-      await new Promise((resolve) => setTimeout(resolve, 3000)); // Simulando atraso
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
       console.log('Erro na requisição:', error);
     } finally {
@@ -46,19 +42,22 @@ export default function SelectRest({ label, first, medium, topless, small, route
   useEffect(() => {
     if (!options.length) getData();
   }, [getData, options.length]);
+  
 
   const isLoading = useSelector((state) => state.form.isLoading);
-  const isLoadingDelayed = loadingDelay || isLoading;
 
   return (
     <InputLabel first={first} medium={medium} topless={topless} small={small} style={{ borderColor: isInvalid ? 'red' : 'inherit' }}>
       <GenericP>{label}:</GenericP>
-      <StyledSelect onChange={handleSelect}
-        value={isLoadingDelayed ? 'Carregando...' : (selected || '')}
-        style={{ borderColor: isInvalid ? 'red' : 'inherit' }}
-        disabled={disabled || isLoadingDelayed}>
-        <option value="">{isLoadingDelayed ? 'Carregando...' : 'Selecione'}</option>
-        {options.map(({ id, name }) => <option key={id} value={id}>{name}</option>)}
+
+      <StyledSelect
+        onChange={handleSelect}
+        value={isLoading ? '' : (selected || '')}
+        disabled={disabled || isLoading}>
+        <option value="">{isLoading ? 'Carregando...' : 'Selecione'}</option>
+        {options.map(({ id, name }) => (
+          <option key={id} value={id}>{name}</option>
+        ))}
       </StyledSelect>
       {isInvalid && <span style={{ color: 'red' }}>Este campo é obrigatório.</span>}
     </InputLabel>
