@@ -1,7 +1,9 @@
 package com.projeto.processos.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -143,95 +145,99 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	@Override
 	public Boolean editarProcesso(String nrProcesso, Processo processo) {
 
-	    Processo processoExistente = dao.getByProcesso(nrProcesso);
+		Processo processoExistente = dao.getByProcesso(nrProcesso);
 
-	    if (processoExistente == null) {
-	        return null; // Retorna nulo se o processo não foi encontrado
-	    }
+		if (processoExistente == null) {
+			return null;
+		}
 
-	    atualizarProcesso(processoExistente, processo);
-	    
-	    
-	    // Obter a lista de pedidos atuais do banco
-	    List<Pedido> pedidosAtuais = processoExistente.getPedido();
+		atualizarProcesso(processoExistente, processo);
 
-	    // Nova lista de pedidos enviada
-	    List<Pedido> novosPedidos = processo.getPedido();
+		List<Pedido> pedidosAtuais = processoExistente.getPedido();
+		List<Pedido> novosPedidos = processo.getPedido();
 
-	    
-	    if(!novosPedidos.isEmpty()) {
-	    	for (Pedido pedidoAtual : pedidosAtuais) {
-	    		boolean pedidoExiste = novosPedidos.stream()
-	    				.anyMatch(p -> p.getIdPedido() != null && p.getIdPedido().equals(pedidoAtual.getIdPedido()));
-	    		
-	    		if (!pedidoExiste) {
-	    			// Remove o pedido atual se ele não estiver na nova lista
-	    			pedidoDAO.delete(pedidoAtual.getIdPedido());
-	    		}
-	    	}
-	    	
-	    	for (Pedido novoPedido : novosPedidos) {
-	    		Pedido pedidoExistente = pedidosAtuais.stream()
-	    				.filter(p -> (p.getIdPedido() != null && p.getIdPedido().equals(novoPedido.getIdPedido())) ||
-	    						(p.getTipoPedido().equals(novoPedido.getTipoPedido()) && 
-	    								p.getProcesso().getIdProcesso().equals(processoExistente.getIdProcesso())))
-	    				.findFirst().orElse(null);
-	    		
-	    		if (pedidoExistente != null) {
-	    			// Atualiza os campos do pedido existente
-//	            pedidoExistente.setCamposPedido(novoPedido.getCamposPedido());
-	    			pedidoDAO.save(pedidoExistente);
-	    		} else {
-	    			// Se for um novo pedido, adicione-o ao processo
-	    			novoPedido.setProcesso(processoExistente); // Relaciona o pedido ao processo
-	    			pedidoDAO.save(novoPedido);
-	    		}
-	    	}
-	    }
+		atualizarPedidos(pedidosAtuais, novosPedidos, processoExistente);
 
-	    try {
-	    	dao.save(processoExistente);
-	    	return true;
-			
+		try {
+			dao.save(processoExistente);
+			return true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
-}
-	
-	private void atualizarProcesso(Processo existente, Processo novo) {
-		
-	    existente.setEscritorio(novo.getEscritorio());
-	    existente.setNatureza(novo.getNatureza());
-	    existente.setTipoAcao(novo.getTipoAcao());
-	    existente.setFuncao(novo.getFuncao());
-	    existente.setTribunal(novo.getTribunal());
-	    existente.setFaseProcessual(novo.getFaseProcessual());
-	    existente.setVara(novo.getVara());
+	}
 
-	    existente.setAdmissao(novo.getAdmissao());
-	    existente.setDemissao(novo.getDemissao());
-	    existente.setNumeroProcesso(novo.getNumeroProcesso());
-	    existente.setEstado(novo.getEstado());
-	    existente.setCidade(novo.getCidade());
-	    existente.setReu(novo.getReu());
-	    existente.setDataAjuizamento(novo.getDataAjuizamento());
-	    existente.setUltimosAndamentosProcessuais(novo.getUltimosAndamentosProcessuais());
-	    existente.setValorCausa(novo.getValorCausa());
-	    existente.setAutor(novo.getAutor());
-	    existente.setValorPerdaEstimado(novo.getValorPerdaEstimado());
-	    existente.setReclamada(novo.getReclamada());
-	    existente.setClassificacaoRisco(novo.getClassificacaoRisco());
-	    existente.setDepositoRecursalOrdinario(novo.getDepositoRecursalOrdinario());
-	    existente.setDataDepositoRecursalOrdinario(novo.getDataDepositoRecursalOrdinario());
-	    existente.setDepositoRecursalRevista(novo.getDepositoRecursalRevista());
-	    existente.setDataDepositoRecursalRevista(novo.getDataDepositoRecursalRevista());
-	    existente.setDepositoJudicial(novo.getDepositoJudicial());
-	    existente.setDataDepositoJudicial(novo.getDataDepositoJudicial());
-	    existente.setBloqueioJudicial(novo.getBloqueioJudicial());
-	    existente.setDataBloqueioJudicial(novo.getDataBloqueioJudicial());
-	    existente.setLastModificationDate(LocalDateTime.now());
-		
+	public void atualizarPedidos(List<Pedido> pedidosAtuais, List<Pedido> novosPedidos, Processo processoExistente) {
+		// Cria um conjunto dos IDs dos novos pedidos para facilitar as verificações
+		Set<Integer> idsNovosPedidos = new HashSet<>();
+		novosPedidos.forEach(novo -> {
+			if (novo.getIdPedido() != null) {
+				idsNovosPedidos.add(novo.getIdPedido());
+			}
+		});
+
+		// Atualizar ou adicionar pedidos
+		for (Pedido novoPedido : novosPedidos) {
+			// Tenta encontrar um pedido existente na lista de pedidos atuais com base no ID
+			// ou no tipoPedido
+			Pedido pedidoExistente = pedidosAtuais.stream()
+					.filter(p -> (p.getIdPedido() != null && p.getIdPedido().equals(novoPedido.getIdPedido()))
+							|| (p.getTipoPedido().equals(novoPedido.getTipoPedido())
+									&& p.getProcesso().getIdProcesso().equals(processoExistente.getIdProcesso())))
+					.findFirst().orElse(null);
+
+			if (pedidoExistente == null) {
+				novoPedido.setProcesso(processoExistente);
+				pedidoDAO.save(novoPedido);
+			}
+		}
+
+		// Remover pedidos antigos que não estão na lista de novos pedidos
+		for (Pedido pedidoAtual : pedidosAtuais) {
+			boolean isPedidoRemovido = novosPedidos.stream()
+					.noneMatch(novo -> (novo.getTipoPedido() != null && pedidoAtual.getTipoPedido() != null
+							&& novo.getTipoPedido().equals(pedidoAtual.getTipoPedido())));
+
+			if (isPedidoRemovido) {
+				pedidoDAO.delete(pedidoAtual.getIdPedido()); // Remove o pedido
+			}
+		}
+	}
+
+	private void atualizarProcesso(Processo existente, Processo novo) {
+
+		existente.setEscritorio(novo.getEscritorio());
+		existente.setNatureza(novo.getNatureza());
+		existente.setTipoAcao(novo.getTipoAcao());
+		existente.setFuncao(novo.getFuncao());
+		existente.setTribunal(novo.getTribunal());
+		existente.setFaseProcessual(novo.getFaseProcessual());
+		existente.setVara(novo.getVara());
+
+		existente.setAdmissao(novo.getAdmissao());
+		existente.setDemissao(novo.getDemissao());
+		existente.setNumeroProcesso(novo.getNumeroProcesso());
+		existente.setEstado(novo.getEstado());
+		existente.setCidade(novo.getCidade());
+		existente.setReu(novo.getReu());
+		existente.setDataAjuizamento(novo.getDataAjuizamento());
+		existente.setUltimosAndamentosProcessuais(novo.getUltimosAndamentosProcessuais());
+		existente.setValorCausa(novo.getValorCausa());
+		existente.setAutor(novo.getAutor());
+		existente.setValorPerdaEstimado(novo.getValorPerdaEstimado());
+		existente.setReclamada(novo.getReclamada());
+		existente.setClassificacaoRisco(novo.getClassificacaoRisco());
+		existente.setDepositoRecursalOrdinario(novo.getDepositoRecursalOrdinario());
+		existente.setDataDepositoRecursalOrdinario(novo.getDataDepositoRecursalOrdinario());
+		existente.setDepositoRecursalRevista(novo.getDepositoRecursalRevista());
+		existente.setDataDepositoRecursalRevista(novo.getDataDepositoRecursalRevista());
+		existente.setDepositoJudicial(novo.getDepositoJudicial());
+		existente.setDataDepositoJudicial(novo.getDataDepositoJudicial());
+		existente.setBloqueioJudicial(novo.getBloqueioJudicial());
+		existente.setDataBloqueioJudicial(novo.getDataBloqueioJudicial());
+		existente.setLastModificationDate(LocalDateTime.now());
+
 	}
 
 }

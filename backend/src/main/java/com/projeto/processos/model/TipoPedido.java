@@ -23,7 +23,6 @@ public class TipoPedido implements Serializable{
 	public TipoPedido() {
 	}
 	
-	
 	public TipoPedido(Integer idTipoPedido, String descricao) {
 		super();
 		this.idTipoPedido = idTipoPedido;
@@ -33,6 +32,11 @@ public class TipoPedido implements Serializable{
 	public TipoPedido(Integer idTipoPedido) {
 		super();
 		this.idTipoPedido = idTipoPedido;
+	}
+
+	public TipoPedido(String descricao) {
+		super();
+		this.descricao = descricao;
 	}
 
 
