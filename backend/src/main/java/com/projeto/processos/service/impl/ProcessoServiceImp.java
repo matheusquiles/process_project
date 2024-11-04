@@ -169,7 +169,6 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 	}
 
 	public void atualizarPedidos(List<Pedido> pedidosAtuais, List<Pedido> novosPedidos, Processo processoExistente) {
-		// Cria um conjunto dos IDs dos novos pedidos para facilitar as verificações
 		Set<Integer> idsNovosPedidos = new HashSet<>();
 		novosPedidos.forEach(novo -> {
 			if (novo.getIdPedido() != null) {
@@ -177,10 +176,7 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 			}
 		});
 
-		// Atualizar ou adicionar pedidos
 		for (Pedido novoPedido : novosPedidos) {
-			// Tenta encontrar um pedido existente na lista de pedidos atuais com base no ID
-			// ou no tipoPedido
 			Pedido pedidoExistente = pedidosAtuais.stream()
 					.filter(p -> (p.getIdPedido() != null && p.getIdPedido().equals(novoPedido.getIdPedido()))
 							|| (p.getTipoPedido().equals(novoPedido.getTipoPedido())
@@ -193,14 +189,13 @@ public class ProcessoServiceImp extends BaseServiceImpl<Processo, Integer> imple
 			}
 		}
 
-		// Remover pedidos antigos que não estão na lista de novos pedidos
 		for (Pedido pedidoAtual : pedidosAtuais) {
 			boolean isPedidoRemovido = novosPedidos.stream()
 					.noneMatch(novo -> (novo.getTipoPedido() != null && pedidoAtual.getTipoPedido() != null
 							&& novo.getTipoPedido().equals(pedidoAtual.getTipoPedido())));
 
 			if (isPedidoRemovido) {
-				pedidoDAO.delete(pedidoAtual.getIdPedido()); // Remove o pedido
+				pedidoDAO.delete(pedidoAtual.getIdPedido()); 
 			}
 		}
 	}
